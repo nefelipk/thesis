@@ -1,16 +1,20 @@
-\documentclass[12pt,a4paper]{article}
+\documentclass[12pt,a4paper]{report}
 \usepackage[english]{babel}
 \usepackage[utf8]{inputenc}
-\usepackage{fancyhdr}
 
-\pagestyle{fancy}
-\fancyhf{}
-\lhead{Autonomic tackling of unknown obstacles in navigation of robotic platform}
-\rfoot{\thepage}
+\usepackage[colorlinks]{hyperref}
+\usepackage[colorinlistoftodos]{todonotes}
+
+\usepackage[nottoc]{tocbibind}
 
 \begin{document}
-	\Large\textbf{\centerline{1. Introduction}}
-	\normalsize\newline\newline
+	{
+		\hypersetup{linkcolor=black}
+		\tableofcontents
+	}
+	
+	\chapter{Introduction}
+	\label{sec:intro}
 	
 	Terrain traversability analysis has been used as a means for navigating 
 	a robotic ground vehicle within environments of varying complexity, while 
@@ -27,44 +31,43 @@
 	In this thesis, we will tackle how an autonomous robot can improve its 
 	traversability estimation method.
 	
-	\newpage
-	\Large\textbf{\centerline{2. Background}}
-	\newline\newline
+	\chapter{Background}
+	\label{sec:bg}
 	
-	\large\textbf{2.1 A few words}
-	\normalsize\newline
+	\section{A few words}
+	\label{sec:bg:intro}
 	
 	In order to have an autonomous robot improve its traversability 
 	estimation we will need to address each sub-problem individually:
 	
-	1. Traversability estimation algorithms that can be improved from 
-	experience/examples.
-	
-	2. Methods for collecting the data needed by the algorithm above, from 
-	the sensory input that is available to the robot. (The input we have does not 
-	directly map to positive/negative decision).
-	
-	3. Goals of operation. There might be an explicit goal to achieve or it 
-	could be curiosity-driven exploration, meaning the abstract need to learn a 
-	new environment.
+	\begin{enumerate}
+		\item Traversability estimation algorithms that can be improved from 
+		experience/examples.
+		\item Methods for collecting the data needed by the algorithm above, from 
+		the sensory input that is available to the robot. (The input we have does not 
+		directly map to positive/negative decision).
+		\item Goals of operation. There might be an explicit goal to achieve or it 
+		could be curiosity-driven exploration, meaning the abstract need to learn a 
+		new environment.
+	\end{enumerate}
 	
 	We will now present the state of the art in all three areas of research.
-	\newline\newline
+	\\
 	
-	\large\textbf{2.2 Traversability estimation algorithms}
-	\normalsize\newline
+	\section{Traversability estimation algorithms}
+	\label{sec:bg:trav}
 	
 	This line of research starts with Papadakis (2013) who published a 
 	survey done in traversability analysis methods for unmanned ground vehicles 
-	[6]. This survey states that most commonly, traversability analysis is treated 
+	\cite{Papadakis}. This survey states that most commonly, traversability analysis is treated 
 	as a binary classification problem, i.e. distinguishing traversable from 
-	non-traversable terrain [1], [4], [5]. It also declares that one of he most popular and extensively used approaches 
+	non-traversable terrain \cite{Suger, Hirose, Wigness}. It also declares that one of he most popular and extensively used approaches 
 	to measure traversability are based on grid 
 	maps. More concrete, they are based on the analysis of 2d elevation maps, 
-	where 3d information is represented in 2d maps [1].
+	where 3d information is represented in 2d maps \cite{Suger}.
 	\newline
 	
-	Suger and al. (2015) [1] proposed an approach that \textit{uses a 2d grid map, where 
+	Suger et al. \cite{Suger} proposed an approach that \textit{uses a 2d grid map, where 
 	each cell stores features that provide information from the senors. More 
 	specifically, every sell is associated with at least one feature vector that is 
 	computed from the 3d points that are mapped to the respective cell.
@@ -91,7 +94,7 @@
 	known for each feature whether it got a label or not.
 	\newline
 	
-	Wigness en al. (2018) [5] insist on the probability that previously learned 
+	Wigness et al. \cite{Wigness} insist on the probability that previously learned 
 	behavior may not be relevant, because the visual appearance and traversability 
 	of roads may have changed due to various reasons. In such cases it could be 
 	dangerous for an unmanned ground vehicle to execute, and it will need to be 
@@ -108,22 +111,22 @@
 	The authors propose a methodology for learning reward functions from 
 	human examples via visual perception. This means that the agent learns 
 	how to simply assign costs to distinct terrain types, and follows the 
-	trajectory with the minimum cost. It is more focused than Suger and al. in 
+	trajectory with the minimum cost. It is more focused than Suger et al. in 
 	following the optimum path, and less in experimenting with traversability.
 	\newline
 	
-	Others use different sensors from Suger and al., like onboard and off-the-shelf 
-	fisheye camera [4] (Hirose et al., 2017), to estimate whether a physical space 
+	Others use different sensors from Suger et al., like onboard and off-the-shelf 
+	fisheye camera \cite{Hirose} (Hirose et al., 2017), to estimate whether a physical space 
 	is traversable or not. This kind of approaches are mainly focused on obstacle 
 	detection and avoidance, and less on traversability estimation for obstacles 
 	that may seem untraversable while in fact can be easily driven over by a 
 	robot, like tall grass.
-	\newline\newline
+	\\
 	
-	\large\textbf{2.3 Data collection methods}
-	\normalsize\newline
+	\section{Data collection methods}
+	\label{sec:bg:data}
 	
-	Kim et al. [2] developed a method 
+	Kim et al. \cite{Kim} developed a method 
 	that is based on autonomous training data collection which, exploits the 
 	robot’s experience in navigating its environment to train classifiers without 
 	human intervention. It is broadly applicable to any environment in which 
@@ -160,64 +163,40 @@
 	incrementally updated with new data only. That comes with the advantage that the 
 	updated classifier is immediately available for navigation and that the 
 	memory requirements for learning are reduced, compared to off-line methods.
-	\newline\newline
+	\\
 	
-	\large\textbf{2.4 Goals of operation}
-	\normalsize\newline
+	\section{Goals of operation}
+	\label{sec:bg:goals}
 	
 	A natural thing would be to let the robot learn about the 
 	traversability of the environment. Even though such methods allow the robot to 
 	autonomously learn a model of the environment, the trial and error part of this 
 	methodology involves a high risk to damage the robot.
-	\newline\newline
+	\\
 	
-	\large\textbf{2.5 Prototype implementations / reference implementation}
-	\normalsize\newline
+	\section{Prototype implementations / reference implementation}
+	\label{sec:bg:code}
 	
 	URLs and comments about the work above that will actually be used as 
 	the experimental basis
-	\newline\newline
+	\\
 	
-	\large\textbf{2.6 Conclusions}
-	\normalsize\newline
+	\section{Conclusions}
+	\label{sec:bg:concl}
 	
 	What is missing in order to be able to achieve the promise in Chap 1
 	
-	\newpage
-	\Large\textbf{\centerline{3. Core foreground}}
-	\normalsize\newline\newline
-	\newpage
-	\Large\textbf{\centerline{4. Experimental Validation and Comparison}
-	\centerline{with Related Work}}
-	\normalsize\newline\newline
-	\newpage
-	\Large\textbf{\centerline{5. Conclusions and Future Work}}
-	\normalsize\newline\newline
-	\newpage
-	\Large\textbf{\centerline{REFERENCES}}
-	\normalsize\newline\newline
-	\textbf{[1]} B. Suger, B. Steder, and W. Burgard. 
-	Traversability Analysis for Mobile Robots in Outdoor Environments: A Semi-supervised Learning Approach Based on 3D-Lidar Data. 
-	\textit{Proceedings of the IEEE International Conference on Robotics and Automation (ICRA)}, pages 3941-3946, 2015.
-	\\
-	\textbf{[2]} D. Kim, J. Sun, S. M. Oh, J. M. Rehg, and A. F. Bobick. 
-	Traversability Classification using Unsupervised On-line Visual Learning for Outdoor Robot Navigation. 
-	\textit{Proceedings of the IEEE International Conference on Robotics and Automation (ICRA)}, pages 518-525, 2006.
-	\\
-	\textbf{[3]} O. Zhelo, J. Zhang, L. Tai, M. Liu, and W. Burgard.
-	Curiosity-driven Exploration for Mapless Navigation with Deep Reinforcement Learning.
-	\textit{arXiv preprint arXiv:1804.00456}, 2018.
-	\\
-	\textbf{[4]} N. Hirose, A. Sadeghian, P. Goebel, and S. Savarese.
-	To Go or Not To Go? A Near Unsupervised Learning Approach For Robot Navigation.
-	\textit{arXiv preprint arXiv:1709.05439}, 2017.
-	\\
-	\textbf{[5]} M. Wigness, J. G. Rogers, and L. E. Navarro-Serment.
-	Robot Navigation from Human Demonstration: Learning Control Behaviors.
-	\textit{Proceedings of the IEEE International Conference on Robotics and Automation (ICRA)}, pages 1150-1157, 2018.
-	\\
-	\textbf{[6]} P. Papadakis. 
-	Terrain traversability analysis methods for unmanned ground vehicles: A	survey. 
-	\textit{Proceedings of the Engineering Applications of Artificial Intelligence (EAAI)}, pages 1373-1385, 2013.
-	\\
+	
+	\chapter{Core foreground}
+	\label{sec:fg}
+	
+	\chapter{Experimental Validation and Comparison}
+	\label{sec:exp}
+	
+	\chapter{Conclusions and Future Work}
+	\label{sec:concl}
+	
+	\renewcommand{\bibname}{References}
+	\bibliography{ref}
+	\bibliographystyle{ieeetr}
 \end{document}
