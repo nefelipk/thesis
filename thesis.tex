@@ -1,7 +1,10 @@
-\documentclass[12pt,a4paper]{article}
+\documentclass[12pt,a4paper]{report}
 \usepackage[english]{babel}
 \usepackage[utf8]{inputenc}
 \usepackage{fancyhdr}
+
+\usepackage[colorlinks]{hyperref}
+\usepackage[colorinlistoftodos]{todonotes}
 
 \pagestyle{fancy}
 \fancyhf{}
@@ -9,8 +12,10 @@
 \rfoot{\thepage}
 
 \begin{document}
-	\Large\textbf{\centerline{1. Introduction}}
-	\normalsize\newline\newline
+
+
+\chapter{Introduction}
+\label{sec:intro}
 	
 	Terrain traversability analysis has been used as a means for navigating 
 	a robotic ground vehicle within environments of varying complexity, while 
@@ -27,44 +32,52 @@
 	In this thesis, we will tackle how an autonomous robot can improve its 
 	traversability estimation method.
 	
-	\newpage
-	\Large\textbf{\centerline{2. Background}}
-	\newline\newline
-	
-	\large\textbf{2.1 A few words}
-	\normalsize\newline
+
+\chapter{Background}
+\label{sec:bg}
+
+
+\section{A few words}
+\label{sec:bg:into}
 	
 	In order to have an autonomous robot improve its traversability 
 	estimation we will need to address each sub-problem individually:
-	
-	1. Traversability estimation algorithms that can be improved from 
-	experience/examples.
-	
-	2. Methods for collecting the data needed by the algorithm above, from 
-	the sensory input that is available to the robot. (The input we have does not 
-	directly map to positive/negative decision).
-	
-	3. Goals of operation. There might be an explicit goal to achieve or it 
-	could be curiosity-driven exploration, meaning the abstract need to learn a 
-	new environment.
+        %
+        \begin{enumerate}
+	\item Traversability estimation algorithms that can be
+          improved from experience/examples.
+	\item Methods for collecting the data needed by the algorithm
+          above, from the sensory input that is available to the
+          robot. (The input we have does not directly map to
+          positive/negative decision).
+	\item Goals of operation. There might be an explicit goal to
+          achieve or it could be curiosity-driven exploration, meaning
+          the abstract need to learn a new environment.
+        \end{enumerate}
 	
 	We will now present the state of the art in all three areas of research.
-	\newline\newline
 	
-	\large\textbf{2.2 Traversability estimation algorithms}
-	\normalsize\newline
-	
-	This line of research starts with Papadakis (2013) who published a 
-	survey done in traversability analysis methods for unmanned ground vehicles 
-	[6]. This survey states that most commonly, traversability analysis is treated 
-	as a binary classification problem, i.e. distinguishing traversable from 
-	non-traversable terrain [1], [4], [5]. It also declares that one of he most popular and extensively used approaches 
+\section{Traversability estimation algorithms}
+
+This line of research starts with Papadakis (2013)
+\todo[size=\tiny]{Use bibtex and not manually cited references}
+\todo[size=\tiny]{The line of research cannot start with a
+  survey. Present in their logical order rather than the order in
+  which you found and read each paper.}
+who published a survey done in traversability analysis methods for
+unmanned ground vehicles [6]. This survey states that most commonly,
+traversability analysis is treated as a binary classification problem,
+i.e. distinguishing traversable from non-traversable terrain [1], [4],
+[5]. It also declares that one of he most popular and extensively used
+approaches
+        
 	to measure traversability are based on grid 
 	maps. More concrete, they are based on the analysis of 2d elevation maps, 
 	where 3d information is represented in 2d maps [1].
-	\newline
-	
-	Suger and al. (2015) [1] proposed an approach that \textit{uses a 2d grid map, where 
+
+	\todo{Use bibtex and cite}
+        
+	Suger et al. (2015) [1] proposed an approach that \textit{uses a 2d grid map, where 
 	each cell stores features that provide information from the senors. More 
 	specifically, every sell is associated with at least one feature vector that is 
 	computed from the 3d points that are mapped to the respective cell.
@@ -90,16 +103,20 @@
 	feature to get a label (always positive) during the training, therefore it is 
 	known for each feature whether it got a label or not.
 	\newline
-	
+
+
 	Wigness en al. (2018) [5] insist on the probability that previously learned 
 	behavior may not be relevant, because the visual appearance and traversability 
 	of roads may have changed due to various reasons. In such cases it could be 
 	dangerous for an unmanned ground vehicle to execute, and it will need to be 
 	adapted quickly and with minimal human supervision.
-	
-	Environment features are encoded as binary occupancy grid maps, where 
-	a grid cell in a feature map denotes the presence or absence of the feature 
-	it is modeling. Each binary occupancy grid feature map is output from a 
+	Environment features are encoded as binary occupancy grid maps. In these map, 
+	each grid cell in a feature map denotes the presence or absence of the feature 
+	it is modeling.
+        \todo{this is motivation}
+
+
+        Each binary occupancy grid feature map is output from a 
 	system that maintains a pose-graph along the robot’s trajectory, that also 
 	incorporates measurements from GPS. If the robot’s trajectory is corrected 
 	through a loop closure or GPS measurement, keyframe poses are updated, 
@@ -141,7 +158,7 @@
 	collect visual and geometric data from the environment, and a bumper switch
 	at the front of the vehicle that is used along with motor current sensors to 
 	signal events such as ’stuck’ and ’slip’.
-	\newline
+        \todo[inline]{Define latex commands that have a semantics, insted of directly putting typesetting into the text. This will make it easier to re-use the text in future publications. Here, define a $\mathrm{\backslash term}$ command. Decide when you will use italics (more common) and where you will use quotes.}
 	For starters, the robot images the terrain in front of it and stores the 
 	resulting image patches in a data pool. Each image patch is an observation 
 	of a single cell in a grid-based terrain map. Initially all of this data is 
@@ -221,3 +238,6 @@
 	\textit{Proceedings of the Engineering Applications of Artificial Intelligence (EAAI)}, pages 1373-1385, 2013.
 	\\
 \end{document}
+
+
+
