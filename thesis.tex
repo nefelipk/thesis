@@ -5,7 +5,18 @@
 \usepackage[colorlinks]{hyperref}
 \usepackage[colorinlistoftodos]{todonotes}
 
+\usepackage[autostyle]{csquotes}
 \usepackage[nottoc]{tocbibind}
+\usepackage{indentfirst}
+
+
+
+\usepackage[normalem]{ulem}
+
+
+
+\newcommand{\example}{\enquote}
+\newcommand{\term}{\textit}
 
 \begin{document}
 	{
@@ -16,16 +27,26 @@
 	\chapter{Introduction}
 	\label{sec:intro}
 	
-	Terrain traversability analysis has been used as a means for navigating 
-	a robotic ground vehicle within environments of varying complexity, while 
-	ensuring safety in terms of collisions or reaching unrecoverable states and 
-	achieving goals in an optimal mode of operation.
+	During the last years the focus of research for robotic applications evolved 
+	from well structured indoor environments to unstructured outdoor environments. 
+	With this expansion of interest, it is a crucial prerequisite to reliably 
+	classify traversable ground in the environment, especially when it comes to 
+	truly autonomous systems. This topic is typically referred to as 
+	\term{traversability analysis} or \term{obstacle detection} \cite{Suger}. 
+	Failing on this	task can cause great damage or restrict the robots movement 
+	unnecessarily.
 	\\
 	
-	The ability to safely navigate is a crucial prerequisite for truly 
+	Terrain \term{traversability analysis} has been used as a means for navigating 
+	a robotic ground vehicle within environments of varying complexity, while 
+	ensuring safety in terms of collisions or reaching unrecoverable states and 
+	achieving goals in an optimal mode of operation \cite{Papadakis}.
+	\\
+	
+	\sout{The ability to safely navigate is a crucial prerequisite for truly 
 	autonomous systems. A robot has to distinguish obstacles from traversable 
 	ground. Failing on this	task can cause great damage or restrict the robots 
-	movement unnecessarily.
+	movement unnecessarily.}
 	\\
 	
 	In this thesis, we will tackle how an autonomous robot can improve its 
@@ -57,15 +78,30 @@
 	\section{Traversability estimation algorithms}
 	\label{sec:bg:trav}
 	
+	In order for an autonomous robot to be able to safely navigate, it is crucial 
+	for it to be able to conclude on its own the terrain \term{traversability} 
+	around it. Many papers have been published regarding this, and here we present 
+	some of the most recent and most influential.
+	\\
+	
+	This line of research starts with Moravec and Elfes that introduced the 
+	\term{occupancy grid maps} \cite{Moravec}. These are maps depicting the robot’s 
+	environment with regions classified as empty, occupied or unknown. More 
+	concrete, this occupancy information is projected onto a two-dimensional map.
+	
+	
+	They can be used to obtain or correct position and orientation information.
+	\\
+	
 	This line of research starts with Papadakis (2013) who published a 
 	survey done in traversability analysis methods for unmanned ground vehicles 
 	\cite{Papadakis}. This survey states that most commonly, traversability analysis is treated 
 	as a binary classification problem, i.e. distinguishing traversable from 
-	non-traversable terrain \cite{Suger, Hirose, Wigness}. It also declares that one of he most popular and extensively used approaches 
+	non-traversable terrain \cite{Suger, Hirose, Wigness}. It also declares that one of the most popular and extensively used approaches 
 	to measure traversability are based on grid 
 	maps. More concrete, they are based on the analysis of 2d elevation maps, 
 	where 3d information is represented in 2d maps \cite{Suger}.
-	\newline
+	\\
 	
 	Suger et al. \cite{Suger} proposed an approach that \textit{uses a 2d grid map, where 
 	each cell stores features that provide information from the senors. More 
@@ -92,7 +128,7 @@
 	learning problem with full labeled data. It estimates the distribution for a 
 	feature to get a label (always positive) during the training, therefore it is 
 	known for each feature whether it got a label or not.
-	\newline
+	\\
 	
 	Wigness et al. \cite{Wigness} insist on the probability that previously learned 
 	behavior may not be relevant, because the visual appearance and traversability 
@@ -113,7 +149,7 @@
 	how to simply assign costs to distinct terrain types, and follows the 
 	trajectory with the minimum cost. It is more focused than Suger et al. in 
 	following the optimum path, and less in experimenting with traversability.
-	\newline
+	\\
 	
 	Others use different sensors from Suger et al., like onboard and off-the-shelf 
 	fisheye camera \cite{Hirose} (Hirose et al., 2017), to estimate whether a physical space 
@@ -143,14 +179,14 @@
 	\textit{The robot is equipped with two pairs of stereo vision cameras which 
 	collect visual and geometric data from the environment, and a bumper switch
 	at the front of the vehicle that is used along with motor current sensors to 
-	signal events such as ’stuck’ and ’slip’.
-	\newline
+	signal events such as \example{stuck} and \example{slip}.
+	\\
 	For starters, the robot images the terrain in front of it and stores the 
 	resulting image patches in a data pool. Each image patch is an observation 
 	of a single cell in a grid-based terrain map. Initially all of this data is 
 	unlabeled, because the robot has not yet interacted with the terrain, and its 
 	traversability is unknown. 
-	\newline
+	\\
 	Then the robot attempts to drive over the terrain that it previously 
 	observed, thus discovering the traversability properties of the environment. 
 	Cells under the robot footprint that can be driven over are traversable and 
