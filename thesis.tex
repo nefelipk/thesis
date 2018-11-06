@@ -37,10 +37,11 @@
 	unnecessarily.
 	\\
 	
-	Terrain \term{traversability analysis} has been used as a means for navigating 
-	a robotic ground vehicle within environments of varying complexity, while 
-	ensuring safety in terms of collisions or reaching unrecoverable states and 
-	achieving goals in an optimal mode of operation \cite{Papadakis}.
+	So, \term{traversability} is the generic capability of a robotic ground 
+	vehicle to navigate within environments of varying complexity, while ensuring 
+	safety in terms of collisions or reaching unrecoverable states and achieving 
+	goals in an optimal mode of operation \cite{Papadakis}. Occasionally other 
+	terms such as \term{mobility}, \term{terrainability}, etc are used.
 	\\
 	
 	\sout{The ability to safely navigate is a crucial prerequisite for truly 
@@ -85,19 +86,37 @@
 	\\
 	
 	This line of research starts with Moravec and Elfes that introduced the 
-	\term{occupancy grid maps} \cite{Moravec}. These are maps depicting the robot’s 
-	environment with regions classified as empty, occupied or unknown. More 
-	concrete, this occupancy information is projected onto a two-dimensional map.
+	\term{occupancy grid} maps \cite{Moravec}. These are two-dimensional arrays 
+	depicting the robot’s environment with regions classified as empty, occupied 
+	or unknown.
 	
 	
 	They can be used to obtain or correct position and orientation information.
+	
+	
+	A forward-looking image alone may be insufficient for planning and navigation
+	\cite{Kweon}. Robots operating in rough terrain may require knowledge of 
+	terrain that has been observed but is currently out of the sensor field of
+	view such as terrain under and behind the robot.
+	
+	A \term{digital elevation map} is a two-dimensional array of terrain 
+	elevation measurements. More concrete, it is a grid that stores in each cell 
+	the vertical distance above or below the given reference surface \cite{Kweon}.
 	\\
 	
 	This line of research starts with Papadakis (2013) who published a 
 	survey done in traversability analysis methods for unmanned ground vehicles 
-	\cite{Papadakis}. This survey states that most commonly, traversability analysis is treated 
+	\cite{Papadakis}. 
+	This survey states that historically, most commonly, traversability analysis is treated 
 	as a binary classification problem, i.e. distinguishing traversable from 
-	non-traversable terrain \cite{Suger, Hirose, Wigness}. It also declares that one of the most popular and extensively used approaches 
+	non-traversable terrain \cite{Suger, Hirose, Wigness}. 
+	But later on, the need for finer classification was recognized that either assigned 
+	a continuous traversability score or classified the terrain into the various classes 
+	that were commonly encountered within a particular application.
+	That does not mean that binary terrain classification should be viewed as redundant
+	or trivial, because the computational complexity of analysis increases together 
+	with terrain complexity.
+	It also declares that one of the most popular and extensively used approaches 
 	to measure traversability are based on grid 
 	maps. More concrete, they are based on the analysis of 2d elevation maps, 
 	where 3d information is represented in 2d maps \cite{Suger}.
