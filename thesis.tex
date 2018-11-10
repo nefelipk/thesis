@@ -9,11 +9,7 @@
 \usepackage[nottoc]{tocbibind}
 \usepackage{indentfirst}
 
-
-
 \usepackage[normalem]{ulem}
-
-
 
 \newcommand{\example}{\enquote}
 \newcommand{\term}{\textit}
@@ -101,6 +97,7 @@
 	like ground surface, rocks or large trunks, respectively.
 	\\	
 	
+	\todo[size={{\scriptsize}}]{Should I not use "someone et al." at all?}
 	Later on, Suger et al. proposed a learning approach that uses a two-dimensional 
 	(\acronym{2d}) \term{occupancy grid} map, where each cell stores features 
 	that provide information from the senors \cite{Suger}. \term{Occupancy grid} 
@@ -126,8 +123,11 @@
 	
 	
 	
-	\cite{Suger}: collect partially labeled training data
-	In order to create the 2d grid map mentioned above, the authors use two strategies to learn a classifier from this kind of 
+	
+	
+	
+	\sout{In order to create the 2d grid map mentioned above, the authors use two 
+	strategies to learn a classifier from this kind of 
 	training data. The former estimates the frequencies of observed	features in the 
 	classical way. Since the data is only incompletely labeled and contains no 
 	negative labeled samples, it calculates an estimate for the negative 
@@ -135,11 +135,12 @@
 	latter, on the other hand, uses the training data in a way to create a classical 
 	learning problem with full labeled data. It estimates the distribution for a 
 	feature to get a label (always positive) during the training, therefore it is 
-	known for each feature whether it got a label or not.
+	known for each feature whether it got a label or not.}
 	
-	They interpret the characteristic of
-	traversability to be static, we further assume that dynamic
-	objects are detected and removed in advance \cite{Suger}.
+	\cite{Suger}: collect partially labeled training data
+	
+	They interpret the characteristic of traversability to be static, and further 
+	assume that dynamic objects are detected and removed in advance \cite{Suger}.
 	\\
 	
 	
@@ -205,14 +206,6 @@
 	following the optimum path, and less in experimenting with traversability.
 	\\
 	
-	Others use different sensors from Suger et al., like onboard and off-the-shelf 
-	fisheye camera \cite{Hirose} (Hirose et al., 2017), to estimate whether a physical space 
-	is traversable or not. This kind of approaches are mainly focused on obstacle 
-	detection and avoidance, and less on traversability estimation for obstacles 
-	that may seem untraversable while in fact can be easily driven over by a 
-	robot, like tall grass.
-	\\
-	
 	\section{Data collection methods}
 	\label{sec:bg:data}
 	
@@ -227,6 +220,19 @@
 	sensor. Differences in laser return times and wavelengths that can then be 
 	used to make digital \acronym{3d} representations of the target.
 	\\
+	
+	Others do not use geometric data, but instead concentrate on visual data, 
+	\term{appearance-based} methodologies as they are called from \cite{Papadakis}. 
+	Instead of using \acronym{lidar} \cite{Lalonde, Suger}, they use different 
+	sensors, like onboard and off-the-shelf fisheye camera \cite{Hirose}, to 
+	estimate whether a physical space is traversable or not. This kind of 
+	approaches are mainly focused on obstacle detection and avoidance, and less 
+	on traversability estimation for obstacles that may seem untraversable while 
+	in fact can be easily driven over by a robot, like tall grass.
+	\\
+	
+	
+	
 	
 	
 	Kim et al. \cite{Kim} developed a method 
@@ -268,7 +274,9 @@
 	memory requirements for learning are reduced, compared to off-line methods.
 	\\
 	
-	The authors \cite{Suger} design a naive method for generation of training data. They
+	
+	
+	The authors in \cite{Suger} design a naive method for generation of training data. They
 	collect partially labeled training data, because they obtain them through a 
 	human operator that drives a safe trajectory that is similar to the 
 	environment where the robot should later be able to reliable operate in. From this 
@@ -282,10 +290,14 @@
 	\section{Goals of operation}
 	\label{sec:bg:goals}
 	
-	A natural thing would be to let the robot learn about the 
-	traversability of the environment. Even though such methods allow the robot to 
-	autonomously learn a model of the environment, the trial and error part of this 
-	methodology involves a high risk to damage the robot.
+	A natural thing would be to let the robot learn about the traversability of 
+	the environment, while another perspective would be to concentrate on more 
+	preservative situations, such as go or no-go \cite{Hirose}. Even though the 
+	former method allows the robot to autonomously learn a model of the environment, 
+	the trial and error part of it involves a high risk to damage the robot. The 
+	latter, on the other hand, has as main priority to prevent robots from 
+	colliding with objects, injuring people, getting stuck in constrained spaces, 
+	or falling over an edge.
 	\\
 	
 	\section{Prototype implementations / reference implementation}
@@ -294,7 +306,7 @@
 	URLs and comments about the work above that will actually be used as 
 	the experimental basis
 	\\
-	
+		
 	\section{Conclusions}
 	\label{sec:bg:concl}
 	
