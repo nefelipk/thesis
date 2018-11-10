@@ -41,6 +41,13 @@
 	terms such as \term{mobility} \cite{Lalonde}, \term{terrainability}, etc are 
 	used to describe the same thing.
 	\\
+		
+	There is the probability that previously learned behavior may not be relevant, 
+	because the visual appearance and \term{traversability} of roads may have 
+	changed due to various reasons \cite{Wigness}. That is probably why 
+	\term{geometry-based} analysis is the direction followed by the majority of 
+	\term{traversability analysis} methodologies \cite{Papadakis}.
+	\\
 	
 	\sout{The ability to safely navigate is a crucial prerequisite for truly 
 	autonomous systems. A robot has to distinguish obstacles from traversable 
@@ -49,8 +56,8 @@
 	\\
 	
 	In this thesis, we will tackle how an autonomous robot can improve its 
-	traversability estimation method in natural environments, meaning not only 
-	on bare ground-like environment, but also on terrain containing vegetation. 
+	\term{traversability} estimation method in natural environments, meaning not 
+	only on bare ground-like environment, but also on terrain containing vegetation. 
 	That means, for example, that it should be able to traverse grass but avoid 
 	rocks hidden in it.
 	
@@ -60,11 +67,11 @@
 	\section{A few words}
 	\label{sec:bg:intro}
 	
-	In order to have an autonomous robot improve its traversability 
+	In order to have an autonomous robot improve its \term{traversability} 
 	estimation we will need to address each sub-problem individually:
 	
 	\begin{enumerate}
-		\item Traversability estimation algorithms that can be improved from 
+		\item \term{Traversability} estimation algorithms that can be improved from 
 		experience/examples.
 		\item Methods for collecting the data needed by the algorithm above, from 
 		the sensory input that is available to the robot. (The input we have does not 
@@ -77,7 +84,7 @@
 	We will now present the state of the art in all three areas of research.
 	\\
 	
-	\section{Traversability estimation algorithms}
+	\section{Learnable traversability estimation algorithms}
 	\label{sec:bg:trav}
 	
 	In order for an autonomous robot to be able to safely navigate, it is crucial 
@@ -107,7 +114,7 @@
 	feature vector that is computed from the \acronym{3d} \term{point clouds} that 
 	are mapped to the respective cell. The authors use the features mentioned 
 	bellow (mostly geometrical, like in \cite{Lalonde}) to distinguish different 
-	types of terrain as well as traversability constraints of the robot. 
+	types of terrain as well as \term{traversability} constraints of the robot. 
 	\begin{enumerate}
 		\item[$\bullet$] Maximum height difference and
 		\item[$\bullet$] slope 
@@ -120,6 +127,20 @@
 	\end{enumerate}
 	help to distinguish concrete and vegetation types.
 	\\
+	
+	Wigness et al. proposed another way to learn new behaviors quickly in the 
+	field with no or minimal human supervision. They propose a methodology for 
+	learning reward functions from human examples via visual perception 
+	\cite{Wigness}. This means that the agent learns how to simply assign costs 
+	to distinct terrain types, and follows the trajectory with the minimum cost. 
+	This approach is more focused than \cite{Suger} in following the optimum path, 
+	but less in experimenting with \term{traversability}. It also insists on 
+	dynamic environments, while \cite{Suger} interprets the characteristic of 
+	\term{traversability} to be static, and further assume that dynamic objects 
+	are detected and removed in advance.
+	\\
+	
+	
 	
 	
 	
@@ -138,18 +159,7 @@
 	known for each feature whether it got a label or not.}
 	
 	\cite{Suger}: collect partially labeled training data
-	
-	They interpret the characteristic of traversability to be static, and further 
-	assume that dynamic objects are detected and removed in advance \cite{Suger}.
 	\\
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	\sout{A forward-looking image alone may be insufficient for planning and navigation
 	\cite{Kweon}. Robots operating in rough terrain may require knowledge of 
@@ -163,47 +173,24 @@
 	\\
 	
 	This line of research starts with Papadakis (2013) who published a 
-	survey done in traversability analysis methods for unmanned ground vehicles 
+	survey done in \term{traversability analysis} methods for unmanned ground vehicles 
 	\cite{Papadakis}. 
 	The attention had most often been focused on methodologies that access the 
-	traversability characteristics before actually driving over the respective 
+	\term{traversability} characteristics before actually driving over the respective 
 	region.
-	This survey states that historically, most commonly, traversability analysis is treated 
+	This survey states that historically, most commonly, \term{traversability} analysis is treated 
 	as a binary classification problem, i.e. distinguishing traversable from 
 	non-traversable terrain \cite{Suger, Hirose, Wigness}. 
 	But later on, the need for finer classification was recognized that either assigned 
-	a continuous traversability score or classified the terrain into the various classes 
+	a continuous \term{traversability} score or classified the terrain into the various classes 
 	that were commonly encountered within a particular application.
 	That does not mean that binary terrain classification should be viewed as redundant
 	or trivial, because the computational complexity of analysis increases together 
 	with terrain complexity.
 	It also declares that one of the most popular and extensively used approaches 
-	to measure traversability are based on grid 
+	to measure \term{traversability} are based on grid 
 	maps. More concrete, they are based on the analysis of 2d elevation maps, 
 	where 3d information is represented in 2d maps \cite{Suger}.
-	\\
-	
-	
-	
-	Wigness et al. \cite{Wigness} insist on the probability that previously learned 
-	behavior may not be relevant, because the visual appearance and traversability 
-	of roads may have changed due to various reasons. In such cases it could be 
-	dangerous for an unmanned ground vehicle to execute, and it will need to be 
-	adapted quickly and with minimal human supervision.
-	
-	Environment features are encoded as binary occupancy grid maps, where 
-	a grid cell in a feature map denotes the presence or absence of the feature 
-	it is modeling. Each binary occupancy grid feature map is output from a 
-	system that maintains a pose-graph along the robot’s trajectory, that also 
-	incorporates measurements from GPS. If the robot’s trajectory is corrected 
-	through a loop closure or GPS measurement, keyframe poses are updated, 
-	resulting in newly rendered corrected binary occupancy feature maps.
-	
-	The authors propose a methodology for learning reward functions from 
-	human examples via visual perception. This means that the agent learns 
-	how to simply assign costs to distinct terrain types, and follows the 
-	trajectory with the minimum cost. It is more focused than Suger et al. in 
-	following the optimum path, and less in experimenting with traversability.
 	\\
 	
 	\section{Data collection methods}
@@ -227,7 +214,7 @@
 	sensors, like onboard and off-the-shelf fisheye camera \cite{Hirose}, to 
 	estimate whether a physical space is traversable or not. This kind of 
 	approaches are mainly focused on obstacle detection and avoidance, and less 
-	on traversability estimation for obstacles that may seem untraversable while 
+	on \term{traversability} estimation for obstacles that may seem untraversable while 
 	in fact can be easily driven over by a robot, like tall grass.
 	\\
 	
@@ -240,13 +227,13 @@
 	robot’s experience in navigating its environment to train classifiers without 
 	human intervention. It is broadly applicable to any environment in which 
 	the robot can be safely driven as it uses the interaction between the vehicle
-	and its environment to ground the problem of traversability classification.
+	and its environment to ground the problem of \term{traversability} classification.
 	
 	The main idea is that image data  obtained in the past is associated with 
-	traversability labels obtained in the  present. The learning process produces a 
-	classifier which makes traversability  predictions for new terrain regions. 
+	\term{traversability} labels obtained in the  present. The learning process produces a 
+	classifier which makes \term{traversability}  predictions for new terrain regions. 
 	Successes and failures of the navigation provide positive and negative 
-	traversability labels for cells in a grid-based representation of the terrain surrounding 
+	\term{traversability} labels for cells in a grid-based representation of the terrain surrounding 
 	the vehicle.
 	
 	\textit{The robot is equipped with two pairs of stereo vision cameras which 
@@ -258,17 +245,17 @@
 	resulting image patches in a data pool. Each image patch is an observation 
 	of a single cell in a grid-based terrain map. Initially all of this data is 
 	unlabeled, because the robot has not yet interacted with the terrain, and its 
-	traversability is unknown. 
+	\term{traversability} is unknown. 
 	\\
 	Then the robot attempts to drive over the terrain that it previously 
-	observed, thus discovering the traversability properties of the environment. 
+	observed, thus discovering the \term{traversability} properties of the environment. 
 	Cells under the robot footprint that can be driven over are traversable and 
 	therefore yield positive training examples, while those that hinder the robot’s 
 	motion are non-traversable	and result in negative examples.}
 	
 	The authors also propose an on-line learning method in order to exploit 
-	newly-acquired training data in making traversability predictions about 
-	unknown terrain. That way the learned traversability concepts are 
+	newly-acquired training data in making \term{traversability} predictions about 
+	unknown terrain. That way the learned \term{traversability} concepts are 
 	incrementally updated with new data only. That comes with the advantage that the 
 	updated classifier is immediately available for navigation and that the 
 	memory requirements for learning are reduced, compared to off-line methods.
@@ -276,22 +263,25 @@
 	
 	
 	
-	The authors in \cite{Suger} design a naive method for generation of training data. They
-	collect partially labeled training data, because they obtain them through a 
-	human operator that drives a safe trajectory that is similar to the 
-	environment where the robot should later be able to reliable operate in. From this 
-	training trajectory, the cells that intersect with the projection of the footprint 
-	of the robot are labeled as positive examples. 
-	Using this process for training data generation has the advantage that it 
-	is fairly easy to execute but has the drawback that the labeled data are only 
-	positive examples, leaving tons of unlabeled data to learn from.
-	
+	Another way to generate and collect training data is to obtain them through 
+	a human operator that drives a safe trajectory that is similar to the 
+	environment where the robot should later be able to reliable operate in. 
+	This process for training data generation has the advantage that it is fairly 
+	easy to execute.
+	\\
+	From this training trajectory, \cite{Suger} label the cells of the map that 
+	intersect with the projection of the footprint of the robot as positive 
+	examples. This has the drawback that the labeled data are only positive 
+	examples, leaving tons of unlabeled data to learn from.
+	\\
+	In a variation of this, optimal trajectory examples are collected \cite{Wigness} 
+	in order to be used from a reward function and train the robot.
 	
 	\section{Goals of operation}
 	\label{sec:bg:goals}
 	
-	A natural thing would be to let the robot learn about the traversability of 
-	the environment, while another perspective would be to concentrate on more 
+	A natural thing would be to let the robot learn about the \term{traversability} 
+	of the environment, while another perspective would be to concentrate on more 
 	preservative situations, such as go or no-go \cite{Hirose}. Even though the 
 	former method allows the robot to autonomously learn a model of the environment, 
 	the trial and error part of it involves a high risk to damage the robot. The 
