@@ -10,10 +10,12 @@
 \usepackage{indentfirst}
 
 \usepackage[normalem]{ulem}
+\usepackage{amsmath}
 
 \newcommand{\example}{\enquote}
 \newcommand{\term}{\textit}
 \newcommand{\acronym}{\MakeUppercase}
+\newcommand{\itfrac}[2]{\frac{\textit{#1}}{\textit{#2}}}
 
 \begin{document}
 	{
@@ -141,6 +143,29 @@
 	\\
 	
 	
+	A different line of research starts with Pfaff et al. that decided to represent 
+	the environment of a mobile robot with \term{elevation maps}, another geometric 
+	approach. A \term{digital elevation map} (\acronym{dem}) is also known as 
+	\term{2\(\itfrac{1}{2}\)-dimensional representation} of the environment 
+	\cite{Pfaff}. It is a \acronym{2d} array of terrain elevation measurements. More 
+	concrete, it is a grid that stores in each cell the vertical distance above or 
+	below the corresponding surface (additional information about \acronym{dem} can 
+	be found in \cite{Kweon}). 
+	\par 
+	The representation of the environment with \term{elevation maps}, however, can 
+	be problematic when a robot has to utilize these maps for navigation. For 
+	example, when a mobile robot is located in front of a bridge, the underpass will 
+	completely disappeared and the \term{elevation map} will show a non-traversable 
+	object.
+	\par
+	The authors in \cite{Pfaff} classify the cells of \term{elevation maps} into 
+	parts of terrain seen from above, vertical objects,	overhanging objects (such as 
+	branches of trees or bridges) and traversable areas. That way, they manage to 
+	only keep the height values for the lowest surface in each cell. As a result, 
+	the area under the bridge, in the previous example, will appear as a traversable 
+	surface.
+	\\
+	
 	
 	
 	
@@ -165,12 +190,6 @@
 	\cite{Kweon}. Robots operating in rough terrain may require knowledge of 
 	terrain that has been observed but is currently out of the sensor field of
 	view such as terrain under and behind the robot.}
-	
-	A \term{digital elevation map} (\acronym{dem}) is a two-dimensional array of terrain 
-	elevation measurements. More concrete, it is a grid that stores in each cell 
-	the vertical distance above or below the given reference surface (additional
-	information about \acronym{dem} can be found in \cite{Kweon}).
-	\\
 	
 	This line of research starts with Papadakis (2013) who published a 
 	survey done in \term{traversability analysis} methods for unmanned ground vehicles 
@@ -268,12 +287,12 @@
 	environment where the robot should later be able to reliable operate in. 
 	This process for training data generation has the advantage that it is fairly 
 	easy to execute.
-	\\
+	\par 
 	From this training trajectory, \cite{Suger} label the cells of the map that 
 	intersect with the projection of the footprint of the robot as positive 
 	examples. This has the drawback that the labeled data are only positive 
 	examples, leaving tons of unlabeled data to learn from.
-	\\
+	\par 
 	In a variation of this, optimal trajectory examples are collected \cite{Wigness} 
 	in order to be used from a reward function and train the robot.
 	
