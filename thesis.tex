@@ -51,17 +51,26 @@
 	\term{traversability analysis} methodologies \cite{Papadakis}.
 	\\
 	
-	\sout{The ability to safely navigate is a crucial prerequisite for truly 
-	autonomous systems. A robot has to distinguish obstacles from traversable 
-	ground. Failing on this	task can cause great damage or restrict the robots 
-	movement unnecessarily.}
+	So, if autonomous mobile robots are to become more generally useful, they must 
+	be able to adapt to new environments and learn from experience. To do so, they 
+	need a way to store pertinent information about the environment, recall the 
+	information at appropriate times, and reliably match stored information with 
+	newly-sensed data. They also must be able to modify the stored information to 
+	account for systematic changes in the environment \cite{Shneier}.
 	\\
 	
 	In this thesis, we will tackle how an autonomous robot can improve its 
 	\term{traversability} estimation method in natural environments, meaning not 
 	only on bare ground-like environment, but also on terrain containing vegetation. 
-	That means, for example, that it should be able to traverse grass but avoid 
-	rocks hidden in it.
+	We will determine how to introduce a learning capability to the robot that will 
+	enable it to decide for itself the \term{traversability} of the terrain around 
+	it, based on input from its sensors and its experience of traveling over similar 
+	terrain in the past. We would also like our robot to plan further ahead	and 
+	avoid entering traps that prevent it from reaching its goal.
+	\\
+	
+	\sout{That means, for example, that it should be able to traverse grass but avoid 
+	rocks hidden in it.}
 	
 	\chapter{Background}
 	\label{sec:bg}
@@ -86,7 +95,7 @@
 	We will now present the state of the art in all three areas of research.
 	\\
 	
-	\section{Learnable traversability estimation algorithms}
+	\section{Learning traversability estimation algorithms}
 	\label{sec:bg:trav}
 	
 	In order for an autonomous robot to be able to safely navigate, it is crucial 
@@ -166,8 +175,23 @@
 	surface.
 	\\
 	
-	
-	
+	Yet, another approach is kind of a mixture of the previous ones. The autonomous 
+	vehicle has also to decide for itself the \term{traversability} of the terrain 
+	around it. But it has no a priori knowledge of the kind of terrain it will 
+	traverse, so it must learn as it goes along by observing the geometry and 
+	appearance of the terrain. That is both proprioceptive and exteroceptive sensory 
+	data processing (more about them can be found in \cite{Papadakis}). 
+	\par
+	Shneier et al. follow an approach such as the above. They use a local 
+	\term{occupancy grid} map that scrolls under the vehicle as the vehicle moves,
+	and cells that scroll off the end of the map are forgotten \cite{Shneier}. They 
+	do not use a global map and the previous known information is forgotten once the 
+	robot moves away from that location. Considering distance above or below the 
+	ground, color, texture, and contrast, they estimate each cell’s 
+	\term{traversability}. This estimation of the cost of traversing regions is used 
+	to generate models of terrain in order for the robot to learn from its own 
+	experience.
+	\\
 	
 	
 	
@@ -220,11 +244,11 @@
 	obstacles from \acronym{2d} laser scanners can not be safely used anymore. 
 	In these cases, \acronym{3d} range data, e.g. \acronym{3d} \acronym{lidar} 
 	data, is necessary \cite{Suger, Lalonde}. \acronym{lidar} (called \term{ladar} 
-	in \cite{Lalonde}) is an acronym used for \term{light detection and ranging}). 
-	It is a surveying method that measures distance to a target by illuminating 
-	the target with pulsed laser light and measuring the reflected pulses with a 
-	sensor. Differences in laser return times and wavelengths that can then be 
-	used to make digital \acronym{3d} representations of the target.
+	in \cite{Lalonde, Shneier}) is an acronym used for \term{light detection and 
+	ranging}). It is a surveying method that measures distance to a target by 
+	illuminating the target with pulsed laser light and measuring the reflected 
+	pulses with a sensor. Differences in laser return times and wavelengths that 
+	can then be used to make digital \acronym{3d} representations of the target.
 	\\
 	
 	Others do not use geometric data, but instead concentrate on visual data, 
@@ -233,8 +257,8 @@
 	sensors, like onboard and off-the-shelf fisheye camera \cite{Hirose}, to 
 	estimate whether a physical space is traversable or not. This kind of 
 	approaches are mainly focused on obstacle detection and avoidance, and less 
-	on \term{traversability} estimation for obstacles that may seem untraversable while 
-	in fact can be easily driven over by a robot, like tall grass.
+	on \term{traversability} estimation for obstacles that may seem untraversable 
+	while in fact can be easily driven over by a robot, like tall grass.
 	\\
 	
 	
@@ -306,7 +330,13 @@
 	the trial and error part of it involves a high risk to damage the robot. The 
 	latter, on the other hand, has as main priority to prevent robots from 
 	colliding with objects, injuring people, getting stuck in constrained spaces, 
-	or falling over an edge.
+	or falling over an edge. A third approach would be to let the autonomous vehicle 
+	navigate from a defined start point to a fixed goal	point \cite{Shneier}. That 
+	way the robot has to build a model of the world around it and plan a path from 
+	the start to the goal. 
+	\sout{Early runs enable the robot to learn which regions to 
+	avoid and which to seek out, so that later on it can determine the most efficient 
+	path.}
 	\\
 	
 	\section{Prototype implementations / reference implementation}
