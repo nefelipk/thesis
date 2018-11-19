@@ -12,7 +12,6 @@
 \usepackage[normalem]{ulem}
 \usepackage{amsmath}
 
-\newcommand{\example}{\enquote}
 \newcommand{\term}{\textit}
 \newcommand{\acronym}{\MakeUppercase}
 \newcommand{\itfrac}[2]{\frac{\textit{#1}}{\textit{#2}}}
@@ -92,9 +91,6 @@
 	like our robot to plan further ahead	and avoid entering traps that prevent it 
 	from reaching its goal.
 	\\
-	
-	\sout{That means, for example, that it should be able to traverse grass but avoid 
-	rocks hidden in it.}
 	
 	\chapter{Background}
 	\label{sec:bg}
@@ -308,11 +304,18 @@
 	experiences and navigation sensor values.
 	\\
 	
-	In some cases all three choices are used \cite{Kim}. A robot can be equipped with 
-	stereo vision cameras which collect visual and geometric data from the 
-	environment, and a bumper switch at the front of the vehicle that can be used 
-	along with motor current sensors to recognize situations like getting stuck or 
-	slipping.
+	In some cases all three choices are used \cite{Kim}. While geometric data 
+	provide information about the \term{traversability} of the terrain, they are 
+	not always sufficient to measure the affordance of \term{traversability}. For 
+	example, a tall (nontraversable) tree trunk and a patch of tall (traversable) 
+	grass will result in a similar height. However, they differ in visual 
+	appearance. 
+	\par 
+	Nevertheless, tall grass may be categorized as non traversable, based on the 
+	appearance data. So, a robot can be equipped with stereo vision cameras which 
+	collect visual and geometric data from the environment, but also with a bumper 
+	switch at the front of the vehicle that can be used along with motor current 
+	sensors to recognize situations like getting stuck or slipping.
 	\\
 
 	
@@ -336,13 +339,17 @@
 	the trial and error part of it involves a high risk to damage the robot. The 
 	latter, on the other hand, has as main priority to prevent robots from 
 	colliding with objects, injuring people, getting stuck in constrained spaces, 
-	or falling over an edge. A third approach would be to let the autonomous vehicle 
-	navigate from a defined start point to a fixed goal	point \cite{Shneier}. That 
-	way the robot has to build a model of the world around it and plan a path from 
-	the start to the goal. 
-	\sout{Early runs enable the robot to learn which regions to 
-	avoid and which to seek out, so that later on it can determine the most efficient 
-	path.}
+	or falling over an edge. 
+	\par
+	A third approach would be to let the autonomous vehicle navigate from a defined 
+	start point to a fixed goal	point \cite{Shneier, Zhelo}. That way the robot has 
+	to build a model of the world around it and plan a path from the start to the 
+	goal. A way to do that is to enable the robot to learn which regions to avoid 
+	and which to seek out, in early runs, so that in later runs it can determine the 
+	most efficient path \cite{Shneier}. In cases where there is no the knowledge of 
+	the map of the robot's current environment, the designated goal location can be 
+	acquired via cheap localization solutions, such as visible light localization or 
+	Wi-Fi signal localization \cite{Zhelo}.
 	\\
 	
 	\section{Prototype implementations / reference implementation}
