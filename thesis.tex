@@ -48,7 +48,7 @@
 	because the visual appearance and \term{traversability} of roads may have 
 	changed due to various reasons \cite{Wigness}. That is probably why 
 	\term{geometry-based} analysis is the direction followed by the majority of 
-	\term{traversability analysis} methodologies \cite{Papadakis}.
+	\term{traversability analysis} methodologies in the past\cite{Papadakis}.
 	\\
 	
 	So, if autonomous mobile robots are to become more generally useful, they must 
@@ -59,14 +59,38 @@
 	account for systematic changes in the environment \cite{Shneier}.
 	\\
 	
+	Estimating the \term{traversability} of terrain in an unstructured outdoor 
+	environment is a core functionality for autonomous robot navigation \cite{Kim}. 
+	Nevertheless, the \term{traversability} of more complex terrain, such as 
+	vegetation and sloping ground, is extremely difficult to characterize a priori. 
+	It is difficult to find general rules which work for each vehicle's	capabilities
+	and for a wide variety of terrain types such as trees, rocks, tall grass, logs, 
+	and bushes. As a result, methods which provide \term{traversability} estimates 
+	based on predefined terrain properties such as height, shape or colour 
+	(\term{geometry-based} and \term{appearance-based} analyses) will be unlikely to 
+	work reliably in unknown outdoor environments. That is why combining data 
+	collected a priori together with the vehicle’s navigation experience is more 
+	likely to work better for deciding terrain \term{traversability} (see more about 
+	\term{hybrid} approaches in \cite{Papadakis}).
+	\\
+	
+	Last but not least, \term{traversability} should be treated as an affordance and 
+	not simply as a predefined property of different types of terrain \cite{Kim}. 
+	That is because a large vehicle may be able to drive over small saplings that 
+	would present an insurmountable obstacle to a smaller vehicle.
+	\\
+	
 	In this thesis, we will tackle how an autonomous robot can improve its 
 	\term{traversability} estimation method in natural environments, meaning not 
 	only on bare ground-like environment, but also on terrain containing vegetation. 
-	We will determine how to introduce a learning capability to the robot that will 
-	enable it to decide for itself the \term{traversability} of the terrain around 
-	it, based on input from its sensors and its experience of traveling over similar 
-	terrain in the past. We would also like our robot to plan further ahead	and 
-	avoid entering traps that prevent it from reaching its goal.
+	On contrast, we will rule out high-risk applications where a single accident can 
+	be fatal to the robot, like planetary or volcano exploration. We will concentrate 
+	in everyday practical situations. We will determine how to introduce a learning 
+	capability to the robot that will enable it to decide for itself the 
+	\term{traversability} of the terrain around it, based on input from its sensors 
+	and its experience of traveling over similar terrain in the past. We would also 
+	like our robot to plan further ahead	and avoid entering traps that prevent it 
+	from reaching its goal.
 	\\
 	
 	\sout{That means, for example, that it should be able to traverse grass but avoid 
@@ -201,28 +225,26 @@
 	experience.
 	\\
 	
-	
-	
-	
-	\sout{In order to create the 2d grid map mentioned above, the authors use two 
-	strategies to learn a classifier from this kind of 
-	training data. The former estimates the frequencies of observed	features in the 
-	classical way. Since the data is only incompletely labeled and contains no 
-	negative labeled samples, it calculates an estimate for the negative 
-	frequencies from the previous estimate of the positive frequencies and the prior. The 
-	latter, on the other hand, uses the training data in a way to create a classical 
-	learning problem with full labeled data. It estimates the distribution for a 
-	feature to get a label (always positive) during the training, therefore it is 
-	known for each feature whether it got a label or not.}
-	
-	\cite{Suger}: collect partially labeled training data
+	Another \term{hybrid} approach except \cite{Shneier} is this of Kim. et al. They 
+	developed a method that is based on autonomous training data collection which 
+	exploits the robot’s experience in navigating its environment to train 
+	classifiers without human intervention \cite{Kim}.  The main idea is that image 
+	data obtained in the past is associated with \term{traversability} labels 
+	obtained in the present. The learning process produces a classifier which makes 
+	\term{traversability} predictions for new terrain regions. Successes and failures 
+	of the navigation provide positive and negative \term{traversability} labels for 
+	cells in a grid-based representation of the terrain surrounding the vehicle. 
+	Cells under the robot footprint that can be driven over are traversable and 
+	therefore yield positive training examples, while those that hinder the robot’s 
+	motion are non-traversable and result in negative examples. That comes in 
+	contrast with \cite{Suger} that collect partially and only positive labeled 
+	training data.
 	\\
 	
-	\sout{A forward-looking image alone may be insufficient for planning and navigation
-	\cite{Kweon}. Robots operating in rough terrain may require knowledge of 
-	terrain that has been observed but is currently out of the sensor field of
-	view such as terrain under and behind the robot.}
+	
 
+
+	\todo[size={{\scriptsize}}]{Don't know where I'm going to use it yet.}
 	\cite{Papadakis}: The attention had most often been focused on methodologies that access the 
 	\term{traversability} characteristics before actually driving over the respective 
 	region.
@@ -230,6 +252,30 @@
 	
 	\section{Data collection methods}
 	\label{sec:bg:data}
+	
+	A way to generate and collect training data is to obtain them through a human 
+	operator that drives a safe trajectory that is similar to the environment where 
+	the robot should later be able to reliable operate in. This process for training 
+	data generation has the advantage that it is fairly easy to execute.
+	\par 
+	An example of this is \cite{Suger} that label the cells of the map that 
+	intersect with the projection of the footprint of the robot as positive examples. 
+	This has the drawback that the labeled data are only positive examples, leaving 
+	tons of unlabeled data to learn from.
+	\par 
+	In a variation of this, optimal trajectory examples are collected \cite{Wigness} 
+	in order to be used from a reward function and train the robot.
+	\\
+	
+	Another way is to autonomously collect data without any human supervision 
+	\cite{Kim}. In this case, the robot images the terrain in front of it and stores 
+	the resulting image patches in a data pool. Each image patch is an observation 
+	of a single cell in a grid-based terrain map. Initially all of this data is 
+	unlabeled, because the robot has not yet interacted with the terrain, and its 
+	\term{traversability} is unknown. Then the robot attempts to drive over the 
+	terrain that it previously observed, thus discovering the \term{traversability} 
+	properties of the environment.
+	\\\\
 	
 	In environments where the ground is not flat or contains obstacles that are 
 	not purely vertical, the basic approach of classifying based on the observed 
@@ -253,64 +299,32 @@
 	while in fact can be easily driven over by a robot, like tall grass.
 	\\
 	
-	
-	
-	
-	
-	Kim et al. \cite{Kim} developed a method 
-	that is based on autonomous training data collection which, exploits the 
-	robot’s experience in navigating its environment to train classifiers without 
-	human intervention. It is broadly applicable to any environment in which 
-	the robot can be safely driven as it uses the interaction between the vehicle
-	and its environment to ground the problem of \term{traversability} classification.
-	
-	The main idea is that image data  obtained in the past is associated with 
-	\term{traversability} labels obtained in the  present. The learning process produces a 
-	classifier which makes \term{traversability}  predictions for new terrain regions. 
-	Successes and failures of the navigation provide positive and negative 
-	\term{traversability} labels for cells in a grid-based representation of the terrain surrounding 
-	the vehicle.
-	
-	\textit{The robot is equipped with two pairs of stereo vision cameras which 
-	collect visual and geometric data from the environment, and a bumper switch
-	at the front of the vehicle that is used along with motor current sensors to 
-	signal events such as \example{stuck} and \example{slip}.
+	A third choice is to use on-board sensors such as \acronym{imu} (acronym for 
+	inertial measurement unit), motor current, and bumper switch \cite{Kim}. This 
+	makes is possible to assess the progress of the robot automatically. That way 
+	successes and failures of the navigation provide positive and  negative 
+	\term{traversability} examples. This kind of approaches can make predictions 
+	about the \term{traversability} of the terrain based on the robot's past 
+	experiences and navigation sensor values.
 	\\
-	For starters, the robot images the terrain in front of it and stores the 
-	resulting image patches in a data pool. Each image patch is an observation 
-	of a single cell in a grid-based terrain map. Initially all of this data is 
-	unlabeled, because the robot has not yet interacted with the terrain, and its 
-	\term{traversability} is unknown. 
-	\\
-	Then the robot attempts to drive over the terrain that it previously 
-	observed, thus discovering the \term{traversability} properties of the environment. 
-	Cells under the robot footprint that can be driven over are traversable and 
-	therefore yield positive training examples, while those that hinder the robot’s 
-	motion are non-traversable	and result in negative examples.}
 	
-	The authors also propose an on-line learning method in order to exploit 
+	In some cases all three choices are used \cite{Kim}. A robot can be equipped with 
+	stereo vision cameras which collect visual and geometric data from the 
+	environment, and a bumper switch at the front of the vehicle that can be used 
+	along with motor current sensors to recognize situations like getting stuck or 
+	slipping.
+	\\
+
+	
+
+	\todo[size={{\scriptsize}}]{Don't know if and where I'm going to use it yet.}
+	\cite{Kim}: The authors also propose an on-line learning method in order to exploit 
 	newly-acquired training data in making \term{traversability} predictions about 
 	unknown terrain. That way the learned \term{traversability} concepts are 
 	incrementally updated with new data only. That comes with the advantage that the 
 	updated classifier is immediately available for navigation and that the 
 	memory requirements for learning are reduced, compared to off-line methods.
 	\\
-	
-	
-	
-	Another way to generate and collect training data is to obtain them through 
-	a human operator that drives a safe trajectory that is similar to the 
-	environment where the robot should later be able to reliable operate in. 
-	This process for training data generation has the advantage that it is fairly 
-	easy to execute.
-	\par 
-	From this training trajectory, \cite{Suger} label the cells of the map that 
-	intersect with the projection of the footprint of the robot as positive 
-	examples. This has the drawback that the labeled data are only positive 
-	examples, leaving tons of unlabeled data to learn from.
-	\par 
-	In a variation of this, optimal trajectory examples are collected \cite{Wigness} 
-	in order to be used from a reward function and train the robot.
 	
 	\section{Goals of operation}
 	\label{sec:bg:goals}
