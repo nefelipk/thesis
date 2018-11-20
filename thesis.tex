@@ -12,6 +12,7 @@
 \usepackage[normalem]{ulem}
 \usepackage{amsmath}
 
+\newcommand{\defn}{\enquote}
 \newcommand{\term}{\textit}
 \newcommand{\acronym}{\MakeUppercase}
 \newcommand{\itfrac}[2]{\frac{\textit{#1}}{\textit{#2}}}
@@ -30,9 +31,11 @@
 	With this expansion of interest, it is a crucial prerequisite to reliably 
 	classify traversable ground in the environment, especially when it comes to 
 	truly autonomous systems. This topic is typically referred to as 
-	\term{traversability analysis} or \term{obstacle detection} \cite{Suger}. 
-	Failing on this	task can cause great damage or restrict the robots movement 
-	unnecessarily.
+	\term{traversability analysis} or \term{obstacle detection} \cite{Suger}. The 
+	verb traverse is defined as \defn{to pass or move over, along, or through}. 
+	Hence \term{traversability} refers to the affordance of being able to traverse 
+	\cite{Ugur}. Failing on this task can cause great damage or restrict the robots 
+	movement unnecessarily.
 	\\
 	
 	So, \term{traversability} is the generic capability of a robotic ground 
@@ -42,10 +45,20 @@
 	terms such as \term{mobility} \cite{Lalonde}, \term{terrainability}, etc are 
 	used to describe the same thing.
 	\\
+	
+	Although \term{traversability} is considered a fundamental capability for mobile 
+	robots, in some cases it is limited to the problem of simple obstacle avoidance 
+	\cite{Ugur}. When such approaches are used, the robot tries to avoid making any 
+	physical contact with the environment, and heads only to open spaces. Its 
+	response would be the same whether it encounters an impenetrable wall or a 
+	balloon that can just be pushed aside without any damage. Therefore, methods 
+	that can automatically learn the \term{traversability} affordances from the 
+	robot’s interactions with the environment are valuable for robotics.
+	\\
 		
-	There is the probability that previously learned behavior may not be relevant, 
-	because the visual appearance and \term{traversability} of roads may have 
-	changed due to various reasons \cite{Wigness}. That is probably why 
+	In addition, there is the possibility that previously learned behavior is not 
+	relevant, because the visual appearance and \term{traversability} of roads may 
+	have changed due to various reasons \cite{Wigness}. That is probably why 
 	\term{geometry-based} analysis is the direction followed by the majority of 
 	\term{traversability analysis} methodologies in the past\cite{Papadakis}.
 	\\
@@ -76,7 +89,10 @@
 	Last but not least, \term{traversability} should be treated as an affordance and 
 	not simply as a predefined property of different types of terrain \cite{Kim}. 
 	That is because a large vehicle may be able to drive over small saplings that 
-	would present an insurmountable obstacle to a smaller vehicle.
+	would present an insurmountable obstacle to a smaller vehicle. A stair that is 
+	traversable for a hexapod robot may not be traversable for a wheeled one. So, 
+	when used here, \term{affordance} implies the complementarity of the robot and 
+	the environment, the interaction between them \cite{Ugur}.
 	\\
 	
 	In this thesis, we will tackle how an autonomous robot can improve its 
@@ -295,13 +311,13 @@
 	while in fact can be easily driven over by a robot, like tall grass.
 	\\
 	
-	A third choice is to use on-board sensors such as \acronym{imu} (acronym for 
-	inertial measurement unit), motor current, and bumper switch \cite{Kim}. This 
-	makes is possible to assess the progress of the robot automatically. That way 
-	successes and failures of the navigation provide positive and  negative 
-	\term{traversability} examples. This kind of approaches can make predictions 
-	about the \term{traversability} of the terrain based on the robot's past 
-	experiences and navigation sensor values.
+	A third choice is to use haptic information, via on-board sensors such as 
+	\acronym{imu} (acronym for inertial measurement unit), motor current, and bumper 
+	switch \cite{Kim}. This makes is possible to assess the progress of the robot 
+	automatically. That way successes and failures of the navigation provide positive 
+	and negative \term{traversability} examples. This kind of approaches can make 
+	predictions about the \term{traversability} of the terrain based on the robot's 
+	past experiences and navigation sensor values.
 	\\
 	
 	In some cases all three choices are used \cite{Kim}. While geometric data 
@@ -311,11 +327,14 @@
 	grass will result in a similar height. However, they differ in visual 
 	appearance. 
 	\par 
-	Nevertheless, tall grass may be categorized as non traversable, based on the 
-	appearance data. So, a robot can be equipped with stereo vision cameras which 
-	collect visual and geometric data from the environment, but also with a bumper 
-	switch at the front of the vehicle that can be used along with motor current 
-	sensors to recognize situations like getting stuck or slipping.
+	Similarly a white vertical flat surface may be an impenetrable wall in one 
+	environment whereas in another environment a similar surface may be a door that 
+	can just be pushed to open \cite{Ugur}. But appearance data may not be enough 
+	to distinguish the two cases mentioned above. So, a robot can be equipped with 
+	stereo vision cameras which collect visual and geometric data from the 
+	environment, but also with a bumper switch at the front of the vehicle that can 
+	be used along with motor current sensors to recognize situations like getting 
+	stuck or slipping \cite{Kim}.
 	\\
 
 	
