@@ -30,7 +30,7 @@
 	from well structured indoor environments to unstructured outdoor environments. 
 	With this expansion of interest, it is a crucial prerequisite to reliably 
 	classify traversable ground in the environment, especially when it comes to 
-	truly autonomous systems. This topic is typically referred to as 
+	truly autonomous/self-supervised systems. This topic is typically referred to as 
 	\term{traversability analysis} or \term{obstacle detection} \cite{Suger}. The 
 	verb traverse is defined as \defn{to pass or move over, along, or through}. 
 	Hence \term{traversability} refers to the affordance of being able to traverse 
@@ -61,6 +61,22 @@
 	have changed due to various reasons \cite{Wigness}. That is probably why 
 	\term{geometry-based} analysis is the direction followed by the majority of 
 	\term{traversability analysis} methodologies in the past\cite{Papadakis}.
+	\\
+	
+	Supervised learning approaches are unlikely to work reliably in unknown or 
+	unstructured outdoor environments because the system assesses the 
+	\term{traversability} using an off-line learned model trained with specific 
+	terrain types. For example, if a system is trained with terrain samples in a 
+	specific season, the systems might not detect traversable regions in other 
+	seasons \cite{Lee}. 
+	\par
+	Unsupervised, or else self-supervised, learning approaches may be the solution 
+	to this problem. They use on-line learning methods in order to exploit newly-
+	acquired training data in making \term{traversability} predictions about unknown 
+	terrain \cite{Kim}. That way the learned \term{traversability} concepts are 
+	incrementally updated with new data only. That comes with the advantage that the 
+	updated classifier is immediately available for navigation and that the memory 
+	requirements for learning are reduced, compared to off-line methods.
 	\\
 	
 	So, if autonomous mobile robots are to become more generally useful, they must 
@@ -211,13 +227,14 @@
 	exploits the robot’s experience in navigating its environment to train 
 	classifiers without human intervention \cite{Kim}. The main idea is that image-
 	data obtained in the past is associated with \term{traversability} labels 
-	obtained in the present. The learning process produces a classifier which makes 
-	\term{traversability} predictions for new terrain regions. Successes and failures 
-	of the navigation provide positive and negative \term{traversability} labels for 
-	cells in a grid-based representation of the terrain surrounding the vehicle. 
-	Cells under the robot footprint that can be driven over are traversable and 
-	therefore yield positive training examples, while those that hinder the robot’s 
-	motion are non-traversable and result in negative examples.
+	obtained in the present, the so called \term{on-line machine learning}. The 
+	learning process produces a classifier which makes \term{traversability} 
+	predictions for new terrain regions. Successes and failures of the navigation 
+	provide positive and negative \term{traversability} labels for cells in a grid-
+	based representation of the terrain surrounding the vehicle. Cells under the 
+	robot footprint that can be driven over are traversable and therefore yield 
+	positive training examples, while those that hinder the robot’s motion are non-
+	traversable and result in negative examples.
 	\\
 	
 	\todo[size={{\scriptsize}}]{Should I not use "someone et al." at all?}
@@ -258,6 +275,23 @@
 	detected and removed in advance.
 	\\
 	
+	Similarly to \cite{Kim}, Lee et al. employ a self-supervised on-line learning 
+	approach. As the vehicle explores its environment, the classifier is trained 
+	incrementally with autonomously labeled training samples \cite{Lee}. Their 
+	approach determines whether unknown regions in front of a vehicle are drivable 
+	while the vehicle is in motion and without human’s input. Their 
+	\term{traversability} detection method is based on incremental nonparametric 
+	Bayesian clustering (\acronym{inbc}). In probability theory and statistics, 
+	Bayes' theorem (alternatively Bayes' law or Bayes' rule) describes the 
+	probability of an event, based on prior knowledge of conditions that might be 
+	related to the event. Many approaches have used it for \term{traversability} 
+	estimation. For example \cite{Suger} uses a naive Bayes classifier \cite{Denis}, 
+	and \cite{Lalonde} uses Bayesian classification to label the incoming data.
+	\\
+	
+	
+	
+	
 	\todo[size={{\scriptsize}}]{Don't know where I'm going to use it yet.}
 	\cite{Papadakis}: The attention had most often been focused on methodologies that access the 
 	\term{traversability} characteristics before actually driving over the respective 
@@ -288,11 +322,11 @@
 	\\
 	
 	Another way is to autonomously collect data without any human supervision 
-	\cite{Kim}. In this case, the robot images the terrain in front of it and stores 
-	the resulting image patches in a data pool. Each image patch is an observation 
-	of a single cell in a grid-based terrain map. Initially all of this data is 
-	unlabeled, because the robot has not yet interacted with the terrain, and its 
-	\term{traversability} is unknown. Then the robot attempts to drive over the 
+	\cite{Kim, Lee}. In \cite{Kim} the robot images the terrain in front of it and 
+	stores the resulting image patches in a data pool. Each image patch is an 
+	observation of a single cell in a grid-based terrain map. Initially all of this 
+	data is unlabeled, because the robot has not yet interacted with the terrain, and 
+	its \term{traversability} is unknown. Then the robot attempts to drive over the 
 	terrain that it previously observed, thus discovering the \term{traversability} 
 	properties of the environment.
 	\\\\
@@ -321,11 +355,12 @@
 	
 	A third choice is to use haptic information, via on-board sensors such as 
 	\acronym{imu} (acronym for inertial measurement unit), motor current, and bumper 
-	switch \cite{Kim}. This makes is possible to assess the progress of the robot 
-	automatically. That way successes and failures of the navigation provide positive 
-	and negative \term{traversability} examples. This kind of approaches can make 
-	predictions about the \term{traversability} of the terrain based on the robot's 
-	past experiences and navigation sensor values.
+	switch \cite{Kim} or even wheel encoder data \cite{Lee}. This makes is possible 
+	to assess the progress of the robot automatically. That way successes and 
+	failures of the navigation provide positive and negative \term{traversability} 
+	examples. This kind of approaches can make predictions about the 
+	\term{traversability} of the terrain based on the robot's past experiences and 
+	navigation sensor values.
 	\\
 	
 	In some cases all three choices are used \cite{Kim}. While geometric data 
@@ -347,14 +382,7 @@
 
 	
 
-	\todo[size={{\scriptsize}}]{Don't know if and where I'm going to use it yet.}
-	\cite{Kim}: The authors also propose an on-line learning method in order to exploit 
-	newly-acquired training data in making \term{traversability} predictions about 
-	unknown terrain. That way the learned \term{traversability} concepts are 
-	incrementally updated with new data only. That comes with the advantage that the 
-	updated classifier is immediately available for navigation and that the 
-	memory requirements for learning are reduced, compared to off-line methods.
-	\\
+	
 	
 	But why do we want to collect data and estimate the terrain \term{traversability}?
 	What is the goal to achieve? Do we want the robot to reach a specific goal? Find 
