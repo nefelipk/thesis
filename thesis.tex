@@ -95,7 +95,7 @@
 	the environment, the interaction between them \cite{Ugur}.
 	\\
 	
-	In this thesis, we will tackle how an autonomous robot can improve its 
+	In this thesis, we will tackle how an autonomous mobile robot can improve its 
 	\term{traversability} estimation method in natural environments, meaning not 
 	only on bare ground-like environment, but also on terrain containing vegetation. 
 	On contrast, we will rule out high-risk applications where a single accident can 
@@ -104,7 +104,7 @@
 	capability to the robot that will enable it to decide for itself the 
 	\term{traversability} of the terrain around it, based on input from its sensors 
 	and its experience of traveling over similar terrain in the past. We would also 
-	like our robot to plan further ahead	and avoid entering traps that prevent it 
+	like our robot to plan further ahead and avoid entering traps that prevent it 
 	from reaching its goal.
 	\\
 	
@@ -159,51 +159,14 @@
 	like ground surface, rocks or large trunks, respectively.
 	\\	
 	
-	\todo[size={{\scriptsize}}]{Should I not use "someone et al." at all?}
-	Later on, Suger et al. proposed a learning approach that uses a two-dimensional 
-	(\acronym{2d}) \term{occupancy grid} map, where each cell stores features 
-	that provide information from the senors \cite{Suger}. \term{Occupancy grid} 
-	maps are \acronym{2d} arrays depicting the robot’s environment with regions 
-	classified as empty, occupied or unknown (for more details about those see 
-	\cite{Moravec}). In \cite{Suger}, every sell is associated with at least one 
-	feature vector that is computed from the \acronym{3d} \term{point clouds} that 
-	are mapped to the respective cell. The authors use the features mentioned 
-	bellow (mostly geometrical, like in \cite{Lalonde}) to distinguish different 
-	types of terrain as well as \term{traversability} constraints of the robot. 
-	\begin{enumerate}
-		\item[$\bullet$] Maximum height difference and
-		\item[$\bullet$] slope 
-	\end{enumerate}
-	reflect the ground-clearance of the robot as well as the motor power.
-	\begin{enumerate}
-		\item[$\bullet$] Roughness and
-		\item[$\bullet$] remission values (meaning the the reflection or scattering 
-		of light by a material) 
-	\end{enumerate}
-	help to distinguish concrete and vegetation types.
-	\\
-	
-	Wigness et al. proposed another way to learn new behaviors quickly in the 
-	field with no or minimal human supervision. They propose a methodology for 
-	learning reward functions from human examples via visual perception 
-	\cite{Wigness}. This means that the agent learns how to simply assign costs 
-	to distinct terrain types, and follows the trajectory with the minimum cost. 
-	This approach is more focused than \cite{Suger} in following the optimum path, 
-	but less in experimenting with \term{traversability}. It also insists on 
-	dynamic environments, while \cite{Suger} interprets the characteristic of 
-	\term{traversability} to be static, and further assume that dynamic objects 
-	are detected and removed in advance.
-	\\
-	
-	
 	A different line of research starts with Pfaff et al. that decided to represent 
 	the environment of a mobile robot with \term{elevation maps}, another geometric 
 	approach. A \term{digital elevation map} (\acronym{dem}) is also known as 
 	\term{2\(\itfrac{1}{2}\)-dimensional representation} of the environment 
-	\cite{Pfaff}. It is a \acronym{2d} array of terrain elevation measurements. More 
-	concrete, it is a grid that stores in each cell the vertical distance above or 
-	below the corresponding surface (additional information about \acronym{dem} can 
-	be found in \cite{Kweon}). 
+	\cite{Pfaff}. It is a two-dimensional (\acronym{2d}) array of terrain elevation 
+	measurements. More concrete, it is a grid that stores in each cell the vertical 
+	distance above or below the corresponding surface (additional information about 
+	\acronym{dem} can be found in \cite{Kweon}). 
 	\par 
 	The representation of the environment with \term{elevation maps}, however, can 
 	be problematic when a robot has to utilize these maps for navigation. For 
@@ -224,23 +187,29 @@
 	around it. But it has no a priori knowledge of the kind of terrain it will 
 	traverse, so it must learn as it goes along by observing the geometry and 
 	appearance of the terrain. That is both proprioceptive and exteroceptive sensory 
-	data processing (more about them can be found in \cite{Papadakis}). 
+	data processing (more about them can be found in \cite{Papadakis}). In a few 
+	words, proprioceptive analysis is useful in learning while the vehicle traverses 
+	a given terrain, gathering data with on-board sensors as it goes. On the other 
+	hand extreroceptive data processing is divided in geometry-based and appearance-
+	based analysis. 
 	\par
 	Shneier et al. follow an approach such as the above. They use a local 
 	\term{occupancy grid} map that scrolls under the vehicle as the vehicle moves,
-	and cells that scroll off the end of the map are forgotten \cite{Shneier}. They 
-	do not use a global map and the previous known information is forgotten once the 
-	robot moves away from that location. Considering distance above or below the 
-	ground, color, texture, and contrast, they estimate each cell’s 
-	\term{traversability}. This estimation of the cost of traversing regions is used 
-	to generate models of terrain in order for the robot to learn from its own 
-	experience.
+	and cells that scroll off the end of the map are forgotten \cite{Shneier}. 
+	\term{Occupancy grid} maps are \acronym{2d} arrays depicting the robot’s 
+	environment with regions classified as empty, occupied or unknown (for more 
+	details about those see \cite{Moravec}). In \cite{Shneier} the authors do not 
+	use a global map and the previous known information is forgotten once the robot 
+	moves away from that location. Considering distance above or below the ground, 
+	color, texture, and contrast, they estimate each cell’s \term{traversability}. 
+	This estimation of the cost of traversing regions is used to generate models of 
+	terrain in order for the robot to learn from its own experience.
 	\\
 	
 	Another \term{hybrid} approach except \cite{Shneier} is this of Kim. et al. They 
 	developed a method that is based on autonomous training data collection which 
 	exploits the robot’s experience in navigating its environment to train 
-	classifiers without human intervention \cite{Kim}.  The main idea is that image 
+	classifiers without human intervention \cite{Kim}. The main idea is that image-
 	data obtained in the past is associated with \term{traversability} labels 
 	obtained in the present. The learning process produces a classifier which makes 
 	\term{traversability} predictions for new terrain regions. Successes and failures 
@@ -248,18 +217,57 @@
 	cells in a grid-based representation of the terrain surrounding the vehicle. 
 	Cells under the robot footprint that can be driven over are traversable and 
 	therefore yield positive training examples, while those that hinder the robot’s 
-	motion are non-traversable and result in negative examples. That comes in 
-	contrast with \cite{Suger} that collect partially and only positive labeled 
-	training data.
+	motion are non-traversable and result in negative examples.
 	\\
 	
+	\todo[size={{\scriptsize}}]{Should I not use "someone et al." at all?}
+	Later on, Suger et al. proposed a learning approach that uses a \acronym{2d} 
+	\term{occupancy grid} map (like in \cite{Shneier}), where each cell stores 
+	features that provide information from the senors \cite{Suger}. Every sell is 
+	associated with at least one feature vector that is computed from the \acronym{3d} 
+	\term{point clouds} (like in \cite{Lalonde}) that are mapped to the respective 
+	cell. The authors use the features mentioned bellow (mostly geometrical, like in 
+	\cite{Lalonde, Pfaff}) to distinguish different types of terrain as well as 
+	\term{traversability} constraints of the robot. 
+	\begin{enumerate}
+		\item[$\bullet$] Maximum height difference and
+		\item[$\bullet$] slope 
+	\end{enumerate}
+	reflect the ground-clearance of the robot as well as the motor power.
+	\begin{enumerate}
+		\item[$\bullet$] Roughness and
+		\item[$\bullet$] remission values (meaning the the reflection or scattering 
+		of light by a material) 
+	\end{enumerate}
+	help to distinguish concrete and vegetation types.
+	\par
+	In contrast with \cite{Kim}, they collect partially and only positive labeled 
+	training data. And then they use existing strategies \cite{Denis, Elkan} to 
+	learn a classifier from this kind of training data.
+	\\
 	
-
-
+	Subsequently, Wigness et al. proposed another way to learn new behaviors quickly 
+	in the field with no or minimal human supervision. They propose a methodology 
+	for learning reward functions from human examples via visual perception 
+	\cite{Wigness}. This means that the agent learns how to simply assign costs to 
+	distinct terrain types, and follows the trajectory with the minimum cost. This 
+	approach is more focused than \cite{Suger} in following the optimum path, but 
+	less in experimenting with \term{traversability}. It also insists on dynamic 
+	environments, while \cite{Suger} interprets the characteristic of 
+	\term{traversability} to be static, and further assume that dynamic objects are 
+	detected and removed in advance.
+	\\
+	
 	\todo[size={{\scriptsize}}]{Don't know where I'm going to use it yet.}
 	\cite{Papadakis}: The attention had most often been focused on methodologies that access the 
 	\term{traversability} characteristics before actually driving over the respective 
 	region.
+	\\
+	
+	Now that we know some important and a lot of recent projects on the 
+	\term{traversability} estimation matter, we need to find out how to gather all 
+	the data needed. In the next section, we present methods for collecting the data 
+	required by the algorithms above and sensors needed to collect them.
 	\\
 	
 	\section{Data collection methods}
@@ -346,6 +354,12 @@
 	incrementally updated with new data only. That comes with the advantage that the 
 	updated classifier is immediately available for navigation and that the 
 	memory requirements for learning are reduced, compared to off-line methods.
+	\\
+	
+	But why do we want to collect data and estimate the terrain \term{traversability}?
+	What is the goal to achieve? Do we want the robot to reach a specific goal? Find 
+	the best trajectory? Explore the environment? A discussion of this topic is made 
+	in the following section.
 	\\
 	
 	\section{Goals of operation}
