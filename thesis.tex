@@ -42,8 +42,8 @@
 	vehicle to navigate within environments of varying complexity, while ensuring 
 	safety in terms of collisions or reaching unrecoverable states and achieving 
 	goals in an optimal mode of operation \cite{Papadakis}. Occasionally other 
-	terms such as \term{mobility} \cite{Lalonde}, \term{terrainability}, etc are 
-	used to describe the same thing.
+	terms such as \term{mobility} \cite{Lalonde}, \term{drivability} \cite{Droeschel}, 
+	etc are used to describe the same thing.
 	\\
 	
 	Although \term{traversability} is considered a fundamental capability for mobile 
@@ -263,18 +263,6 @@
 	learn a classifier from this kind of training data.
 	\\
 	
-	Subsequently, Wigness et al. proposed another way to learn new behaviors quickly 
-	in the field with no or minimal human supervision. They propose a methodology 
-	for learning reward functions from human examples via visual perception 
-	\cite{Wigness}. This means that the agent learns how to simply assign costs to 
-	distinct terrain types, and follows the trajectory with the minimum cost. This 
-	approach is more focused than \cite{Suger} in following the optimum path, but 
-	less in experimenting with \term{traversability}. It also insists on dynamic 
-	environments, while \cite{Suger} interprets the characteristic of 
-	\term{traversability} to be static, and further assume that dynamic objects are 
-	detected and removed in advance.
-	\\
-	
 	Similarly to \cite{Kim}, Lee et al. employ a self-supervised on-line learning 
 	approach. As the vehicle explores its environment, the classifier is trained 
 	incrementally with autonomously labeled training samples \cite{Lee}. Their 
@@ -288,6 +276,34 @@
 	estimation. For example \cite{Suger} uses a naive Bayes classifier \cite{Denis}, 
 	and \cite{Lalonde} uses Bayesian classification to label the incoming data.
 	\\
+	
+	Several authors have considered the problem of simultaneous localization and 
+	mapping (\acronym{slam}) in an outdoor environment. Some tried to solve it with 
+	\term{elevation maps} generated from \acronym{3d} range data acquired with a 
+	mobile robot \cite{Pfaff}. But \term{elevation maps} only model a single surface, 
+	they lack the ability to represent vertical structures or even multiple levels.
+	\term{Multi-level surface maps} (\acronym{mls} maps), on the other hand, store 
+	multiple heights in each grid cell. This allows a mobile robot to model 
+	environments with more than on surface, such as bridges, underpasses, buildings 
+	or mines (you can find out more about \acronym{mls} maps in \cite{Triebel}). The 
+	approach of \cite{Pfaff} allows to deal with vertical and overhanging objects in 
+	\term{elevation maps}, by proposing a method for detecting loop closures, but it 
+	still lacks the ability to represent multiple surfaces.
+	\\
+	
+	Subsequently, Wigness et al. proposed another way to learn new behaviors quickly 
+	in the field with no or minimal human supervision. They propose a methodology 
+	for learning reward functions from human examples via visual perception 
+	\cite{Wigness}. This means that the agent learns how to simply assign costs to 
+	distinct terrain types, and follows the trajectory with the minimum cost. This 
+	approach is more focused than \cite{Suger} in following the optimum path, but 
+	less in experimenting with \term{traversability}. It also insists on dynamic 
+	environments, while \cite{Suger} interprets the characteristic of 
+	\term{traversability} to be static, and further assume that dynamic objects are 
+	detected and removed in advance.
+	\\
+	
+	
 	
 	
 	
@@ -396,11 +412,12 @@
 	A natural thing would be to let the robot learn about the \term{traversability} 
 	of the environment, while another perspective would be to concentrate on more 
 	preservative situations, such as go or no-go \cite{Hirose}. Even though the 
-	former method allows the robot to autonomously learn a model of the environment, 
-	the trial and error part of it involves a high risk to damage the robot. The 
-	latter, on the other hand, has as main priority to prevent robots from 
-	colliding with objects, injuring people, getting stuck in constrained spaces, 
-	or falling over an edge. 
+	former method allows the robot to autonomously learn a model of the environment,
+	encourages exploration and consequently improves the learning and generalization 
+	performance \cite{Zhelo}, the trial and error part of it involves a high risk to 
+	damage the robot. The latter, on the other hand, has as main priority to prevent 
+	robots from colliding with objects, injuring people, getting stuck in constrained 
+	spaces, or falling over an edge. 
 	\par
 	A third approach would be to let the autonomous vehicle navigate from a defined 
 	start point to a fixed goal	point \cite{Shneier, Zhelo}. That way the robot has 
@@ -415,10 +432,15 @@
 	
 	\section{Prototype implementations / reference implementation}
 	\label{sec:bg:code}
-	
-	URLs and comments about the work above that will actually be used as 
-	the experimental basis
+
+	Here we give some \acronym{url}s and comments about the work above. Some of them 
+	might actually be used as our experimental basis.
 	\\
+		
+	\begin{table}[h]
+		\centering	
+		\input{urls}
+	\end{table} 
 		
 	\section{Conclusions}
 	\label{sec:bg:concl}
