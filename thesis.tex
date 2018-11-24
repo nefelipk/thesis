@@ -177,7 +177,7 @@
 	
 	A different line of research starts with Pfaff et al. that decided to represent 
 	the environment of a mobile robot with \term{elevation maps}, another geometric 
-	approach. A \term{digital elevation map} (\acronym{dem}) is also known as 
+	approach. A \term{digital elevation map} (\acronym{dem}) is also known as a
 	\term{2\(\itfrac{1}{2}\)-dimensional representation} of the environment 
 	\cite{Pfaff}. It is a two-dimensional (\acronym{2d}) array of terrain elevation 
 	measurements. More concrete, it is a grid that stores in each cell the vertical 
@@ -283,12 +283,35 @@
 	mobile robot \cite{Pfaff}. But \term{elevation maps} only model a single surface, 
 	they lack the ability to represent vertical structures or even multiple levels.
 	\term{Multi-level surface maps} (\acronym{mls} maps), on the other hand, store 
-	multiple heights in each grid cell. This allows a mobile robot to model 
+	multiple heights in each grid cell. This extension allows a mobile robot to model 
 	environments with more than on surface, such as bridges, underpasses, buildings 
 	or mines (you can find out more about \acronym{mls} maps in \cite{Triebel}). The 
 	approach of \cite{Pfaff} allows to deal with vertical and overhanging objects in 
 	\term{elevation maps}, by proposing a method for detecting loop closures, but it 
-	still lacks the ability to represent multiple surfaces.
+	still lacks the ability to represent multiple surfaces. For example, the robot 
+	can plan a path under a bridge but not over it.
+	\par
+	Droeschel et al. use a different way for continuous mapping and localization 
+	\cite{Droeschel}. \sout{Their representation consists of multiple robot-centered 
+	\acronym{3d} grid maps with different resolutions.} For instance, distance 
+	measurements are accumulated in a \acronym{3d} map with increasing cell sizes 
+	from the robot center. \sout{The height from ground or the occupancy information are 
+	stored in separate \acronym{3d} maps, and so forth.} Since the robot, hence the 
+	sensor too, is moving during acquisition of the data, individual grid cells are 
+	stored in a circular buffer to allow for shifting elements in constant time. So 
+	when the robot moves, the circular buffers are shifted whenever necessary to 
+	maintain the egocentric property of the map.
+	
+	\todo[size={{\scriptsize}}]{Abstract, chapters 4 and 6}
+	!!! Multi-resolution and allocentric map !!!
+	
+	Fully continuous mapping and
+	localization during mission, without the necessity to map the environment beforehand
+	or to stop for acquiring new 3D scans and to process them.
+	
+	The authors track the pose hypothesis by alternating the prediction of the robot 
+	movement given the filter result and alignment of the current local multiresolution 
+	map towards the allocentric map of the environment.
 	\\
 	
 	Subsequently, Wigness et al. proposed another way to learn new behaviors quickly 
@@ -301,18 +324,8 @@
 	environments, while \cite{Suger} interprets the characteristic of 
 	\term{traversability} to be static, and further assume that dynamic objects are 
 	detected and removed in advance.
-	\\
+	\\\\
 	
-	
-	
-	
-	
-	
-	\todo[size={{\scriptsize}}]{Don't know where I'm going to use it yet.}
-	\cite{Papadakis}: The attention had most often been focused on methodologies that access the 
-	\term{traversability} characteristics before actually driving over the respective 
-	region.
-	\\
 	
 	Now that we know some important and a lot of recent projects on the 
 	\term{traversability} estimation matter, we need to find out how to gather all 
@@ -371,10 +384,16 @@
 	
 	A third choice is to use haptic information, via on-board sensors such as 
 	\acronym{imu} (acronym for inertial measurement unit), motor current, and bumper 
-	switch \cite{Kim} or even wheel encoder data \cite{Lee}. This makes is possible 
-	to assess the progress of the robot automatically. That way successes and 
-	failures of the navigation provide positive and negative \term{traversability} 
-	examples. This kind of approaches can make predictions about the 
+	switch \cite{Kim} or even wheel encoder data \cite{Lee} (like wheel odometry 
+	measurements \cite{Droeschel}). \acronym{imu} is an electronic device that 
+	measures and reports a robot's specific force, angular rate, and sometimes the 
+	magnetic field surrounding it, using a combination of accelerometers and 
+	gyroscopes, sometimes also magnetometers. 
+	\par
+	The use of the sensors above make is possible to assess the progress of the 
+	robot automatically and estimate its motion \cite{Droeschel}. That way successes 
+	and failures of the navigation provide positive and negative \term{traversability} 
+	examples \cite{Kim}. This kind of approaches can make predictions about the 
 	\term{traversability} of the terrain based on the robot's past experiences and 
 	navigation sensor values.
 	\\
@@ -394,10 +413,17 @@
 	environment, but also with a bumper switch at the front of the vehicle that can 
 	be used along with motor current sensors to recognize situations like getting 
 	stuck or slipping \cite{Kim}.
-	\\
-
+	\\\\
 	
-
+	
+	In some cases, a forward-looking image alone may be insufficient for planning and 
+	navigation \cite{Kweon}. Robots operating in rough terrain may require knowledge 
+	of terrain that has been observed but is currently out of the sensor field of 
+	view such as terrain under and behind the robot. To resolve this problem one can 
+	use a laser scanner that rotates around a vertical axis \cite{Droeschel}. That 
+	way the sensor can measure in all directions, except for a cylindrical blind spot 
+	around the vertical axis centered on the robot.
+	\\\\
 	
 	
 	But why do we want to collect data and estimate the terrain \term{traversability}?
