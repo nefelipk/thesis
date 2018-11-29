@@ -12,6 +12,7 @@
 \usepackage[normalem]{ulem}
 \usepackage{amsmath}
 
+\newcommand{\etal}[1]{#1 et al.}
 \newcommand{\defn}{\enquote}
 \newcommand{\term}{\textit}
 \newcommand{\acronym}{\MakeUppercase}
@@ -64,11 +65,11 @@
 	\\
 	
 	Supervised learning approaches are unlikely to work reliably in unknown or 
-	unstructured outdoor environments because the system assesses the 
+	unstructured outdoor environments. That is because the system assesses the 
 	\term{traversability} using an off-line learned model trained with specific 
 	terrain types. For example, if a system is trained with terrain samples in a 
 	specific season, the systems might not detect traversable regions in other 
-	seasons \cite{Lee}. 
+	seasons \cite{Lee}.
 	\par
 	Unsupervised, or else self-supervised, learning approaches may be the solution 
 	to this problem. They use on-line learning methods in order to exploit newly-
@@ -164,7 +165,7 @@
 	most recent and most influential.
 	\\
 	
-	This line of research starts with Lalonde et al. that segment local three-
+	This line of research starts with \etal{Lalonde} that segment local three-
 	dimensional (\acronym{3d}) \term{point clouds} using a purely geometric 
 	approach \cite{Lalonde}, for autonomous robot navigation purposes. A 
 	\term{point cloud} is a set of data points in space, generally produced by 
@@ -175,7 +176,7 @@
 	like ground surface, rocks or large trunks, respectively.
 	\\	
 	
-	A different line of research starts with Pfaff et al. that decided to represent 
+	A different line of research starts with \etal{Pfaff} that decided to represent 
 	the environment of a mobile robot with \term{elevation maps}, another geometric 
 	approach. A \term{digital elevation map} (\acronym{dem}) is also known as a
 	\term{2\(\itfrac{1}{2}\)-dimensional representation} of the environment 
@@ -209,7 +210,7 @@
 	hand extreroceptive data processing is divided in geometry-based and appearance-
 	based analysis. 
 	\par
-	Shneier et al. follow an approach such as the above. They use a local 
+	\etal{Shneier} follow an approach such as the above. They use a local 
 	\term{occupancy grid} map that scrolls under the vehicle as the vehicle moves,
 	and cells that scroll off the end of the map are forgotten \cite{Shneier}. 
 	\term{Occupancy grid} maps are \acronym{2d} arrays depicting the robot’s 
@@ -222,7 +223,7 @@
 	terrain in order for the robot to learn from its own experience.
 	\\
 	
-	Another \term{hybrid} approach except \cite{Shneier} is this of Kim. et al. They 
+	Another \term{hybrid} approach except \cite{Shneier} is this of \etal{Kim}. They 
 	developed a method that is based on autonomous training data collection which 
 	exploits the robot’s experience in navigating its environment to train 
 	classifiers without human intervention \cite{Kim}. The main idea is that image-
@@ -237,8 +238,7 @@
 	traversable and result in negative examples.
 	\\
 	
-	\todo[size={{\scriptsize}}]{Should I not use "someone et al." at all?}
-	Later on, Suger et al. proposed a learning approach that uses a \acronym{2d} 
+	Later on, \etal{Suger} proposed a learning approach that uses a \acronym{2d} 
 	\term{occupancy grid} map (like in \cite{Shneier}), where each cell stores 
 	features that provide information from the senors \cite{Suger}. Every sell is 
 	associated with at least one feature vector that is computed from the \acronym{3d} 
@@ -263,7 +263,7 @@
 	learn a classifier from this kind of training data.
 	\\
 	
-	Similarly to \cite{Kim}, Lee et al. employ a self-supervised on-line learning 
+	Similarly to \cite{Kim}, \etal{Lee} employ a self-supervised on-line learning 
 	approach. As the vehicle explores its environment, the classifier is trained 
 	incrementally with autonomously labeled training samples \cite{Lee}. Their 
 	approach determines whether unknown regions in front of a vehicle are drivable 
@@ -291,7 +291,7 @@
 	still lacks the ability to represent multiple surfaces. For example, the robot 
 	can plan a path under a bridge but not over it.
 	\par
-	Droeschel et al. use a different way for continuous mapping and localization 
+	\etal{Droeschel} use a different way for continuous mapping and localization 
 	\cite{Droeschel}. \sout{Their representation consists of multiple robot-centered 
 	\acronym{3d} grid maps with different resolutions.} For instance, distance 
 	measurements are accumulated in a \acronym{3d} map with increasing cell sizes 
@@ -314,7 +314,7 @@
 	map towards the allocentric map of the environment.
 	\\
 	
-	Subsequently, Wigness et al. proposed another way to learn new behaviors quickly 
+	Subsequently, \etal{Wigness} proposed another way to learn new behaviors quickly 
 	in the field with no or minimal human supervision. They propose a methodology 
 	for learning reward functions from human examples via visual perception 
 	\cite{Wigness}. This means that the agent learns how to simply assign costs to 
