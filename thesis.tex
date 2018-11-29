@@ -285,17 +285,22 @@
 	\term{Multi-level surface maps} (\acronym{mls} maps), on the other hand, store 
 	multiple heights in each grid cell. This extension allows a mobile robot to model 
 	environments with more than on surface, such as bridges, underpasses, buildings 
-	or mines (you can find out more about \acronym{mls} maps in \cite{Triebel}). The 
-	approach of \cite{Pfaff} allows to deal with vertical and overhanging objects in 
-	\term{elevation maps}, by proposing a method for detecting loop closures, but it 
-	still lacks the ability to represent multiple surfaces. For example, the robot 
-	can plan a path under a bridge but not over it.
+	or mines (you can find out more about \acronym{mls} maps in \cite{Triebel}). 
 	\par
-	\etal{Droeschel} use a different way for continuous mapping and localization 
-	during mission, without the necessity to map the environment beforehand or to 
-	stop for acquiring new \acronym{3d} scans and to process them \cite{Droeschel}. 
-	Their representation consists of local maps (multiresolution maps as the authors 
-	call them) and a global map (called allocentric map).
+	The approach of \cite{Pfaff} allows to deal with vertical and overhanging objects 
+	in \term{elevation maps}, by proposing a method for detecting \term{loop closures}. 
+	This problem consists in detecting when the robot has returned to a past location 
+	after having discovered new terrain for a while. Despite their efforts, 
+	\cite{Pfaff} still lacks the ability to represent multiple surfaces. For example, 
+	the robot can plan a path under a bridge but not over it.
+	\par
+	The attention had most often been focused on methodologies that access the 
+	\term{traversability} characteristics before actually driving over the respective 
+	region \cite{Papadakis}. But \etal{Droeschel} use a way for continuous mapping 
+	and localization during mission, without the necessity to map the environment 
+	beforehand or to stop for acquiring new \acronym{3d} scans and to process them 
+	\cite{Droeschel}. Their representation consists of local maps (multiresolution 
+	maps as the authors call them) and a global map (called allocentric map).
 	\par
 	Each local map is a robot-centered \acronym{3d} grid map. It has high resolution 
 	in the vicinity of the robot and coarser resolutions with increasing distance 
@@ -309,11 +314,11 @@
 	The global map is built from local multiresolution maps acquired at different 
 	view poses of the robot. This is useful in order to overcome pose errors and to 
 	localize the robot with respect to a fixed frame. While traversing the environment, 
-	a local map is extended whenever the robot explores previously unseen terrain and 
-	optimized when a loop closure has been detected. The authors localize towards this 
-	local map during mission to get the pose of the robot in the global map. They 
-	assess the \term{traversability} of the terrain by analyzing height differences 
-	in the global map and plan cost-optimal paths.
+	a local map is extended whenever the robot explores previously unseen terrain 
+	and optimized when a \term{loop closure} has been detected. The authors localize 
+	towards this local map during mission to get the pose of the robot in the global 
+	map. They assess the \term{traversability} of the terrain by analyzing height 
+	differences in the global map and plan cost-optimal paths.
 	\\
 	
 	Subsequently, \etal{Wigness} proposed another way to learn new behaviors quickly 
@@ -347,6 +352,14 @@
 	intersect with the projection of the footprint of the robot as positive examples. 
 	This has the drawback that the labeled data are only positive examples, leaving 
 	tons of unlabeled data to learn from.
+	\par
+	A similar approach is to train the robot with many positive images of traversable 
+	places and just a small set of negative	images depicting blocked and unsafe areas 
+	\cite{HiroseGonet}. The positive examples can be collected easily by simply 
+	operating the robot through traversable spaces, while obtaining negative examples 
+	is time consuming, costly, and potentially dangerous. But small amounts of 
+	negative examples can improve \term{traversability} estimation in comparison to 
+	using only positive data.
 	\par 
 	In a variation of this, optimal trajectory examples are collected \cite{Wigness} 
 	in order to be used from a reward function and train the robot.
@@ -372,16 +385,20 @@
 	illuminating the target with pulsed laser light and measuring the reflected 
 	pulses with a sensor. Differences in laser return times and wavelengths that 
 	can then be used to make digital \acronym{3d} representations of the target.
+	Some main disadvantages of \acronym{lidar} sensors are that they are expensive 
+	and they often have trouble sensing highly reflective surfaces and transparent 
+	objects, such as mirrors and glass doors \cite{HiroseGonet}.
 	\\
 	
 	Others do not use geometric data, but instead concentrate on visual data, 
 	\term{appearance-based} methodologies as they are called from \cite{Papadakis}. 
 	Instead of using \acronym{lidar} \cite{Lalonde, Suger}, they use different 
-	sensors, like onboard and off-the-shelf fisheye camera \cite{Hirose}, to 
-	estimate whether a physical space is traversable or not. This kind of 
-	approaches are mainly focused on obstacle detection and avoidance, and less 
-	on \term{traversability} estimation for obstacles that may seem untraversable 
-	while in fact can be easily driven over by a robot, like tall grass.
+	sensors, like onboard and off-the-shelf fisheye camera \cite{Hirose, HiroseGonet}, 
+	to estimate whether a physical space is traversable or not. This kind of 
+	approaches are mainly focused on obstacle detection and avoidance, even in 
+	dynamic environments. But they less interested in \term{traversability} 
+	estimation for obstacles that may seem untraversable while in fact can be 
+	easily driven over by a robot, like tall grass.
 	\\
 	
 	A third choice is to use haptic information, via on-board sensors such as 
@@ -415,6 +432,11 @@
 	environment, but also with a bumper switch at the front of the vehicle that can 
 	be used along with motor current sensors to recognize situations like getting 
 	stuck or slipping \cite{Kim}.
+	\par
+	The reason why proprioceptive sensory may not be sufficient on their own is that 
+	bumpers, for example, do not prevent robots from falling off edges and can fail 
+	to detect small obstacles \cite{HiroseGonet}. That is why all geometric, 
+	appearance and haptic information are useful.
 	\\\\
 	
 	
