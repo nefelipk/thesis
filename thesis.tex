@@ -292,26 +292,28 @@
 	can plan a path under a bridge but not over it.
 	\par
 	\etal{Droeschel} use a different way for continuous mapping and localization 
-	\cite{Droeschel}. \sout{Their representation consists of multiple robot-centered 
-	\acronym{3d} grid maps with different resolutions.} For instance, distance 
-	measurements are accumulated in a \acronym{3d} map with increasing cell sizes 
-	from the robot center. \sout{The height from ground or the occupancy information are 
-	stored in separate \acronym{3d} maps, and so forth.} Since the robot, hence the 
-	sensor too, is moving during acquisition of the data, individual grid cells are 
-	stored in a circular buffer to allow for shifting elements in constant time. So 
-	when the robot moves, the circular buffers are shifted whenever necessary to 
-	maintain the egocentric property of the map.
-	
-	\todo[size={{\scriptsize}}]{Abstract, chapters 4 and 6}
-	!!! Multi-resolution and allocentric map !!!
-	
-	Fully continuous mapping and
-	localization during mission, without the necessity to map the environment beforehand
-	or to stop for acquiring new 3D scans and to process them.
-	
-	The authors track the pose hypothesis by alternating the prediction of the robot 
-	movement given the filter result and alignment of the current local multiresolution 
-	map towards the allocentric map of the environment.
+	during mission, without the necessity to map the environment beforehand or to 
+	stop for acquiring new \acronym{3d} scans and to process them \cite{Droeschel}. 
+	Their representation consists of local maps (multiresolution maps as the authors 
+	call them) and a global map (called allocentric map).
+	\par
+	Each local map is a robot-centered \acronym{3d} grid map. It has high resolution 
+	in the vicinity of the robot and coarser resolutions with increasing distance 
+	(hence its name \term{multiresolution map}). Each cell stores \acronym{3d} point 
+	measurements (including height from ground) along with occupancy information. 
+	Since the robot, hence the sensor too, is moving during acquisition of the data, 
+	individual grid cells are stored in a circular buffer to allow for shifting 
+	elements in constant time. So when the robot moves, the circular buffers are 
+	shifted whenever necessary to maintain the egocentric property of the map.
+	\par
+	The global map is built from local multiresolution maps acquired at different 
+	view poses of the robot. This is useful in order to overcome pose errors and to 
+	localize the robot with respect to a fixed frame. While traversing the environment, 
+	a local map is extended whenever the robot explores previously unseen terrain and 
+	optimized when a loop closure has been detected. The authors localize towards this 
+	local map during mission to get the pose of the robot in the global map. They 
+	assess the \term{traversability} of the terrain by analyzing height differences 
+	in the global map and plan cost-optimal paths.
 	\\
 	
 	Subsequently, \etal{Wigness} proposed another way to learn new behaviors quickly 
