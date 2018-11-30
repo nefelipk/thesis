@@ -352,9 +352,13 @@
 	training or generation of samples \cite{Goodfellow}. A Markov chain is a 
 	stochastic (or random) process describing a sequence of possible events in which 
 	the probability of each event depends only on the state attained in the previous 
-	event. It has actually many similarities with Bayes' theorem mentioned above.
-	Markov Random Field (\acronym{mrf}): \cite{Pfaff, Lalonde}
-	Markov Decision Process (\acronym{mdp}): \cite{Wigness, Zhelo}
+	event. It has actually many similarities with Bayes' theorem mentioned above. 
+	Many authors use an extension of Markov chains, named Markov Decision Process 
+	(\acronym{mdp}), to formulate the problem of autonomous navigation and allow 
+	mobile robots to make decisions \cite{Wigness, Zhelo}. Others use Markov Random 
+	Field (\acronym{mrf}) to i.e. enforce spatial consistency in a map or the 
+	preference that neighboring points have the same label \cite{Lalonde} 
+	(for additional information see \cite{Li}).
 	\par
 	Returning to GONet \cite{HiroseGonet}, intuitively, it works comparing two images, 
 	an input image and a generated one. The generated image is created with a 
