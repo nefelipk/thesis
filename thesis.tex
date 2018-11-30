@@ -183,7 +183,7 @@
 	\cite{Pfaff}. It is a two-dimensional (\acronym{2d}) array of terrain elevation 
 	measurements. More concrete, it is a grid that stores in each cell the vertical 
 	distance above or below the corresponding surface (additional information about 
-	\acronym{dem} can be found in \cite{Kweon}). 
+	\acronym{dem}s can be found in \cite{Kweon}). 
 	\par 
 	The representation of the environment with \term{elevation maps}, however, can 
 	be problematic when a robot has to utilize these maps for navigation. For 
@@ -268,21 +268,21 @@
 	incrementally with autonomously labeled training samples \cite{Lee}. Their 
 	approach determines whether unknown regions in front of a vehicle are drivable 
 	while the vehicle is in motion and without human’s input. Their 
-	\term{traversability} detection method is based on incremental nonparametric 
-	Bayesian clustering (\acronym{inbc}). In probability theory and statistics, 
-	Bayes' theorem (alternatively Bayes' law or Bayes' rule) describes the 
-	probability of an event, based on prior knowledge of conditions that might be 
-	related to the event. Many approaches have used it for \term{traversability} 
-	estimation. For example \cite{Suger} uses a naive Bayes classifier \cite{Denis}, 
+	\term{traversability} detection method is based on \term{incremental 
+	nonparametric Bayesian clustering} (\acronym{inbc}). In probability theory and 
+	statistics, Bayes' theorem (alternatively Bayes' law or Bayes' rule) describes 
+	the probability of an event, based on prior knowledge of conditions that might 
+	be related to the event. Many approaches have used it for \term{traversability} 
+	estimation. For example, \cite{Suger} uses a naive Bayes classifier \cite{Denis}, 
 	and \cite{Lalonde} uses Bayesian classification to label the incoming data.
 	\\
 	
-	Several authors have considered the problem of simultaneous localization and 
-	mapping (\acronym{slam}) in an outdoor environment. Some tried to solve it with 
-	\term{elevation maps} generated from \acronym{3d} range data acquired with a 
+	Several authors have considered the problem of \term{simultaneous localization 
+	and mapping} (\acronym{slam}) in an outdoor environment. Some tried to solve it 
+	with \term{elevation maps} generated from \acronym{3d} range data acquired with a 
 	mobile robot \cite{Pfaff}. But \term{elevation maps} only model a single surface, 
 	they lack the ability to represent vertical structures or even multiple levels.
-	\term{Multi-level surface maps} (\acronym{mls} maps), on the other hand, store 
+	\term{Multi-level surface} maps (\acronym{mls} maps), on the other hand, store 
 	multiple heights in each grid cell. This extension allows a mobile robot to model 
 	environments with more than on surface, such as bridges, underpasses, buildings 
 	or mines (you can find out more about \acronym{mls} maps in \cite{Triebel}). 
@@ -299,19 +299,19 @@
 	region \cite{Papadakis}. But \etal{Droeschel} use a way for continuous mapping 
 	and localization during mission, without the necessity to map the environment 
 	beforehand or to stop for acquiring new \acronym{3d} scans and to process them 
-	\cite{Droeschel}. Their representation consists of local maps (multiresolution 
-	maps as the authors call them) and a global map (called allocentric map).
+	\cite{Droeschel}. Their representation consists of local maps (\term{multiresolution} 
+	maps as the authors call them) and a global map (called \term{allocentric} map).
 	\par
 	Each local map is a robot-centered \acronym{3d} grid map. It has high resolution 
 	in the vicinity of the robot and coarser resolutions with increasing distance 
-	(hence its name \term{multiresolution map}). Each cell stores \acronym{3d} point 
+	(hence its name \term{multiresolution} map). Each cell stores \acronym{3d} point 
 	measurements (including height from ground) along with occupancy information. 
 	Since the robot, hence the sensor too, is moving during acquisition of the data, 
 	individual grid cells are stored in a circular buffer to allow for shifting 
 	elements in constant time. So when the robot moves, the circular buffers are 
 	shifted whenever necessary to maintain the egocentric property of the map.
 	\par
-	The global map is built from local multiresolution maps acquired at different 
+	The global map is built from local \term{multiresolution} maps acquired at different 
 	view poses of the robot. This is useful in order to overcome pose errors and to 
 	localize the robot with respect to a fixed frame. While traversing the environment, 
 	a local map is extended whenever the robot explores previously unseen terrain 
@@ -331,6 +331,29 @@
 	environments, while \cite{Suger} interprets the characteristic of 
 	\term{traversability} to be static, and further assume that dynamic objects are 
 	detected and removed in advance.
+	\\
+	
+	
+	
+	\cite{HiroseGonet}: The core of the proposed approach (GONet) for traversability estimation are Generative Adversarial Networks (GANs).
+	\par
+	\acronym{gan}s are a framework for estimating generative models via an 
+	adversarial process. They simultaneously train two models. A generative model, 
+	let's say a team of counterfeiters, that captures the distribution of the 
+	training data and tries to produce fake samples and use it without detection. 
+	And a discriminative model, let's call it police, that estimates the probability 
+	that a sample came from the training data rather than the counterfeiters. 
+	Competition in this framework drives both teams to improve their methods until 
+	the counterfeits are indistinguishable from the genuine samples (more information 
+	about \acronym{gan}s can be found in \cite{Goodfellow}).
+	\par
+	There is no need for any Markov chains or approximate inferences during either 
+	training or generation of samples \cite{Goodfellow}. A Markov chain is a 
+	stochastic (or random) process describing a sequence of possible events in which 
+	the probability of each event depends only on the state attained in the previous 
+	event. It has actually many similarities with Bayes' theorem mentioned above.
+	Markov Random Field (\acronym{mrf}): \cite{Pfaff, Lalonde}
+	Markov Decision Process (\acronym{mdp}): \cite{Wigness, Zhelo}
 	\\\\
 	
 	
