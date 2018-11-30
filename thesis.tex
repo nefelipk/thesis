@@ -13,7 +13,8 @@
 \usepackage{amsmath}
 
 \newcommand{\etal}[1]{#1 et al.}
-\newcommand{\defn}{\enquote}
+\newcommand{\defn}[1]{\enquote{\textit{#1}}}
+\newcommand{\alleg}{\enquote}
 \newcommand{\term}{\textit}
 \newcommand{\acronym}{\MakeUppercase}
 \newcommand{\itfrac}[2]{\frac{\textit{#1}}{\textit{#2}}}
@@ -333,19 +334,19 @@
 	detected and removed in advance.
 	\\
 	
-	
-	
-	\cite{HiroseGonet}: The core of the proposed approach (GONet) for traversability estimation are Generative Adversarial Networks (GANs).
-	\par
-	\acronym{gan}s are a framework for estimating generative models via an 
-	adversarial process. They simultaneously train two models. A generative model, 
-	let's say a team of counterfeiters, that captures the distribution of the 
-	training data and tries to produce fake samples and use it without detection. 
-	And a discriminative model, let's call it police, that estimates the probability 
-	that a sample came from the training data rather than the counterfeiters. 
-	Competition in this framework drives both teams to improve their methods until 
-	the counterfeits are indistinguishable from the genuine samples (more information 
-	about \acronym{gan}s can be found in \cite{Goodfellow}).
+	\etal{Hirose} introduced a semi-supervised approach for \term{traversability} 
+	estimation, called GONet \cite{HiroseGonet}. The core of the proposed approach 
+	are Generative Adversarial Networks (\acronym{gan}s). \acronym{gan}s are a 
+	framework for estimating generative models via an adversarial process. They 
+	simultaneously train two models. A generative model, let's say \alleg{a team of 
+	counterfeiters}, that captures the distribution of the training data and tries 
+	to produce fake samples and use it without detection. And a discriminative model, 
+	let's call it \alleg{police}, that tries to detect the fake images by estimating 
+	the probability that a sample came from the training data rather than the 
+	\alleg{counterfeiters}. Competition in this framework drives both teams to 
+	improve their methods until the \alleg{counterfeits} are indistinguishable from 
+	the genuine samples (more information about \acronym{gan}s can be found in 
+	\cite{Goodfellow}).
 	\par
 	There is no need for any Markov chains or approximate inferences during either 
 	training or generation of samples \cite{Goodfellow}. A Markov chain is a 
@@ -354,6 +355,20 @@
 	event. It has actually many similarities with Bayes' theorem mentioned above.
 	Markov Random Field (\acronym{mrf}): \cite{Pfaff, Lalonde}
 	Markov Decision Process (\acronym{mdp}): \cite{Wigness, Zhelo}
+	\par
+	Returning to GONet \cite{HiroseGonet}, intuitively, it works comparing two images, 
+	an input image and a generated one. The generated image is created with a 
+	particular class of \acronym{gan}s trained on positive examples only. It is 
+	similar to the input image and looks as if it came from the actual positive 
+	examples. The GONet compares the input with the generated image to decide whether 
+	the area seen through the input image is traversable. The main assumption of 
+	the approach is that when the input indeed shows a traversable area, the 
+	generated image would look very similar to it. But when the input depicts a non-
+	traversable scenario, then the generated image would look different.
+	\par
+	The generated images not only look like	traversable areas, but also resemble the 
+	input query. To the best of the authors knowledge, they were the first that used 
+	this image manipulation technique for \term{traversability} estimation.
 	\\\\
 	
 	
@@ -376,13 +391,13 @@
 	This has the drawback that the labeled data are only positive examples, leaving 
 	tons of unlabeled data to learn from.
 	\par
-	A similar approach is to train the robot with many positive images of traversable 
-	places and just a small set of negative	images depicting blocked and unsafe areas 
-	\cite{HiroseGonet}. The positive examples can be collected easily by simply 
-	operating the robot through traversable spaces, while obtaining negative examples 
-	is time consuming, costly, and potentially dangerous. But small amounts of 
-	negative examples can improve \term{traversability} estimation in comparison to 
-	using only positive data.
+	A similar approach, inspired by the above, is to train the robot with many 
+	positive images of traversable places and just a small set of negative images 
+	depicting blocked and unsafe areas \cite{HiroseGonet}. The positive examples can 
+	be collected easily by simply operating the robot through traversable spaces, 
+	while obtaining negative examples is time consuming, costly, and potentially 
+	dangerous. But small amounts of negative examples can improve \term{traversability} 
+	estimation in comparison to using only positive data.
 	\par 
 	In a variation of this, optimal trajectory examples are collected \cite{Wigness} 
 	in order to be used from a reward function and train the robot.
