@@ -433,20 +433,31 @@
 	properties of the environment.
 	\\\\
 	
-	\todo[size={{\scriptsize}}]{Compare LIDAR and stereo camera sensory input. Is the intensity and wave information in LIDAR actually used?}
+	
+	\todo[size={{\scriptsize}}]{Comparison of LIDAR and stereo camera sensory input}
 	In environments where the ground is not flat or contains obstacles that are 
 	not purely vertical, the basic approach of classifying based on the observed 
 	obstacles from \acronym{2d} laser scanners can not be safely used anymore. 
-	In these cases, \acronym{3d} range data, e.g. \acronym{3d} \acronym{lidar} 
-	data, is necessary \cite{Suger, Lalonde}. \acronym{lidar} (also called \term{ladar} 
-	\cite{Lalonde, Shneier}) is an acronym used for \term{light detection and 
-	ranging}. It is a surveying method that measures distance to a target by 
-	illuminating the target with pulsed laser light and measuring the reflected 
-	pulses with a sensor. Differences in laser return times and wavelengths	
-	can then be used to make digital \acronym{3d} representations of the target.
-	Some main disadvantages of \acronym{lidar} sensors are that they are expensive 
-	and they often have trouble sensing highly reflective surfaces and transparent 
-	objects, such as mirrors and glass doors \cite{HiroseGonet}.
+	In these cases, \acronym{3d} range data, by i.e. stereo-cameras, radar or 
+	\acronym{3d}-laser scanners, is necessary. A popular approach is to use 
+	\term{light detection and ranging (\acronym{lidar})} \cite{Suger, Lalonde} (also 
+	called \term{ladar} \cite{Lalonde, Shneier}). \acronym{lidar} is a surveying 
+	method that measures distance to a target by illuminating the target with pulsed 
+	laser light and measuring the reflected pulses with a sensor. \acronym{lidar} 
+	sensors use emitted light, so they work independent of the ambient light. Night 
+	or day, clouds or sun, shadows or sunlight, they pretty much see the same in all 
+	conditions. On the other hand they often have trouble sensing highly reflective 
+	surfaces and transparent objects, such as mirrors and glass doors 
+	\cite{HiroseGonet}.
+	\par
+	Other commonly used sensors are stereo cameras. They are really inexpensive, 
+	especially compared to \acronym{lidar}. Because they use reflected light, they 
+	can see an arbitrary distance in the daytime, as opposed to \acronym{lidar} 
+	whose range of vision is limited. They also have higher resolution and are able 
+	to see color, instead of just a grayscale. But they need illumination at night, 
+	and headlights might not be enough. When it comes to geometric data, stereo 
+	camera sensory might not be enough to detect all important features with the 
+	reliability necessary for safe traversing.
 	\par
 	In occasions where sensors that can measure in all directions are needed, 
 	hardware requirements are imposed. One can use a laser scanner that rotates 
@@ -455,12 +466,12 @@
 	centered on the robot.
 	\\
 	
-	Others do not use geometric data, but instead concentrate on visual data. 
-	Instead of using \acronym{lidar} \cite{Lalonde, Suger}, they use different 
-	sensors, like fisheye camera \cite{Hirose, HiroseGonet}, 
+	Another option is to not use geometric data, but instead concentrate on visual 
+	data. Instead of using \acronym{lidar} \cite{Suger, Lalonde}, one can use 
+	different sensors, like fisheye camera \cite{Hirose, HiroseGonet}, 
 	to estimate whether a physical space is traversable or not. This kind of 
 	approaches are mainly focused on obstacle detection and avoidance, even in 
-	dynamic environments. But they less interested in traversability 
+	dynamic environments. But they are less interested in traversability 
 	estimation for obstacles that may seem untraversable while in fact can be 
 	easily driven over by a robot, like tall grass.
 	\\
@@ -482,8 +493,8 @@
 	navigation sensor values.
 	\\
 	
-	In some cases all three choices are used \cite{Kim}. While geometric data 
-	provide information about the traversability of the terrain, they are 
+	In some cases all three choices are used \cite{Kim, Shneier}. While geometric 
+	data provide information about the traversability of the terrain, they are 
 	not always sufficient to measure the affordance of traversability. For 
 	example, a short (nontraversable) tree trunk and a patch of tall (traversable) 
 	grass will result in a similar height. However, they differ in visual 
