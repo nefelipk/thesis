@@ -440,7 +440,9 @@
 	not purely vertical, the basic approach of classifying based on the observed 
 	obstacles from \acronym{2d} laser scanners can not be safely used anymore. 
 	In these cases, \acronym{3d} range data, by i.e. stereo-cameras, radar or 
-	\acronym{3d}-laser scanners, is necessary. A popular approach is to use 
+	\acronym{3d}-laser scanners, is necessary. A popular approach to collect data, 
+	\todo[size={{\scriptsize}}]{All sensors are used to collect data. So how come LIDAR and stereo camera are more "estimation" than "data collection"?}
+	either for the initial training or to use them for traversability estimation, is to use 
 	\term{light detection and ranging (\acronym{lidar})} \citep{Suger, Lalonde} (also 
 	called \term{ladar} \citep{Lalonde, Shneier}). \acronym{lidar} is a surveying 
 	method that measures distance to a target by illuminating the target with pulsed 
@@ -553,10 +555,10 @@
 	In our knowledge, most approaches concentrate on robot navigation in order to 
 	make sure they do not collide with other objects and they follow a route to 
 	reach a specific goal. There is not much work done on curiosity-driven 
-	exploration, meaning the abstract need for the robot to learn a new environment. 
-	The traversability estimation is most commonly performed in order for the robot 
-	to move safely rather than explore the environment and learn which areas are 
-	traversable and which are not.
+	exploration, where there is no explicit goal, but the abstract need for the 
+	robot to learn a new environment. The traversability estimation is most commonly 
+	performed in order for the robot to move safely rather than explore the 
+	environment and learn which areas are traversable and which are not.
 	\\
 	
 	\section{Prototype implementations / reference implementation}
