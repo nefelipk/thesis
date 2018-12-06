@@ -5,6 +5,8 @@
 \usepackage[colorlinks]{hyperref}
 \usepackage[colorinlistoftodos]{todonotes}
 
+\usepackage[numbers]{natbib}
+
 \usepackage[autostyle]{csquotes}
 \usepackage[nottoc]{tocbibind}
 \usepackage{indentfirst}
@@ -12,7 +14,6 @@
 \usepackage[normalem]{ulem}
 \usepackage{amsmath}
 
-\newcommand{\etal}[1]{#1 et al.}
 \newcommand{\defn}[1]{\enquote{\textit{#1}}}
 \newcommand{\alleg}{\enquote}
 \newcommand{\term}{\textit}
@@ -33,24 +34,24 @@
 	With this expansion of interest, it is a crucial prerequisite to reliably 
 	classify traversable ground in the environment, especially when it comes to 
 	truly autonomous/self-supervised systems. This topic is typically referred to as 
-	\term{traversability analysis} or \term{obstacle detection} \cite{Suger}. The 
+	\term{traversability analysis} or \term{obstacle detection} \citep{Suger}. The 
 	verb traverse is defined as \defn{to pass or move over, along, or through}. 
 	Hence \term{traversability} refers to the affordance of being able to traverse 
-	\cite{Ugur}. Failing on this task can cause great damage or restrict the robots 
+	\citep{Ugur}. Failing on this task can cause great damage or restrict the robots 
 	movement unnecessarily.
 	\\
 	
 	So, traversability is the generic capability of a robotic ground 
 	vehicle to navigate within environments of varying complexity, while ensuring 
 	safety in terms of collisions or reaching unrecoverable states and achieving 
-	goals in an optimal mode of operation \cite{Papadakis}. Occasionally other 
-	terms such as \term{mobility} \cite{Lalonde}, \term{drivability} \cite{Droeschel}, 
+	goals in an optimal mode of operation \citep{Papadakis}. Occasionally other 
+	terms such as \term{mobility} \citep{Lalonde}, \term{drivability} \citep{Droeschel}, 
 	etc are used to describe the same concept.
 	\\
 	
 	Although traversability is considered a fundamental capability for mobile 
 	robots, in some cases it is limited to the problem of simple obstacle avoidance 
-	\cite{Ugur}. When such approaches are used, the robot tries to avoid making any 
+	\citep{Ugur}. When such approaches are used, the robot tries to avoid making any 
 	physical contact with the environment, and heads only to open spaces. Its 
 	response would be the same whether it encounters an impenetrable wall or a 
 	balloon that can just be pushed aside without any damage. Therefore, methods 
@@ -60,9 +61,9 @@
 		
 	In addition, there is the possibility that previously learned behavior is not 
 	relevant, because the visual appearance and traversability of roads may 
-	have changed due to various reasons \cite{Wigness}. That is probably why 
+	have changed due to various reasons \citep{Wigness}. That is probably why 
 	geometry-based analysis is the direction followed by the majority of 
-	traversability analysis methodologies in the past \cite{Papadakis}.
+	traversability analysis methodologies in the past \citep{Papadakis}.
 	\\
 	
 	Supervised learning approaches are unlikely to work reliably in unknown or 
@@ -70,12 +71,12 @@
 	traversability using an off-line learned model trained with specific 
 	terrain types. For example, if a system is trained with terrain samples in a 
 	specific season, the systems might not detect traversable regions in other 
-	seasons \cite{Lee}.
+	seasons \citep{Lee}.
 	\par
 	Unsupervised, or else self-supervised, learning approaches may be the solution 
 	to this problem. They use on-line learning methods in order to exploit newly-
 	acquired training data in making traversability predictions about unknown 
-	terrain \cite{Kim}. That way the learned traversability concepts are 
+	terrain \citep{Kim}. That way the learned traversability concepts are 
 	incrementally updated with new data only. That comes with the advantage that the 
 	updated classifier is immediately available for navigation and that the memory 
 	requirements for learning are reduced, compared to off-line methods.
@@ -86,11 +87,11 @@
 	need a way to store pertinent information about the environment, recall the 
 	information at appropriate times, and reliably match stored information with 
 	newly-sensed data. They also must be able to modify the stored information to 
-	account for systematic changes in the environment \cite{Shneier}.
+	account for systematic changes in the environment \citep{Shneier}.
 	\\
 	
 	Estimating the traversability of terrain in an unstructured outdoor 
-	environment is a core functionality for autonomous robot navigation \cite{Kim}. 
+	environment is a core functionality for autonomous robot navigation \citep{Kim}. 
 	Nevertheless, the traversability of more complex terrain, such as 
 	vegetation and sloping ground, is extremely difficult to characterize a priori. 
 	It is difficult to find general rules which work for each vehicle's	capabilities
@@ -101,16 +102,16 @@
 	work reliably in unknown outdoor environments. That is why combining data 
 	collected a priori together with the vehicle’s navigation experience is more 
 	likely to work better for deciding terrain traversability (see more about 
-	\term{hybrid} approaches in \cite{Papadakis}).
+	\term{hybrid} approaches in \citet{Papadakis}).
 	\\
 	
 	Last but not least, traversability should be treated as an affordance and 
-	not simply as a predefined property of different types of terrain \cite{Kim}. 
+	not simply as a predefined property of different types of terrain \citep{Kim}. 
 	That is because a large vehicle may be able to drive over small saplings that 
 	would present an insurmountable obstacle to a smaller vehicle. A stair that is 
 	traversable for a hexapod robot may not be traversable for a wheeled one. So, 
 	when used here, \term{affordance} implies the complementarity of the robot and 
-	the environment, the interaction between them \cite{Ugur}.
+	the environment, the interaction between them \citep{Ugur}.
 	\\
 	
 	In this thesis, we will tackle how an autonomous mobile robot can improve its 
@@ -141,9 +142,9 @@
 		\item Methods for collecting the data needed by the algorithm above, from 
 		the sensory input that is available to the robot. (The input we have does not 
 		directly map to positive/negative decision).
-		\item Goals of operation. There might be an explicit goal to achieve or it 
-		could be curiosity-driven exploration, meaning the abstract need to learn a 
-		new environment.
+		\item Navigation strategies. There might be an explicit goal to achieve, e.g.
+		follow the fastest or easiest route to a target. Or it could be curiosity-driven 
+		exploration, meaning the abstract need to learn a new environment.
 	\end{enumerate}
 	
 	We will now present the state of the art in all three areas of research.
@@ -155,7 +156,7 @@
 	In order for an autonomous robot to be able to safely navigate, it is crucial 
 	for it to be able to conclude on its own the terrain traversability 
 	around it. Historically, most commonly, traversability analysis is 
-	treated as a binary classification problem \cite{Papadakis}, i.e. distinguishing 
+	treated as a binary classification problem \citep{Papadakis}, i.e. distinguishing 
 	traversable from non-traversable terrain. But later on, it became clear that 
 	rough natural terrain is not easily partitioned into clear traversable and non-
 	traversable classes. The need for finer classification was recognized. The new 
@@ -166,9 +167,9 @@
 	most recent and most influential.
 	\\
 	
-	This line of research starts with \etal{Lalonde} that segment local three-
+	This line of research starts with \citet{Lalonde} that segment local three-
 	dimensional (\acronym{3d}) \term{point clouds} using a purely geometric 
-	approach \cite{Lalonde}, for autonomous robot navigation purposes. A 
+	approach, for autonomous robot navigation purposes. A 
 	\term{point cloud} is a set of data points in space, generally produced by 
 	\acronym{3d} scanners. The approach used is a segmentation in three terrain 
 	categories, based on scatter-ness, linear-ness, and surface-ness. That way 
@@ -177,11 +178,11 @@
 	like ground surface, rocks or large trunks, respectively.
 	\\	
 	
-	A different line of research starts with \etal{Pfaff} that decided to represent 
+	A different line of research starts with \citet{Pfaff} that decided to represent 
 	the environment of a mobile robot with \term{elevation maps}, another geometric 
-	approach. A \term{digital elevation map (\acronym{dem})} \cite{Kweon} is also known as a
-	\term{2\(\itfrac{1}{2}\)-dimensional representation} of the environment 
-	\cite{Pfaff}. It is a two-dimensional (\acronym{2d}) array of terrain elevation 
+	approach. A \term{digital elevation map (\acronym{dem})} \citep{Kweon} is also 
+	known as a \term{2\(\itfrac{1}{2}\)-dimensional representation} of the environment 
+	\citep{Pfaff}. It is a two-dimensional (\acronym{2d}) array of terrain elevation 
 	measurements. More concrete, it is a grid that stores in each cell the vertical 
 	distance above or below the corresponding surface, the height of the territory. 
 	\par 
@@ -192,7 +193,7 @@
 	object.
 	\par
 	\todo[size={{\scriptsize}}]{Explanation of representation and traversability of the area under the bridge}
-	\etal{Pfaff} \cite{Pfaff} classify the cells of elevation maps into four classes: 
+	\citet{Pfaff} classify the cells of elevation maps into four classes: 
 	parts of terrain seen from above, vertical structures, vertical gaps and 
 	traversable areas. They also maintain a set of intervals per grid cell, which 
 	are computed and updated upon incoming sensor data. The authors use this 
@@ -215,17 +216,17 @@
 	around it. But it has no a priori knowledge of the kind of terrain it will 
 	traverse, so it must learn as it goes along by observing the geometry and 
 	appearance of the terrain. That is both proprioceptive and exteroceptive sensory 
-	data processing \cite{Papadakis}. In a few words, \term{proprioceptive} analysis 
+	data processing \citep{Papadakis}. In a few words, \term{proprioceptive} analysis 
 	is useful in learning while the vehicle traverses a given terrain, gathering data 
 	with on-board sensors as it goes. On the other hand \term{extreroceptive} data 
 	processing is divided in geometry-based and appearance-based analysis. 
 	\par
-	\etal{Shneier} follow a hybrid approach such as the above. They use a local 
+	\citet{Shneier} follow a hybrid approach such as the above. They use a local 
 	\term{occupancy grid} map that scrolls under the vehicle as the vehicle moves,
-	and cells that scroll off the end of the map are forgotten \cite{Shneier}. 
-	\term{Occupancy grid} maps \cite{Moravec} are \acronym{2d} arrays depicting the 
+	and cells that scroll off the end of the map are forgotten. 
+	\term{Occupancy grid} maps \citep{Moravec} are \acronym{2d} arrays depicting the 
 	robot’s environment with regions classified as empty, occupied or unknown.
-	\etal{Shneier} \cite{Shneier} do not 
+	\citet{Shneier} do not 
 	use a global map and the previous known information is forgotten once the robot 
 	moves away from that location. Considering distance above or below the ground, 
 	color, texture, and contrast, they estimate each cell’s traversability. 
@@ -233,10 +234,10 @@
 	terrain in order for the robot to learn from its own experience.
 	\\
 	
-	Another hybrid approach is this of \etal{Kim}. They 
+	Another hybrid approach is this of \citet{Kim}. They 
 	developed a method that is based on autonomous training data collection which 
 	exploits the robot’s experience in navigating its environment to train 
-	classifiers without human intervention \cite{Kim}. The main idea is that image-
+	classifiers without human intervention. The main idea is that image-
 	data obtained in the past is associated with traversability labels 
 	obtained in the present, the so called \term{on-line machine learning}. The 
 	learning process produces a classifier which makes traversability 
@@ -248,13 +249,13 @@
 	traversable and result in negative examples.
 	\\
 	
-	Later on, \etal{Suger} proposed a learning approach that uses a \acronym{2d} 
-	occupancy grid map (like \etal{Shneier} \cite{Shneier}), where each cell stores 
-	features that provide information from the senors \cite{Suger}. Every sell is 
-	associated with at least one feature vector that is computed from the \acronym{3d} 
-	point clouds (like \etal{Lalonde} \cite{Lalonde}) that are mapped to the respective 
-	cell. The authors use the features mentioned bellow (mostly geometrical, like \etal{Lalonde} and \etal{Pfaff} 
-	\cite{Lalonde, Pfaff}) to distinguish different types of terrain as well as 
+	Later on, \citet{Suger} proposed a learning approach that uses a \acronym{2d} 
+	occupancy grid map (like \citet{Shneier}), where each cell stores features that 
+	provide information from the senors. Every sell is associated with at least one 
+	feature vector that is computed from the \acronym{3d} point clouds (like 
+	\citet{Lalonde}) that are mapped to the respective cell. The authors use the 
+	features mentioned bellow (mostly geometrical, like \citet{Lalonde} and 
+	\citet{Pfaff}) to distinguish different types of terrain as well as 
 	traversability constraints of the robot. 
 	\begin{enumerate}
 		\item[$\bullet$] Maximum height difference and
@@ -268,49 +269,48 @@
 	\end{enumerate}
 	help to distinguish concrete and vegetation types.
 	\par
-	In contrast with \etal{Kim} \cite{Kim}, they collect partially and only positive labeled 
-	training data. And then they use existing strategies \cite{Denis, Elkan} to 
+	In contrast with \citet{Kim}, they collect partially and only positive labeled 
+	training data. And then they use existing strategies \citep{Denis, Elkan} to 
 	learn a classifier from this kind of training data.
 	\\
 	
-	Similarly to \etal{Kim} \cite{Kim}, \etal{Lee} employ a self-supervised on-line learning 
+	Similarly to \citet{Kim}, \citet{Lee} employ a self-supervised on-line learning 
 	approach. As the vehicle explores its environment, the classifier is trained 
-	incrementally with autonomously labeled training samples \cite{Lee}. Their 
-	approach determines whether unknown regions in front of a vehicle are drivable 
-	while the vehicle is in motion and without human’s input. Their 
-	traversability detection method is based on \term{incremental 
-	nonparametric Bayesian clustering (\acronym{inbc})}. In probability theory and 
-	statistics, \term{Bayes' theorem} (alternatively \term{Bayes' law} or \term{Bayes' rule}) describes 
-	the probability of an event, based on prior knowledge of conditions that might 
-	be related to the event. Many approaches have used it for traversability 
-	estimation. For example, \etal{Suger} \cite{Suger} use a naive Bayes classifier \cite{Denis}, 
-	and \etal{Lalonde} \cite{Lalonde} use Bayesian classification to label the incoming data.
+	incrementally with autonomously labeled training samples. Their approach 
+	determines whether unknown regions in front of a vehicle are drivable while the 
+	vehicle is in motion and without human’s input. Their traversability detection 
+	method is based on \term{incremental nonparametric Bayesian clustering 
+	(\acronym{inbc})}. In probability theory and statistics, \term{Bayes' theorem} 
+	(alternatively \term{Bayes' law} or \term{Bayes' rule}) describes the probability 
+	of an event, based on prior knowledge of conditions that might be related to the 
+	event. Many approaches have used it for traversability estimation. For example, 
+	\citet{Suger} use a naive Bayes classifier \citep{Denis}, and \citet{Lalonde} use 
+	Bayesian classification to label the incoming data.
 	\\
 	
+	\todo[size={{\scriptsize}}]{MLS maps and Droeschel et al.}
 	Several authors have considered the problem of \term{simultaneous localization 
 	and mapping (\acronym{slam})} in an outdoor environment. Some tried to solve it 
-	with elevation maps generated from \acronym{3d} range data acquired with a 
-	mobile robot \cite{Pfaff}. But elevation maps only model a single surface, 
-	they lack the ability to represent vertical structures or even multiple levels.
-	\term{Multi-level surface} maps (\term{\acronym{mls}} maps) \cite{Triebel}, on the other hand, store 
+	with elevation maps generated from \acronym{3d} range data acquired with a mobile 
+	robot \citep{Pfaff}. But elevation maps only model a single surface, they lack the 
+	ability to represent vertical structures or even multiple levels. \term{Multi-level 
+	surface} maps (\term{\acronym{mls}} maps) \citep{Triebel}, on the other hand, store 
 	multiple heights in each grid cell. This extension allows a mobile robot to model 
 	environments with more than one surface, such as bridges, underpasses, buildings 
 	or mines. 
 	\par
-	The approach of \etal{Pfaff} \cite{Pfaff} allows to deal with vertical and overhanging objects 
-	in elevation maps, by proposing a method for detecting \term{loop closures}. 
-	This problem consists in detecting when the robot has returned to a past location 
-	after having discovered new terrain for a while. Despite their efforts, 
-	they still lack the ability to represent multiple surfaces. For example, 
-	the robot can plan a path under a bridge but not over it.
+	The approach of \citet{Pfaff} allows to deal with vertical and 
+	overhanging objects in elevation maps. Despite their efforts, they still lack 
+	the ability to represent multiple surfaces. For example, the robot can plan a 
+	path under a bridge but not over it, as mentioned before.
 	\par
 	The attention had most often been focused on methodologies that access the 
-	traversability characteristics before actually driving over the respective 
-	region \cite{Papadakis}. But \etal{Droeschel} use a way for continuous mapping 
-	and localization during mission, without the necessity to map the environment 
-	beforehand or to stop for acquiring new \acronym{3d} scans and to process them 
-	\cite{Droeschel}. Their representation consists of local maps (\term{multiresolution} 
-	maps as the authors call them) and a global map (called \term{allocentric} map).
+	traversability characteristics before actually driving over the respective region 
+	\citep{Papadakis}. But \citet{Droeschel} use a way for continuous mapping and 
+	localization during mission, without the necessity to map the environment 
+	beforehand or to stop for acquiring new \acronym{3d} scans and to process them. 
+	Their representation consists of local maps (\term{multiresolution} maps as the 
+	authors call them) and a global map (called \term{allocentric} map).
 	\par
 	Each local map is a robot-centered \acronym{3d} grid map. It has high resolution 
 	in the vicinity of the robot and coarser resolutions with increasing distance 
@@ -322,37 +322,38 @@
 	shifted whenever necessary to maintain the egocentric property of the map.
 	\par
 	A forward-looking image alone may be insufficient for planning and navigation 
-	\cite{Kweon}. Robots operating in rough terrain may require knowledge of terrain 
+	\citep{Kweon}. Robots operating in rough terrain may require knowledge of terrain 
 	that has been observed but is currently out of the sensor field of view such as 
 	terrain under and behind the robot. And that is the main reason why global maps 
 	are useful. 
 	\par
-	In this case \cite{Droeschel}, the global map is built from local multiresolution 
+	In this case \citep{Droeschel}, the global map is built from local multiresolution 
 	maps acquired at different view poses of the robot. This is useful in order to 
 	overcome pose errors and to localize the robot with respect to a fixed frame. 
 	While traversing the environment, a local map is extended whenever the robot 
 	explores previously unseen terrain and optimized when a \term{loop closure} has 
-	been detected. The authors localize towards this local map during mission to get 
-	the pose of the robot in the global map. They assess the traversability of the 
-	terrain by analyzing height differences in the global map and plan cost-optimal 
-	paths.
+	been detected. The loop closure problem consists in detecting when the robot has 
+	returned to a past location after having discovered new terrain for a while. The 
+	authors localize towards this local map during mission to get the pose of the 
+	robot in the global map. They assess the traversability of the terrain by 
+	analyzing height differences in the global map and plan cost-optimal paths.
 	\\
 	
-	Subsequently, \etal{Wigness} proposed another way to learn new behaviors quickly 
-	in the field with no or minimal human supervision. They propose a methodology 
-	for learning reward functions from human examples via visual perception 
-	\cite{Wigness}. This means that the agent learns how to simply assign costs to 
-	distinct terrain types, and follows the trajectory with the minimum cost. This 
-	approach is more focused than this of \etal{Suger} \cite{Suger} in following the optimum path, but 
-	less in experimenting with traversability. It also insists on dynamic 
-	environments, while \etal{Suger} interprets the characteristic of 
-	traversability to be static, and further assume that dynamic objects are 
-	detected and removed in advance.
+	Subsequently, \citet{Wigness} proposed another way to learn new behaviors quickly 
+	in the field with no or minimal human supervision. They propose a methodology for 
+	learning reward functions from human examples via visual perception. This means 
+	that the agent learns how to simply assign costs to distinct terrain types, and 
+	follows the trajectory with the minimum cost. This approach is more focused than 
+	this of \citet{Suger} in following the optimum path, but less in experimenting 
+	with traversability. It also insists on dynamic environments, while \citet{Suger} 
+	interprets the characteristic of traversability to be static, and further assume 
+	that dynamic objects are detected and removed in advance.
 	\\
 	
-	\etal{Hirose} introduced a semi-supervised approach for traversability 
-	estimation, called GONet \cite{HiroseGonet}. The core of the proposed approach 
-	are \term{Generative Adversarial Networks (\acronym{gan}s)} \cite{Goodfellow}. \acronym{gan}s are a 
+	\todo[size={{\scriptsize}}]{Hirose et al. presenting GONet (we have the code for this)}
+	\citet{HiroseGonet} introduced a semi-supervised approach for traversability 
+	estimation, called GONet. The core of the proposed approach are \term{Generative 
+	Adversarial Networks (\acronym{gan}s)} \citep{Goodfellow}. \acronym{gan}s are a 
 	framework for estimating generative models via an adversarial process. They 
 	simultaneously train two models. A generative model, let's say \alleg{a team of 
 	counterfeiters}, that captures the distribution of the training data and tries 
@@ -363,18 +364,19 @@
 	improve their methods until the \alleg{counterfeits} are indistinguishable from 
 	the genuine samples.
 	\par
-	There is no need for any \term{Markov chains} or approximate inferences during either 
-	training or generation of samples \cite{Goodfellow}. A \term{Markov chain} is a 
-	stochastic (or random) process describing a sequence of possible events in which 
-	the probability of each event depends only on the state attained in the previous 
-	event. It has actually many similarities with Bayes' theorem mentioned above. 
-	Many authors use an extension of Markov chains, named \term{Markov Decision Process 
-	(\acronym{mdp})}, to formulate the problem of autonomous navigation and allow 
-	mobile robots to make decisions \cite{Wigness, Zhelo}. Others use \term{Markov Random 
-	Field (\acronym{mrf})} \cite{Li} to i.e. enforce spatial consistency in a map or the 
-	preference that neighboring points have the same label \cite{Lalonde}.
+	There is no need for any \term{Markov chains} or approximate inferences during 
+	either training or generation of samples \citep{Goodfellow}. A \term{Markov chain} 
+	is a stochastic (or random) process describing a sequence of possible events in 
+	which the probability of each event depends only on the state attained in the 
+	previous event. It has actually many similarities with Bayes' theorem mentioned 
+	above. Many authors use an extension of Markov chains, named \term{Markov Decision 
+	Process (\acronym{mdp})}, to formulate the problem of autonomous navigation and 
+	allow mobile robots to make decisions \citep{Wigness, Zhelo}. Others use 
+	\term{Markov Random Field (\acronym{mrf})} \citep{Li} to i.e. enforce spatial 
+	consistency in a map or the preference that neighboring points have the same label 
+	\citep{Lalonde}.
 	\par
-	Returning to GONet \cite{HiroseGonet}, intuitively, it works comparing two images, 
+	Returning to GONet \citep{HiroseGonet}, intuitively, it works comparing two images, 
 	an input image and a generated one. The generated image is created with a 
 	particular class of \acronym{gan}s trained on positive examples only. It is 
 	similar to the input image and looks as if it came from the actual positive 
@@ -400,32 +402,31 @@
 	\section{Data collection methods}
 	\label{sec:bg:data}
 	
-	\todo[size={{\scriptsize}}]{Is this synthetic data?}
-	A way to generate and collect training data is to obtain them through a human 
-	operator that drives a safe trajectory that is similar to the environment where 
-	the robot should later be able to reliable operate in. This process for training 
-	data generation has the advantage that it is fairly easy to execute.
+	A way to collect training data is to obtain them through a human operator that 
+	drives a safe trajectory that is similar to the environment where the robot 
+	should later be able to reliable operate in. This process for training data 
+	generation has the advantage that it is fairly easy to execute.
 	\par 
-	A way to do that is to label the cells of the map that intersect with the 
-	projection of the footprint of the robot as positive examples \cite{Suger}. 
+	One way to do that is to label the cells of the map that intersect with the 
+	projection of the footprint of the robot as positive examples \citep{Suger}. 
 	This has the drawback that the labeled data are only positive examples, leaving 
 	tons of unlabeled data to learn from.
 	\par
 	A similar approach, inspired by the above, is to train the robot with many 
 	positive images of traversable places and just a small set of negative images 
-	depicting blocked and unsafe areas \cite{HiroseGonet}. The positive examples can 
+	depicting blocked and unsafe areas \citep{HiroseGonet}. The positive examples can 
 	be collected easily by simply operating the robot through traversable spaces, 
 	while obtaining negative examples is time consuming, costly, and potentially 
 	dangerous. But small amounts of negative examples can improve traversability 
 	estimation in comparison to using only positive data.
 	\par 
-	In a variation of this, optimal trajectory examples are collected \cite{Wigness} 
+	In a variation of this, optimal trajectory examples are collected \citep{Wigness} 
 	in order to be used from a reward function and train the robot.
 	\\
 	
 	Another way is to autonomously collect data without any human supervision 
-	\cite{Kim, Lee}. The robot can image the terrain in front of it and store the 
-	resulting image patches in a data pool \cite{Kim}. Then, each image patch is an 
+	\citep{Kim, Lee}. The robot can image the terrain in front of it and store the 
+	resulting image patches in a data pool \citep{Kim}. Then, each image patch is an 
 	observation of a single cell in a grid-based terrain map. Initially all of this 
 	data is unlabeled, because the robot has not yet interacted with the terrain, and 
 	its traversability is unknown. Then the robot attempts to drive over the 
@@ -440,15 +441,15 @@
 	obstacles from \acronym{2d} laser scanners can not be safely used anymore. 
 	In these cases, \acronym{3d} range data, by i.e. stereo-cameras, radar or 
 	\acronym{3d}-laser scanners, is necessary. A popular approach is to use 
-	\term{light detection and ranging (\acronym{lidar})} \cite{Suger, Lalonde} (also 
-	called \term{ladar} \cite{Lalonde, Shneier}). \acronym{lidar} is a surveying 
+	\term{light detection and ranging (\acronym{lidar})} \citep{Suger, Lalonde} (also 
+	called \term{ladar} \citep{Lalonde, Shneier}). \acronym{lidar} is a surveying 
 	method that measures distance to a target by illuminating the target with pulsed 
 	laser light and measuring the reflected pulses with a sensor. \acronym{lidar} 
 	sensors use emitted light, so they work independent of the ambient light. Night 
 	or day, clouds or sun, shadows or sunlight, they pretty much see the same in all 
 	conditions. On the other hand they often have trouble sensing highly reflective 
 	surfaces and transparent objects, such as mirrors and glass doors 
-	\cite{HiroseGonet}.
+	\citep{HiroseGonet}.
 	\par
 	Other commonly used sensors are stereo cameras. They are really inexpensive, 
 	especially compared to \acronym{lidar}. Because they use reflected light, they 
@@ -461,14 +462,14 @@
 	\par
 	In occasions where sensors that can measure in all directions are needed, 
 	hardware requirements are imposed. One can use a laser scanner that rotates 
-	around a vertical axis \cite{Droeschel}. That way the sensor can measure in 
+	around a vertical axis \citep{Droeschel}. That way the sensor can measure in 
 	all directions, except for a cylindrical blind spot around the vertical axis 
 	centered on the robot.
 	\\
 	
 	Another option is to not use geometric data, but instead concentrate on visual 
-	data. Instead of using \acronym{lidar} \cite{Suger, Lalonde}, one can use 
-	different sensors, like fisheye camera \cite{Hirose, HiroseGonet}, 
+	data. Instead of using \acronym{lidar} \citep{Suger, Lalonde}, one can use 
+	different sensors, like fisheye camera \citep{Hirose, HiroseGonet}, 
 	to estimate whether a physical space is traversable or not. This kind of 
 	approaches are mainly focused on obstacle detection and avoidance, even in 
 	dynamic environments. But they are less interested in traversability 
@@ -478,22 +479,22 @@
 	
 	A third choice is to use proprioceptive information, via on-board sensors such 
 	as \term{inertial measurement unit (\acronym{imu})}, motor current, and bumper 
-	switch \cite{Kim} or even wheel encoder data \cite{Lee} (like wheel odometry 
-	measurements \cite{Droeschel}). \acronym{imu} is an electronic device using 
+	switch \citep{Kim} or even wheel encoder data \citep{Lee} (like wheel odometry 
+	measurements \citep{Droeschel}). \acronym{imu} is an electronic device using 
 	\todo[size={{\scriptsize}}]{Fixed IMU definition}
 	a combination of accelerometers and gyroscopes, sometimes also magnetometers. 
-	It measures and reports a robot's specific force, angular rate, and sometimes 
-	the magnetic field surrounding it.
+	It measures and reports a robot's specific force, angular rate, and the 
+	\acronym{6d} robot pose (i.e. \acronym{3d} location and orientation).
 	\par
 	The use of the sensors above make is possible to assess the progress of the 
-	robot automatically and estimate its motion \cite{Droeschel}. That way successes 
+	robot automatically and estimate its motion \citep{Droeschel}. That way successes 
 	and failures of the navigation provide positive and negative traversability 
-	examples \cite{Kim}. This kind of approaches can make predictions about the 
+	examples \citep{Kim}. This kind of approaches can make predictions about the 
 	traversability of the terrain based on the robot's past experiences and 
 	navigation sensor values.
 	\\
 	
-	In some cases all three choices are used \cite{Kim, Shneier}. While geometric 
+	In some cases all three choices are used \citep{Kim, Shneier}. While geometric 
 	data provide information about the traversability of the terrain, they are 
 	not always sufficient to measure the affordance of traversability. For 
 	example, a short (nontraversable) tree trunk and a patch of tall (traversable) 
@@ -502,17 +503,17 @@
 	\par 
 	Similarly a white vertical flat surface may be an impenetrable wall in one 
 	environment whereas in another environment a similar surface may be a door that 
-	can just be pushed to open \cite{Ugur}. But appearance data may not be enough 
+	can just be pushed to open \citep{Ugur}. But appearance data may not be enough 
 	to distinguish the two cases mentioned above. So, a robot can be equipped with 
 	stereo vision cameras which collect visual and geometric data from the 
 	environment, but also with a bumper switch at the front of the vehicle that can 
 	be used along with motor current sensors to recognize situations like getting 
 	\todo[size={{\scriptsize}}]{a bumper switch can recognize an obstacle}
-	stuck because of an obstacle or slipping, respectively \cite{Kim}.
+	stuck because of an obstacle or slipping, respectively \citep{Kim}.
 	\par
 	The reason why proprioceptive sensory may not be sufficient on their own is that 
 	bumpers, for example, do not prevent robots from falling off edges and can fail 
-	to detect small obstacles \cite{HiroseGonet}. That is why all geometric, 
+	to detect small obstacles \citep{HiroseGonet}. That is why all geometric, 
 	appearance and haptic information are useful.
 	\\\\
 	
@@ -523,28 +524,39 @@
 	environment? A discussion of this topic is made in the following section.
 	\\
 	
-	\section{Goals of operation}
+	\section{Navigation strategies}
 	\label{sec:bg:goals}
 	
 	A natural thing would be to let the robot learn about the traversability 
 	of the environment, while another perspective would be to concentrate on more 
-	preservative situations, such as go or no-go \cite{Hirose}. Even though the 
+	preservative situations, such as go or no-go \citep{Hirose}. Even though the 
 	former method allows the robot to autonomously learn a model of the environment,
 	encourages exploration and consequently improves the learning and generalization 
-	performance \cite{Zhelo}, the trial and error part of it involves a high risk to 
+	performance \citep{Zhelo}, the trial and error part of it involves a high risk to 
 	damage the robot. The latter, on the other hand, has as main priority to prevent 
 	robots from colliding with objects, injuring people, getting stuck in constrained 
 	spaces, or falling over an edge. 
 	\par
 	A third approach would be to let the autonomous vehicle navigate from a defined 
-	start point to a fixed goal	point \cite{Shneier, Zhelo}. That way the robot has 
+	start point to a fixed goal	point \citep{Shneier, Zhelo}. That way the robot has 
 	to build a model of the world around it and plan a path from the start to the 
 	goal. A way to do that is to enable the robot to learn which regions to avoid 
 	and which to seek out, in early runs, so that in later runs it can determine the 
-	most efficient path \cite{Shneier}. In cases where there is no the knowledge of 
+	most efficient path \citep{Shneier}. In cases where there is no the knowledge of 
 	the map of the robot's current environment, the designated goal location can be 
 	acquired via cheap localization solutions, such as visible light localization, 
-	Wi-Fi signal localization or \acronym{gps} \cite{Zhelo}.
+	Wi-Fi signal localization or \acronym{gps} \citep{Zhelo}.
+	\\\\
+	
+	
+	\todo[size={{\scriptsize}}]{Something that is missing from the strategies deciding where to go next}
+	In our knowledge, most approaches concentrate on robot navigation in order to 
+	make sure they do not collide with other objects and they follow a route to 
+	reach a specific goal. There is not much work done on curiosity-driven 
+	exploration, meaning the abstract need for the robot to learn a new environment. 
+	The traversability estimation is most commonly performed in order for the robot 
+	to move safely rather than explore the environment and learn which areas are 
+	traversable and which are not.
 	\\
 	
 	\section{Prototype implementations / reference implementation}
@@ -576,5 +588,5 @@
 	
 	\renewcommand{\bibname}{References}
 	\bibliography{ref}
-	\bibliographystyle{ieeetr}
+	\bibliographystyle{unsrtnat}
 \end{document}
