@@ -80,6 +80,10 @@
 	incrementally updated with new data only. That comes with the advantage that the 
 	updated classifier is immediately available for navigation and that the memory 
 	requirements for learning are reduced, compared to off-line methods.
+	\par
+	In the real world and its unstructured and dynamic surroundings such as vegetation 
+	landscape and terrain, the perception of a mobile robot needs to be capable of 
+	navigating this unknown environment by using sensor modalities \citep{Shabbir}.
 	\\
 	
 	So, if autonomous mobile robots are to become more generally useful, they must 
@@ -402,10 +406,22 @@
 	\section{Data collection methods}
 	\label{sec:bg:data}
 	
-	A way to collect training data is to obtain them through a human operator that 
-	drives a safe trajectory that is similar to the environment where the robot 
-	should later be able to reliable operate in. This process for training data 
-	generation has the advantage that it is fairly easy to execute.
+	For a long time until in recent years, robots have long been used in industrial 
+	environments. In industrial environments, robotic systems are pre-programmed 
+	with repetitive assignments which lack the capability of autonomy and as such 
+	operate on the basis of a structured approach \citep{Shabbir}. Such an environment
+	cannot be adaptive for a mobile robot since it eliminates the need for autonomy. 
+	As such, surviving and adapting in the real world is more complex for any robotic
+	system in comparison to the industrial setting since the risk of failure, system 
+	error, external factors, obstacles, corrupt data, human error and unrecognizable 
+	environments is more prevalent.
+	\\
+	
+	So, for unstructured environments, a way to collect training data is to obtain 
+	them through a human operator that drives a safe trajectory that is similar to 
+	the environment where the robot should later be able to reliable operate in. 
+	This process for training data generation has the advantage that it is fairly 
+	easy to execute.
 	\par 
 	One way to do that is to label the cells of the map that intersect with the 
 	projection of the footprint of the robot as positive examples \citep{Suger}. 
@@ -435,6 +451,13 @@
 	\\\\
 	
 	
+	Autonomous driving in unstructured environments faces many challenges which do 
+	not exist in structured environments \citep{Shabbir}. In unstructured environments, 
+	object attributes needed for driving cannot be defined as priori. Information 
+	concerning objects has to be gained through sensors even though these are normally 
+	ambiguous and therefore introduce uncertainty and avail information that is 
+	redundant.
+	\par
 	\todo[size={{\scriptsize}}]{Comparison of LIDAR and stereo camera sensory input}
 	In environments where the ground is not flat or contains obstacles that are 
 	not purely vertical, the basic approach of classifying based on the observed 
@@ -477,6 +500,13 @@
 	dynamic environments. But they are less interested in traversability 
 	estimation for obstacles that may seem untraversable while in fact can be 
 	easily driven over by a robot, like tall grass.
+	\par
+	More so, even without the introduction of uncertainty, sensors in themselves are 
+	ambiguous \citep{Shabbir}. For example, a lemon and a soccer ball can look 
+	similar from a certain perspective. In addition, a cup could be invisible in case 
+	the cupboard is shut and it can be challenging to tell the difference between a 
+	remote control and cell phone is they are both facing down. These factors are all
+	contributive to the challenges of perceiving the state of the environment.
 	\\
 	
 	A third choice is to use proprioceptive information, via on-board sensors such 
@@ -581,6 +611,31 @@
 	
 	\chapter{Core foreground}
 	\label{sec:fg}
+	
+	Machine learning is a subset of artificial intelligence used to effectively 
+	perform a specific task without using explicit instructions, but relying on models 
+	and inference instead. The idea of using machine learning to control robots needs 
+	humans to show the willingness to lose a certain measure of control \citep{Shabbir}. 
+	This is seemingly counterintuitive in the beginning although the gain for doing 
+	this is to allow the system to begin learning on its own.
+	\\
+
+	Several real-world objects can share common attributes which allude to their 
+	intended usage \citep{Shabbir}. By placing emphasis on these assignment-related 
+	object attributes, the complexity of autonomous driving is lowered. For example, 
+	visual data can be analyzed for the identification of few points which correspond 
+	to positive locations at which a robot can maneuver. Furthermore, since movement
+	features are similar across many objects, robots could be trained to identify 
+	them. As a consequence, the state space that requires exploration in order to 
+	move is significantly lowered.
+	\par
+	That is why we are going to use \term{neural networks} in order to attain 
+	autonomous driving. Neural networks are computing systems vaguely inspired by 
+	the biological neural network that constitute animal brains. A neural network 
+	is a framework for many different machine learning algorithms to work together 
+	and process complex data inputs. It learns to perform tasks by considering 
+	examples, generally without being programmed with any task specific rules.
+	
 	
 	\chapter{Experimental Validation and Comparison}
 	\label{sec:exp}
