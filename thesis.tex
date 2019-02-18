@@ -529,7 +529,7 @@
 	In some cases all three choices are used \citep{Kim, Shneier}. While geometric 
 	data provide information about the traversability of the terrain, they are 
 	not always sufficient to measure the affordance of traversability. For 
-	example, a short (nontraversable) tree trunk and a patch of tall (traversable) 
+	example, a short (non-traversable) tree trunk and a patch of tall (traversable) 
 	grass will result in a similar height. However, they differ in visual 
 	appearance. 
 	\par 
@@ -591,17 +591,7 @@
 	environment and learn which areas are traversable and which are not.
 	\\
 	
-	\section{Prototype implementations / reference implementation}
-	\label{sec:bg:code}
-
-	Here we give some \acronym{url}s and comments about the work above. Some of them 
-	might actually be used as our experimental basis.
-	\\
-		
-	\begin{table}[h]
-		\centering	
-		\input{urls}
-	\end{table} 
+	
 		
 	\section{Conclusions}
 	\label{sec:bg:concl}
@@ -619,15 +609,20 @@
 	This is seemingly counterintuitive in the beginning although the gain for doing 
 	this is to allow the system to begin learning on its own.
 	\\
-
-	Several real-world objects can share common attributes which allude to their 
-	intended usage \citep{Shabbir}. By placing emphasis on these assignment-related 
-	object attributes, the complexity of autonomous driving is lowered. For example, 
-	visual data can be analyzed for the identification of few points which correspond 
-	to positive locations at which a robot can maneuver. Furthermore, since movement
-	features are similar across many objects, robots could be trained to identify 
-	them. As a consequence, the state space that requires exploration in order to 
-	move is significantly lowered.
+	
+	One of the most remarkable feats of the human visual system is how rapidly, 
+	accurately and comprehensively it can recognize and understand the complex visual 
+	world \citep{Socher}. The various types of tasks related to understanding what 
+	we see in a visual scene is called \term{visual recognition}. In computer vision, 
+	visual recognition has enjoyed some great success in recent years, particularly 
+	in single object categorization. While recognizing isolated objects is a critical 
+	component of visual recognition, a lot more is needed to be done to reach a 
+	complete understanding of visual scenes.
+	\\
+	
+	In this thesis, our first goal is for the robot to be able to autonomously 
+	navigate in natural environments. So, the aim is on total scene segmentation 
+	rather than object recognition.
 	\par
 	That is why we are going to use \term{neural networks} in order to attain 
 	autonomous driving. Neural networks are computing systems vaguely inspired by 
@@ -635,6 +630,17 @@
 	is a framework for many different machine learning algorithms to work together 
 	and process complex data inputs. It learns to perform tasks by considering 
 	examples, generally without being programmed with any task specific rules.
+	\\
+
+	Several real-world objects can share common attributes which allude to their 
+	intended usage \citep{Shabbir}. By placing emphasis on these related object 
+	attributes, the complexity of autonomous driving is lowered. For example, visual 
+	data can be analyzed for the identification of few points which correspond to 
+	positive locations at which a robot can maneuver. Furthermore, since movement
+	features are similar across many objects, robots could be trained to identify 
+	them. As a consequence, the state space that requires exploration in order to 
+	move is significantly lowered.
+	\\
 	
 	
 	\chapter{Experimental Validation and Comparison}
@@ -642,6 +648,20 @@
 	
 	\chapter{Conclusions and Future Work}
 	\label{sec:concl}
+	
+	\appendix
+	\chapter{Prototype / reference implementations}
+	\label{sec:app}
+	Many writers published their code open-source so that other researchers may 
+	use their work. Here we give some \acronym{url}s and comments about the work 
+	mentioned above in Section~\ref{sec:bg:trav}, Section~\ref{sec:bg:data} and 
+	Chapter~\ref{sec:fg}. Some of them were actually used as our experimental basis.
+	\\
+	
+	\begin{table}[h]
+		\centering	
+		\input{urls}
+	\end{table}
 	
 	\renewcommand{\bibname}{References}
 	\bibliography{ref}
