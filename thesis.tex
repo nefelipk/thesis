@@ -620,9 +620,14 @@
 	complete understanding of visual scenes.
 	\\
 	
+	Semantically meaningful image understanding is a relatively recent topic in computer vision.
+	\\
+	
 	In this thesis, our first goal is for the robot to be able to autonomously 
 	navigate in natural environments. So, the aim is on total scene segmentation 
-	rather than object recognition.
+	rather than object recognition. Although humans perform scene segmentation with 
+	apparent ease, automatic scene segmentation is a very challenging problem 
+	\citep{Wang}. 
 	\par
 	That is why we are going to use \term{neural networks} in order to attain 
 	autonomous driving. Neural networks are computing systems vaguely inspired by 
@@ -630,16 +635,21 @@
 	is a framework for many different machine learning algorithms to work together 
 	and process complex data inputs. It learns to perform tasks by considering 
 	examples, generally without being programmed with any task specific rules.
-	\\
-
+	\par
+	Compared to recognition, far fewer papers address scene segmentation in neural 
+	networks \cite{Wang}. A main reason is that the problem is particularly 
+	challenging for neural networks because they also need to address the binding 
+	problem. The binding problem refers to how the coherence of a pattern, generally 
+	as a large collection of features, is represented in a neural network. 
+	\par
 	Several real-world objects can share common attributes which allude to their 
 	intended usage \citep{Shabbir}. By placing emphasis on these related object 
 	attributes, the complexity of autonomous driving is lowered. For example, visual 
 	data can be analyzed for the identification of few points which correspond to 
-	positive locations at which a robot can maneuver. Furthermore, since movement
-	features are similar across many objects, robots could be trained to identify 
-	them. As a consequence, the state space that requires exploration in order to 
-	move is significantly lowered.
+	locations at which a robot can maneuver. Furthermore, since movement features 
+	are similar across many objects, robots could be trained to identify them. As a 
+	consequence, the space that requires exploration in order to move is 
+	significantly lowered.
 	\\
 	
 	
