@@ -129,7 +129,22 @@
 	and its experience of traveling over similar terrain in the past. We would also 
 	like our robot to plan further ahead and avoid entering traps that prevent it 
 	from reaching its goal.
-	\\
+	\\\\
+	
+	The rest of the thesis is organized as follows:
+	\begin{itemize}
+		\item In Chapter~\ref{sec:bg} we give a background on the topic we are dealing 
+		with. We present already existing traversability estimation algorithms; the 
+		goals, the approaches, the methods used, the strengths and weaknesses. 
+		\item In Chapter~\ref{sec:fg} we present the logic behind the decisions made 
+		and the algorithms used.
+		\item In Chapter~\ref{sec:exp} we perform an evaluation of our implementation 
+		and compare it with previous ones.
+		\item In Chapter~\ref{sec:concl} we give our conclusions and ideas for future 
+		work.
+		\item In Appendix~\ref{sec:app} we share some \acronym{url}s of prototype 
+		implementations from researchers who offered their work open-source.
+	\end{itemize}
 	
 	\chapter{Background}
 	\label{sec:bg}
@@ -262,13 +277,13 @@
 	\citet{Pfaff}) to distinguish different types of terrain as well as 
 	traversability constraints of the robot. 
 	\begin{enumerate}
-		\item[$\bullet$] Maximum height difference and
-		\item[$\bullet$] slope 
+		\item Maximum height difference and
+		\item slope 
 	\end{enumerate}
 	reflect the ground-clearance of the robot as well as the motor power.
 	\begin{enumerate}
-		\item[$\bullet$] Roughness and
-		\item[$\bullet$] remission values (meaning the the reflection or scattering 
+		\item Roughness and
+		\item remission values (meaning the the reflection or scattering 
 		of light by a material) 
 	\end{enumerate}
 	help to distinguish concrete and vegetation types.
@@ -578,8 +593,20 @@
 	the map of the robot's current environment, the designated goal location can be 
 	acquired via cheap localization solutions, such as visible light localization, 
 	Wi-Fi signal localization or \acronym{gps} \citep{Zhelo}.
-	\\\\
+	\\
 	
+	Generally, \term{intrinsic motivations} are related to curiosity, exploration, 
+	the interest for novel objects and surprising events and the interest in 
+	learning new behaviors. They come in contrast to \term{extrinsic motivations} 
+	which are to obtain biologically relevant resources to avoid damage and vouch 
+	survival.
+	\par
+	In robotics, extrinsic motivations can be related to the accomplishment of the 
+	user tasks assigned to the robot. In contrast, intrinsic motivations drive 
+	behavior and actions to gain knowledge: e.g., to explore the world, to learn to 
+	predict novel or surprising stimuli, to acquire a higher competence to change 
+	the environment with action.
+	\\
 	
 	\todo[size={{\scriptsize}}]{Something that is missing from the strategies deciding where to go next}
 	In our knowledge, most approaches concentrate on robot navigation in order to 
@@ -590,16 +617,37 @@
 	performed in order for the robot to move safely rather than explore the 
 	environment and learn which areas are traversable and which are not.
 	\\
-	
-	
 		
 	\section{Conclusions}
 	\label{sec:bg:concl}
 	
-	What is missing in order to be able to achieve the promise in Chap 1
+	Although investigated by psychologists for a long time, and despite some early 
+	pioneering computational explorations, intrinsic motivations fully entered the 
+	field of machine learning and robotics only recently. They are important for 
+	autonomous robotics as they allow the acquisition of knowledge and skills in the 
+	absence of tasks directly established by the robot users, e.g., to learn to 
+	manipulate different objects without being instructed to do so. They are 
+	task-independent meaning that they can drive the robotic system to acquire skills 
+	re-usable to accomplish many possible tasks in a certain class of environments.
+	\\
 	
+	It has become clear to researchers in robotics and adaptive behaviour that 
+	current approaches are yielding systems with limited autonomy and capacity for 
+	self-improvement. To learn autonomously and in a cumulative fashion is one of 
+	the hallmarks of intelligence, so that is what we want to achieve in the current 
+	thesis.
+	\\
 	
-	\chapter{Core foreground}
+	We explored many ways for a robot to be able to decide for itself the 
+	traversability of the terrain around it and plan paths to avoid any obstacles. 
+	We also investigated ways to improve the robot's traversability estimation 
+	method in everyday practical situations. So, this thesis will be focused on the 
+	one thing that is missing; intrinsically motivated learning. It will mainly 
+	concentrate on how to explore the environment around the robotic platform and 
+	improve its knowledge of traversability.
+	\\
+	
+	\chapter{Core Foreground}
 	\label{sec:fg}
 	
 	Machine learning is a subset of artificial intelligence used to effectively 
@@ -628,6 +676,7 @@
 	rather than object recognition. Although humans perform scene segmentation with 
 	apparent ease, automatic scene segmentation is a very challenging problem 
 	\citep{Wang}. 
+	\todo[size={{\tiny}}]{In: Arbib M.A. (ed.), The Handbook of Brain Theory and Neural Networks, 2nd Ed., MIT Press, Cambridge MA, pp. 1215-1219, 2003.}
 	\par
 	That is why we are going to use \term{neural networks} in order to attain 
 	autonomous driving. Neural networks are computing systems vaguely inspired by 
@@ -662,6 +711,7 @@
 	\appendix
 	\chapter{Prototype / reference implementations}
 	\label{sec:app}
+	
 	Many writers published their code open-source so that other researchers may 
 	use their work. Here we give some \acronym{url}s and comments about the work 
 	mentioned above in Section~\ref{sec:bg:trav}, Section~\ref{sec:bg:data} and 
