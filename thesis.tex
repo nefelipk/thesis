@@ -565,6 +565,55 @@
 	\\\\
 	
 	
+	Since most of the approaches use at least some visual information, we will 
+	deepen a bit more on this.
+	
+	\subsection{Visual information}
+	\label{sec:bg:data:neural}
+	
+	\term{Machine learning} is a branch in computer science that studies the design 
+	of algorithms that can learn. It is used to effectively perform a specific task 
+	without using explicit instructions, but relying on models and inference instead. 
+	The idea of using machine learning to control robots needs humans to show the 
+	willingness to lose a certain measure of control \citep{Shabbir}. This is 
+	seemingly counterintuitive in the beginning although the gain for doing this is 
+	to allow the system to begin learning on its own.
+	\\
+	
+	\term{Deep learning}, a subfield of machine learning, is a set of algorithms that 
+	is inspired by the structure and function of the brain. Deep learning is also 
+	introduced as a means of making sense of data with the use of multiple abstraction
+	layers \citep{Shabbir}. The difference between deep learning and machine learning 
+	is that the former place emphasis on the subset of machine learning resources and 
+	method and uses them to solve any difficulties that need thought, whether human 
+	or artificial. 
+	\par
+	The algorithms described above are usually called \term{artificial neural networks} 
+	or just \term{neural networks}. They process complex data inputs and learn to 
+	perform tasks by considering examples, generally without being programmed with any 
+	task specific rules.
+	\\
+
+
+
+	
+	
+	One of the most remarkable feats of the human visual system is how rapidly, 
+	accurately and comprehensively it can recognize and understand the complex visual 
+	world \citep{Socher}. The various types of tasks related to understanding what 
+	we see in a visual scene is called \term{visual recognition}. In computer vision, 
+	visual recognition has enjoyed some great success in recent years, particularly 
+	in single object categorization. While recognizing isolated objects is a critical 
+	component of visual recognition, a lot more is needed to be done to reach a 
+	complete understanding of visual scenes.
+	\\
+	
+	
+	
+	
+	
+	
+	
 	\todo[size={{\scriptsize}}]{Corrected from notes}
 	But what is the strategy for deciding where to go next? Is there a specific goal 
 	for the robot to reach? Should it find the best trajectory? Explore the 
@@ -621,6 +670,7 @@
 	\section{Conclusions}
 	\label{sec:bg:concl}
 	
+	\todo[size={{\scriptsize}}]{How to add citation for site? Or book..?}
 	Although investigated by psychologists for a long time, and despite some early 
 	pioneering computational explorations, intrinsic motivations fully entered the 
 	field of machine learning and robotics only recently. They are important for 
@@ -635,7 +685,8 @@
 	current approaches are yielding systems with limited autonomy and capacity for 
 	self-improvement. To learn autonomously and in a cumulative fashion is one of 
 	the hallmarks of intelligence, so that is what we want to achieve in the current 
-	thesis.
+	thesis. The traversability estimation can become a goal of action based on 
+	intrinsic motivations.
 	\\
 	
 	We explored many ways for a robot to be able to decide for itself the 
@@ -650,26 +701,12 @@
 	\chapter{Core Foreground}
 	\label{sec:fg}
 	
-	Machine learning is a subset of artificial intelligence used to effectively 
-	perform a specific task without using explicit instructions, but relying on models 
-	and inference instead. The idea of using machine learning to control robots needs 
-	humans to show the willingness to lose a certain measure of control \citep{Shabbir}. 
-	This is seemingly counterintuitive in the beginning although the gain for doing 
-	this is to allow the system to begin learning on its own.
-	\\
 	
-	One of the most remarkable feats of the human visual system is how rapidly, 
-	accurately and comprehensively it can recognize and understand the complex visual 
-	world \citep{Socher}. The various types of tasks related to understanding what 
-	we see in a visual scene is called \term{visual recognition}. In computer vision, 
-	visual recognition has enjoyed some great success in recent years, particularly 
-	in single object categorization. While recognizing isolated objects is a critical 
-	component of visual recognition, a lot more is needed to be done to reach a 
-	complete understanding of visual scenes.
-	\\
 	
 	Semantically meaningful image understanding is a relatively recent topic in computer vision.
 	\\
+	
+	
 	
 	In this thesis, our first goal is for the robot to be able to autonomously 
 	navigate in natural environments. So, the aim is on total scene segmentation 
@@ -678,17 +715,13 @@
 	\citep{Wang}. 
 	\todo[size={{\tiny}}]{In: Arbib M.A. (ed.), The Handbook of Brain Theory and Neural Networks, 2nd Ed., MIT Press, Cambridge MA, pp. 1215-1219, 2003.}
 	\par
-	That is why we are going to use \term{neural networks} in order to attain 
-	autonomous driving. Neural networks are computing systems vaguely inspired by 
-	the biological neural network that constitute animal brains. A neural network 
-	is a framework for many different machine learning algorithms to work together 
-	and process complex data inputs. It learns to perform tasks by considering 
-	examples, generally without being programmed with any task specific rules.
+	That is why we are going to use neural networks in order to attain 
+	autonomous driving. 
 	\par
 	Compared to recognition, far fewer papers address scene segmentation in neural 
 	networks \cite{Wang}. A main reason is that the problem is particularly 
-	challenging for neural networks because they also need to address the binding 
-	problem. The binding problem refers to how the coherence of a pattern, generally 
+	challenging for neural networks because they also need to address the \term{binding 
+	problem}. The binding problem refers to how the coherence of a pattern, generally 
 	as a large collection of features, is represented in a neural network. 
 	\par
 	Several real-world objects can share common attributes which allude to their 
@@ -700,6 +733,11 @@
 	consequence, the space that requires exploration in order to move is 
 	significantly lowered.
 	\\
+	
+	
+	
+	
+	
 	
 	
 	\chapter{Experimental Validation and Comparison}
