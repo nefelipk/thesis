@@ -571,32 +571,48 @@
 	\subsection{Visual information}
 	\label{sec:bg:data:neural}
 	
-	\term{Machine learning} is a branch in computer science that studies the design 
-	of algorithms that can learn. It is used to effectively perform a specific task 
-	without using explicit instructions, but relying on models and inference instead. 
-	The idea of using machine learning to control robots needs humans to show the 
-	willingness to lose a certain measure of control \citep{Shabbir}. This is 
-	seemingly counterintuitive in the beginning although the gain for doing this is 
-	to allow the system to begin learning on its own.
+	\term{Machine learning} is a subset of \term{artificial intelligence (\acronym{ai})} 
+	that studies the design of algorithms that can learn. It is used to effectively 
+	perform a specific task without using explicit instructions, but relying on 
+	models and inference instead. The idea of using machine learning to control 
+	robots needs humans to show the willingness to lose a certain measure of control 
+	\citep{Shabbir}. This is seemingly counterintuitive in the beginning although the 
+	gain for doing this is to allow the system to begin learning on its own.
 	\\
 	
-	\term{Deep learning}, a subfield of machine learning, is a set of algorithms that 
-	is inspired by the structure and function of the brain. Deep learning is also 
-	introduced as a means of making sense of data with the use of multiple abstraction
-	layers \citep{Shabbir}. The difference between deep learning and machine learning 
-	is that the former place emphasis on the subset of machine learning resources and 
-	method and uses them to solve any difficulties that need thought, whether human 
-	or artificial. 
+	\term{Artificial Neural Networks (\acronym{ann}s)} or just \term{neural networks 
+	(\acronym{nn}s)} are computational processing systems which are heavily inspired 
+	by the way biological nervous systems (such as the animal brain) operate \citep{Shea}. 
+	The neural network itself is not an algorithm, but rather a framework for many 
+	different machine learning algorithms to work together and process complex data 
+	inputs. It learns to perform tasks by considering examples, generally without 
+	being programmed with any task specific rules. Neural networks are mainly 
+	comprised of a high number of interconnected computational nodes, referred to as 
+	\term{neurons}. These neurons are aggregated into layers. Different layers may 
+	perform different kinds of transformations on their inputs. The neurons work 
+	entwine in a distributed fashion to collectively learn from the input in order 
+	to optimize the final output.
 	\par
-	The algorithms described above are usually called \term{artificial neural networks} 
-	or just \term{neural networks}. They process complex data inputs and learn to 
-	perform tasks by considering examples, generally without being programmed with any 
-	task specific rules.
+	\term{Deep learning} is commonly introduced as a means of making sense of data 
+	with the use of multiple abstraction layers \citep{Shabbir}. The difference 
+	between deep learning and machine learning is that the former place emphasis on 
+	the subset of machine learning resources and method and uses them to solve any 
+	difficulties that need thought, whether human or artificial.
+	\\
+	
+	\term{Convolutional neural networks (\acronym{cnn}s)} are analogous to traditional 
+	neural networks in that they are comprised of neurons that self-optimise through 
+	learning \citep{Shea}. The only notable difference between convolutional and regular 
+	neural networks is that convolutional networks are primarily used to solve image-driven 
+	pattern recognition tasks (but can also be used for other types of input such as audio). 
+	A typical use case for a convolutional network is to feed it images in order for it 
+	to classify the data, e.g. outputs \alleg{cat} if it is fed with a cat picture and 
+	\alleg{dog} with a dog picture.
 	\\
 
 
 
-	
+
 	
 	One of the most remarkable feats of the human visual system is how rapidly, 
 	accurately and comprehensively it can recognize and understand the complex visual 
