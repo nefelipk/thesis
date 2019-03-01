@@ -374,14 +374,15 @@
 	estimation, called GONet. The core of the proposed approach are \term{Generative 
 	Adversarial Networks (\acronym{gan}s)} \citep{Goodfellow}. \acronym{gan}s are a 
 	framework for estimating generative models via an adversarial process. They 
-	simultaneously train two models. A generative model, let's say \alleg{a team of 
-	counterfeiters}, that captures the distribution of the training data and tries 
-	to produce fake samples and use it without detection. And a discriminative model, 
-	let's call it \alleg{police}, that tries to detect the fake images by estimating 
-	the probability that a sample came from the training data rather than the 
-	\alleg{counterfeiters}. Competition in this framework drives both teams to 
-	improve their methods until the \alleg{counterfeits} are indistinguishable from 
-	the genuine samples.
+	are deep neural network architectures that simultaneously train two models (more 
+	about neural nets we will see on Section~\ref{sec:bg:data:neural}). A generative 
+	model, let's say \alleg{a team of counterfeiters}, that captures the distribution 
+	of the training data and tries to produce fake samples and use it without detection. 
+	And a discriminative model, let's call it \alleg{police}, that tries to detect 
+	the fake images by estimating the probability that a sample came from the training 
+	data rather than the \alleg{counterfeiters}. Competition in this framework drives 
+	both teams to improve their methods until the \alleg{counterfeits} are 
+	indistinguishable from the genuine samples.
 	\par
 	There is no need for any \term{Markov chains} or approximate inferences during 
 	either training or generation of samples \citep{Goodfellow}. A \term{Markov chain} 
@@ -581,12 +582,13 @@
 	\\
 	
 	\term{Artificial Neural Networks (\acronym{ann}s)} or just \term{neural networks 
-	(\acronym{nn}s)} are computational processing systems which are heavily inspired 
-	by the way biological nervous systems (such as the animal brain) operate \citep{Shea}. 
-	The neural network itself is not an algorithm, but rather a framework for many 
-	different machine learning algorithms to work together and process complex data 
-	inputs. It learns to perform tasks by considering examples, generally without 
-	being programmed with any task specific rules. Neural networks are mainly 
+	or nets	(\acronym{nn}s)} are computational processing systems which are heavily 
+	inspired by the way biological nervous systems (such as the animal brain) operate 
+	\citep{Shea}. Basically, it is a simplified model of the way the brain processes 
+	information. The neural network itself is not an algorithm, but rather a framework 
+	for many different machine learning algorithms to work together and process 
+	complex data inputs. It learns to perform tasks by considering examples, generally 
+	without being programmed with any task specific rules. Neural networks are mainly 
 	comprised of a high number of interconnected computational nodes, referred to as 
 	\term{neurons}. These neurons are aggregated into layers. Different layers may 
 	perform different kinds of transformations on their inputs. The neurons work 
@@ -597,35 +599,69 @@
 	with the use of multiple abstraction layers \citep{Shabbir}. The difference 
 	between deep learning and machine learning is that the former place emphasis on 
 	the subset of machine learning resources and method and uses them to solve any 
-	difficulties that need thought, whether human or artificial.
+	difficulties that need thought, whether human or artificial. Deep learning has 
+	revolutionized computer vision and is the core technology behind capabilities 
+	like autonomous mobile robots.
 	\\
 	
-	\term{Convolutional neural networks (\acronym{cnn}s)} are analogous to traditional 
-	neural networks in that they are comprised of neurons that self-optimise through 
-	learning \citep{Shea}. The only notable difference between convolutional and regular 
-	neural networks is that convolutional networks are primarily used to solve image-driven 
-	pattern recognition tasks (but can also be used for other types of input such as audio). 
-	A typical use case for a convolutional network is to feed it images in order for it 
-	to classify the data, e.g. outputs \alleg{cat} if it is fed with a cat picture and 
-	\alleg{dog} with a dog picture.
+	There are many different neural network architectures \citep{Veen}, such as 
+	\term{Convolutional Neural Networks (\acronym{cnn}s or ConvNets \citep{vgg})} 
+	and \term{Generative Adversarial Networks (\acronym{gan}s)}.
+	\par
+	Convolutional neural networks are analogous to traditional neural networks in 
+	that they are comprised of neurons that self-optimize through learning \citep{Shea}. 
+	The only notable difference between convolutional and regular neural networks is 
+	that convolutional networks are primarily used to solve image-driven pattern 
+	recognition tasks (but can also be used for other types of input such as audio). 
+	A typical use case for a convolutional network is to feed it images in order for 
+	it to classify the data, e.g. outputs \alleg{cat} if it is fed with a cat picture 
+	and \alleg{dog} if it is fed with a dog picture. Thus, compared to standard neural 
+	networks with similarly-sized layers, convolutional networks have much fewer 
+	connections and parameters and so they are easier to train \citep{alexnet}. Also 
+	their theoretically-best performance is likely to be only slightly worse. 
+	Convolutional neural networks are perfectly suitable for computer vision, so 
+	below we are going to concentrate on them.
+	\par
+	Generative adversarial networks \citep{Goodfellow}, as we have already mentioned 
+	in Section~\ref{sec:bg:trav}, are two networks working together. The one is tasked 
+	to generate content and the other has to judge the same content. The discriminative 
+	network receives either training data or generated content from the generative 
+	network. This creates a form of competition where the discriminator is getting 
+	better at distinguishing real data from generated data and the generator is 
+	learning to become less predictable to the discriminator. Generative adversarial 
+	networks can be quite difficult to train. There are two networks that have to be 
+	trained and either of which can pose it’s own problems. Also their dynamics need 
+	to be balanced. If prediction or generation becomes too good compared to the other, 
+	the neural network will not converge as there is intrinsic divergence.
 	\\
-
-
-
-
 	
-	One of the most remarkable feats of the human visual system is how rapidly, 
-	accurately and comprehensively it can recognize and understand the complex visual 
-	world \citep{Socher}. The various types of tasks related to understanding what 
-	we see in a visual scene is called \term{visual recognition}. In computer vision, 
-	visual recognition has enjoyed some great success in recent years, particularly 
-	in single object categorization. While recognizing isolated objects is a critical 
-	component of visual recognition, a lot more is needed to be done to reach a 
-	complete understanding of visual scenes.
-	\\
-	
-	
-	
+	Convolutional networks have recently enjoyed a great success in large-scale image 
+	and video recognition \citep{vgg}. This has become possible due to the large public 
+	image repositories, such as \term{ImageNet} \citep{Deng} and high-performance 
+	computing systems, such as \acronym{gpu}s or large-scale distributed clusters. In 
+	particular, an important role in the advance of deep visual recognition architectures 
+	has been played by the \term{ImageNet Large Scale Visual Recognition Challenge 
+	(\acronym{ilsvrc})} \citep{Russakovsky}, an annual competition organized by the 
+	ImageNet team since 2010. There research teams evaluate their computer vision 
+	algorithms with various visual recognition tasks such as \term{Object Classification} 
+	and \term{Object Localization}.
+	\par
+	Many research groups have been very generous in releasing their pre-trained 
+	models to the open-source community. Some of the most well-known, such as AlexNet, 
+	VGGNet, Inception, ResNet, Xception \citep{alexnet, vgg} won in the \acronym{ilsvrc}. 
+	And others, like MobileNet, SqueezeNet etc participated in it.
+	\par
+	For the purposes of this thesis we will only deal with pre-trained models. Borrowing 
+	a little story from \citet{Gupta} we are going to explain why. Imagine two people, 
+	Mr. Potato and Mr. Athlete. They sign up for soccer training at the same time. 
+	Neither of them has ever played soccer and the skills like dribbling, passing, 
+	kicking etc. are new to both of them. Mr. Potato does not move much but Mr. Athlete 
+	does. That is the core difference between the two even before the training has even 
+	started. As you can imagine, the skills Mr. Athlete has developed as an athlete 
+	(e.g. stamina, speed and even sporting instincts) are going to be very useful for 
+	learning soccer even though Mr. Athlete has never trained for soccer. Mr. Athlete 
+	benefits from his pre-training.
+	\\\\
 	
 	
 	
@@ -712,6 +748,10 @@
 	one thing that is missing; intrinsically motivated learning. It will mainly 
 	concentrate on how to explore the environment around the robotic platform and 
 	improve its knowledge of traversability.
+	\\\\
+	
+	Enough of background, let’s now see how our autonomous mobile robot handles the 
+	knowledge taken from its environment to improve	its traversability estimation method.
 	\\
 	
 	\chapter{Core Foreground}
@@ -722,6 +762,17 @@
 	Semantically meaningful image understanding is a relatively recent topic in computer vision.
 	\\
 	
+	
+	One of the most remarkable feats of the human visual system is how rapidly, 
+	accurately and comprehensively it can recognize and understand the complex visual 
+	world \citep{Socher}. The various types of tasks related to understanding what 
+	we see in a visual scene is called \term{visual recognition}. In computer vision, 
+	visual recognition has enjoyed some great success in recent years, particularly 
+	in single object categorization, like in the example with the cat and the dog, 
+	mentioned above. While recognizing isolated objects is a critical component of 
+	visual recognition, a lot more is needed to be done to reach a complete 
+	understanding of visual scenes.
+	\\
 	
 	
 	In this thesis, our first goal is for the robot to be able to autonomously 
