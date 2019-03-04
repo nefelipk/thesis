@@ -605,7 +605,7 @@
 	\\
 	
 	There are many different neural network architectures \citep{Veen}, such as 
-	\term{Convolutional Neural Networks (\acronym{cnn}s or ConvNets \citep{vgg})} 
+	\term{Convolutional Neural Networks (\acronym{cnn}s or ConvNets \citep{Simonyan_vgg})} 
 	and \term{Generative Adversarial Networks (\acronym{gan}s)}.
 	\par
 	Convolutional neural networks are analogous to traditional neural networks in 
@@ -617,8 +617,8 @@
 	it to classify the data, e.g. outputs \alleg{cat} if it is fed with a cat picture 
 	and \alleg{dog} if it is fed with a dog picture. Thus, compared to standard neural 
 	networks with similarly-sized layers, convolutional networks have much fewer 
-	connections and parameters and so they are easier to train \citep{alexnet}. Also 
-	their theoretically-best performance is likely to be only slightly worse. 
+	connections and parameters and so they are easier to train \citep{Krizhevsky_alexnet}. 
+	Also their theoretically-best performance is likely to be only slightly worse. 
 	Convolutional neural networks are perfectly suitable for computer vision, so 
 	below we are going to concentrate on them.
 	\par
@@ -636,8 +636,8 @@
 	\\
 	
 	Convolutional networks have recently enjoyed a great success in large-scale image 
-	and video recognition \citep{vgg}. This has become possible due to the large public 
-	image repositories, such as \term{ImageNet} \citep{Deng} and high-performance 
+	and video recognition \citep{Simonyan_vgg}. This has become possible due to the large 
+	public image repositories, such as \term{ImageNet} \citep{Deng} and high-performance 
 	computing systems, such as \acronym{gpu}s or large-scale distributed clusters. In 
 	particular, an important role in the advance of deep visual recognition architectures 
 	has been played by the \term{ImageNet Large Scale Visual Recognition Challenge 
@@ -648,8 +648,10 @@
 	\par
 	Many research groups have been very generous in releasing their pre-trained 
 	models to the open-source community. Some of the most well-known, such as AlexNet, 
-	VGGNet, Inception, ResNet, Xception \citep{alexnet, vgg} won in the \acronym{ilsvrc}. 
-	And others, like MobileNet, SqueezeNet etc participated in it.
+	VGGNet, Inception, ResNet, Xception \citep{Krizhevsky_alexnet, Simonyan_vgg, 
+	Szegedy_inception, He_resnet, Chollet_xception} won in the \acronym{ilsvrc}. 
+	And others, like MobileNet, SqueezeNet \citep{Howard_mobilenet, Iandola_squeezenet} 
+	etc participated in it.
 	\par
 	For the purposes of this thesis we will only deal with pre-trained models. Borrowing 
 	a little story from \citet{Gupta} we are going to explain why. Imagine two people, 
