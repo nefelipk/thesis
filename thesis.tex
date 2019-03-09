@@ -572,6 +572,14 @@
 	\subsection{Visual information}
 	\label{sec:bg:data:neural}
 	
+	From the perspective of intelligence, dealing with input directly to generate 
+	output without further processing of input information is a kind of	low-level 
+	intelligence \citep{Tai}. It will be more satisfactory if a mobile robot could 
+	imitate the way human beings deal with such a task. Fortunately, deep learning, 
+	with its advantage in hierarchical feature extraction, provides a potential 
+	solution for this problem.
+	\\
+	
 	\term{Machine learning} is a subset of \term{artificial intelligence (\acronym{ai})} 
 	that studies the design of algorithms that can learn. It is used to effectively 
 	perform a specific task without using explicit instructions, but relying on 
@@ -615,15 +623,24 @@
 	recognition tasks (but can also be used for other types of input such as audio). 
 	A typical use case for a convolutional network is to feed it images in order for 
 	it to classify the data, e.g. outputs \alleg{cat} if it is fed with a cat picture 
-	and \alleg{dog} if it is fed with a dog picture. Thus, compared to standard neural 
-	networks with similarly-sized layers, convolutional networks have much fewer 
-	connections and parameters and so they are easier to train \citep{Krizhevsky_alexnet}. 
-	Also their theoretically-best performance is likely to be only slightly worse. 
-	Convolutional neural networks are perfectly suitable for computer vision, so 
-	below we are going to concentrate on them.
+	and \alleg{dog} if it is fed with a dog picture. Thus, compared to other regular, 
+	deep, feed-forward neural networks with similarly-sized layers, convolutional 
+	networks have much fewer connections and parameters and so they are easier to train 
+	\citep{Krizhevsky_alexnet}. Convolutional neural networks are perfectly suitable for 
+	computer vision (i.e. robot navigation), so below we are going to concentrate 
+	mainly on them.
 	\par
-	Generative adversarial networks \citep{Goodfellow}, as we have already mentioned 
-	in Section~\ref{sec:bg:trav}, are two networks working together. The one is tasked 
+	But when we come to adversarial examples, these are basically the images that fool 
+	convolutional networks \citep{Deshpande}. Let’s take an example image and apply 
+	a perturbation, or a slight modification, so that the prediction error is maximized. 
+	The difference between the original and the altered content may be imperceptible 
+	to humans, but the network might make drastic errors in classification. So the 
+	goal is to train a network to understand the differences between real content and 
+	artificially created one. 
+	\par
+	That is what generative adversarial networks 
+	\citep{Goodfellow} do. As we have already mentioned in Section~\ref{sec:bg:trav}, 
+	they are two networks working together. The one is tasked 
 	to generate content and the other has to judge the same content. The discriminative 
 	network receives either training data or generated content from the generative 
 	network. This creates a form of competition where the discriminator is getting 
@@ -642,20 +659,20 @@
 	particular, an important role in the advance of deep visual recognition architectures 
 	has been played by the \term{ImageNet Large Scale Visual Recognition Challenge 
 	(\acronym{ilsvrc})} \citep{Russakovsky}, an annual competition organized by the 
-	ImageNet team since 2010. There research teams evaluate their computer vision 
-	algorithms with various visual recognition tasks such as \term{Object Classification} 
-	and \term{Object Localization}.
+	ImageNet team since 2010 (basically, the annual Olympics of computer vision \citep{Deshpande}). 
+	There research teams evaluate their computer vision algorithms with various visual 
+	recognition tasks such as \term{Object Classification} and \term{Object Localization}.
 	\par
 	Many research groups have been very generous in releasing their pre-trained 
 	models to the open-source community. Some of the most well-known, such as AlexNet, 
 	VGGNet, Inception, ResNet, Xception \citep{Krizhevsky_alexnet, Simonyan_vgg, 
 	Szegedy_inception, He_resnet, Chollet_xception} won in the \acronym{ilsvrc}. 
-	And others, like MobileNet, SqueezeNet \citep{Howard_mobilenet, Iandola_squeezenet} 
+	And others, like SqueezeNet, MobileNet \citep{Iandola_squeezenet, Howard_mobilenet} 
 	etc participated in it.
 	\par
-	For the purposes of this thesis we will only deal with pre-trained models. Borrowing 
-	a little story from \citet{Gupta} we are going to explain why. Imagine two people, 
-	Mr. Potato and Mr. Athlete. They sign up for soccer training at the same time. 
+	For the purposes of this thesis we will basically deal with pre-trained models. 
+	Borrowing a little story from \citet{Gupta} we are going to explain why. Imagine two 
+	people, Mr. Potato and Mr. Athlete. They sign up for soccer training at the same time. 
 	Neither of them has ever played soccer and the skills like dribbling, passing, 
 	kicking etc. are new to both of them. Mr. Potato does not move much but Mr. Athlete 
 	does. That is the core difference between the two even before the training has even 
@@ -663,12 +680,37 @@
 	(e.g. stamina, speed and even sporting instincts) are going to be very useful for 
 	learning soccer even though Mr. Athlete has never trained for soccer. Mr. Athlete 
 	benefits from his pre-training.
+	\\
+	
+	For a brief description of the models mentioned above, \citet{Krizhevsky_alexnet} 
+	is widely regarded as one of the most influential publications in the field. Because 
+	of AlexNet, 2012 marked the first year where a convolutional network was used to 
+	achieve a top 5 test error rate of 15.3\%. The next best entry achieved an error 
+	of 26.2\%, which was an astounding improvement that pretty much shocked the computer 
+	vision community. \term{Top 5 error} is called the rate at which, given an image, 
+	the model does not output the correct label with its top 5 predictions. AlexNet 
+	really illustrated the benefits of convolutional networks and backed them up with 
+	record breaking performance in the \acronym{ilsvrc}.
+	\par
+	\citet{Simonyan_vgg} reinforced the notion that \defn{convolutional neural networks 
+	have to have a deep network of layers in order for this hierarchical representation 
+	of visual data to work}. VGGNet is characterized by its simplicity, using very small 
+	($3\times$3) convolutional filters, instead of AlexNet’s ($11\times$11), stacked on 
+	top of each other in increasing depth from 16 to 19 layers. It was best utilized with 
+	its 7.3\% error rate. But it is painfully slow to train.
+	\\
+	\\
+	
+		\todo[size={{\scriptsize}}]{Probably should say some more things about the previous models,
+			VGG, AlexNet etc? Or the one we will use.. Maybe Tai? Sermanet? Hadsell?}
+	
+	Many papers have been published regarding robot navigation approaches that use 
+	deep neural networks. Some classify the area in front of the robot for traversability 
+	\citep{Sermanet, Hadsell}. In others the concept of deep neural networks is further 
+	extended to not only perception but also decision-making \citep{Tai}.
 	\\\\
 	
 	
-	
-	
-	\todo[size={{\scriptsize}}]{Corrected from notes}
 	But what is the strategy for deciding where to go next? Is there a specific goal 
 	for the robot to reach? Should it find the best trajectory? Explore the 
 	environment? A discussion of this topic is made in the following section.
@@ -759,6 +801,11 @@
 	\chapter{Core Foreground}
 	\label{sec:fg}
 	
+	
+	\todo[size={{\scriptsize}}]{Why can't we use Tai?}
+	\todo[size={{\scriptsize}}]{Something like Sermanet or Hadsell?}
+	\todo[size={{\scriptsize}}]{Maybe Fully Convolutional Networks?}
+	\todo[size={{\scriptsize}}]{Or R-CNN for object detection, not only classification? (Mask R-CNN)}
 	
 	
 	Semantically meaningful image understanding is a relatively recent topic in computer vision.
