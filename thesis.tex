@@ -613,8 +613,9 @@
 	\\
 	
 	There are many different neural network architectures \citep{Veen}, such as 
-	\term{Convolutional Neural Networks (\acronym{cnn}s or ConvNets \citep{Simonyan_vgg})} 
-	and \term{Generative Adversarial Networks (\acronym{gan}s)}.
+	\term{Convolutional Neural Networks (\acronym{cnn}s or ConvNets \citep{Simonyan_vgg})}, 
+	\term{Generative Adversarial Networks (\acronym{gan}s)}, \term{Deep Residual Networks 
+	(\acronym{drn}s)}, etc.
 	\par
 	Convolutional neural networks are analogous to traditional neural networks in 
 	that they are comprised of neurons that self-optimize through learning \citep{Shea}. 
@@ -650,6 +651,13 @@
 	trained and either of which can pose it’s own problems. Also their dynamics need 
 	to be balanced. If prediction or generation becomes too good compared to the other, 
 	the neural network will not converge as there is intrinsic divergence.
+	\par
+	Networks that are very effective at learning patterns up to 150 layers deep, much 
+	more than the regular 2 to 5 layers one could expect to train, are the so called 
+	deep residual networks \citep{He_resnet}. Basically, these networks add an identity 
+	to the solution, carrying the older input over and serving it freshly to a later 
+	layer. This essentially drives the new layer to learn something different from what 
+	the input has already encoded. 
 	\\
 	
 	Convolutional networks have recently enjoyed a great success in large-scale image 
@@ -664,8 +672,8 @@
 	recognition tasks such as \term{Object Classification} and \term{Object Localization}.
 	\par
 	Many research groups have been very generous in releasing their pre-trained 
-	models to the open-source community. Some of the most well-known, such as AlexNet, 
-	VGGNet, Inception, ResNet, Xception \citep{Krizhevsky_alexnet, Simonyan_vgg, 
+	models to the open-source community. Some of the most well-known models, such as 
+	AlexNet, VGGNet, Inception, ResNet, Xception \citep{Krizhevsky_alexnet, Simonyan_vgg, 
 	Szegedy_inception, He_resnet, Chollet_xception} won in the \acronym{ilsvrc}. 
 	And others, like SqueezeNet, MobileNet \citep{Iandola_squeezenet, Howard_mobilenet} 
 	etc participated in it.
@@ -682,7 +690,7 @@
 	benefits from his pre-training.
 	\\
 	
-	For a brief description of the models mentioned above, \citet{Krizhevsky_alexnet} 
+	For a brief description of the most important models mentioned above, \citet{Krizhevsky_alexnet} 
 	is widely regarded as one of the most influential publications in the field. Because 
 	of AlexNet, 2012 marked the first year where a convolutional network was used to 
 	achieve a top 5 test error rate of 15.3\%. The next best entry achieved an error 
@@ -698,7 +706,22 @@
 	($3\times$3) convolutional filters, instead of AlexNet’s ($11\times$11), stacked on 
 	top of each other in increasing depth from 16 to 19 layers. It was best utilized with 
 	its 7.3\% error rate. But it is painfully slow to train.
-	\\
+	\par
+	The original incarnation of the Inception architecture used in \citet{Szegedy_inception} 
+	submission to \acronym{ilsvrc} 2014 is called GoogLeNet. It is a 22 layer convolutional 
+	neural network. It actually uses 12 times fewer parameters than the winning architecture 
+	AlexNet, from two years ago. It is also significantly more accurate, with a top 
+	5 error rate of 6.7\%. Inception was one of the first models that introduced the 
+	idea that convolutional layers did no always have to be stacked up sequentially, 
+	but could perform many operations in parallel. Finally this new model places notable 
+	consideration on memory and power usage.
+	\par
+	Depending on their skill and expertise, humans generally hover around a 5\%-10\% 
+	error rate \citep{Deshpande}. But \citet{He_resnet} came up with the ResNet 
+	architecture that has an incredible error rate of 3.6\%. Aside from the new record 
+	in terms of error rate, ResNet is well-known due to its extreme depth of up to 152 
+	layers. This is 8 times deeper than VGGNet. ResNet is also a great innovation for 
+	the idea of residual learning.
 	\\
 	
 		\todo[size={{\scriptsize}}]{Probably should say some more things about the previous models,
@@ -806,6 +829,8 @@
 	\todo[size={{\scriptsize}}]{Something like Sermanet or Hadsell?}
 	\todo[size={{\scriptsize}}]{Maybe Fully Convolutional Networks?}
 	\todo[size={{\scriptsize}}]{Or R-CNN for object detection, not only classification? (Mask R-CNN)}
+	\todo[size={{\scriptsize}}]{COCO 2016 for object detection? SSD? YOLO?}
+	COCO2016
 	
 	
 	Semantically meaningful image understanding is a relatively recent topic in computer vision.
