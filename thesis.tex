@@ -671,13 +671,6 @@
 	There research teams evaluate their computer vision algorithms with various visual 
 	recognition tasks such as \term{Object Classification} and \term{Object Localization}.
 	\par
-	Many research groups have been very generous in releasing their pre-trained 
-	models to the open-source community. Some of the most well-known models, such as 
-	AlexNet, VGGNet, Inception, ResNet, Xception \citep{Krizhevsky_alexnet, Simonyan_vgg, 
-	Szegedy_inception, He_resnet, Chollet_xception} won in the \acronym{ilsvrc}. 
-	And others, like SqueezeNet, MobileNet \citep{Iandola_squeezenet, Howard_mobilenet} 
-	etc participated in it.
-	\par
 	For the purposes of this thesis we will basically deal with pre-trained models. 
 	Borrowing a little story from \citet{Gupta} we are going to explain why. Imagine two 
 	people, Mr. Potato and Mr. Athlete. They sign up for soccer training at the same time. 
@@ -690,9 +683,16 @@
 	benefits from his pre-training.
 	\\
 	
+	Many research groups have been very generous in releasing their pre-trained 
+	models to the open-source community. Some of the most well-known models, such as 
+	AlexNet, VGGNet, Inception, ResNet, Xception \citep{Krizhevsky_alexnet, Simonyan_vgg, 
+	Szegedy_inception, He_resnet, Chollet_xception} won in the \acronym{ilsvrc}. 
+	And others, like SqueezeNet, MobileNet \citep{Iandola_squeezenet, Howard_mobilenet} 
+	etc participated in it.
+	\par
 	For a brief description of the most important models mentioned above, \citet{Krizhevsky_alexnet} 
-	is widely regarded as one of the most influential publications in the field. Because 
-	of AlexNet, 2012 marked the first year where a convolutional network was used to 
+	are widely regarded to have done one of the most influential publications in the field. 
+	Because of AlexNet, 2012 marked the first year where a convolutional network was used to 
 	achieve a top 5 test error rate of 15.3\%. The next best entry achieved an error 
 	of 26.2\%, which was an astounding improvement that pretty much shocked the computer 
 	vision community. \term{Top 5 error} is called the rate at which, given an image, 
@@ -724,13 +724,14 @@
 	the idea of residual learning.
 	\\
 	
-		\todo[size={{\scriptsize}}]{Probably should say some more things about the previous models,
-			VGG, AlexNet etc? Or the one we will use.. Maybe Tai? Sermanet? Hadsell?}
+	\todo[size={{\scriptsize}}]{Probably should say some things about SSD, YOLO, etc. And the one we will use..}
 	
-	Many papers have been published regarding robot navigation approaches that use 
-	deep neural networks. Some classify the area in front of the robot for traversability 
-	\citep{Sermanet, Hadsell}. In others the concept of deep neural networks is further 
-	extended to not only perception but also decision-making \citep{Tai}.
+	Also, many papers have been published regarding robot navigation approaches that 
+	use already existing deep neural networks. Some classify the area in front of the 
+	robot for traversability \citep{Sermanet, Hadsell}. In others the concept of deep 
+	neural networks is further extended to not only perception but also decision-making 
+	\citep{Tai}.
+	\todo[size={{\scriptsize}}]{\citet{Sermanet, Hadsell} not available code}
 	\\\\
 	
 	
@@ -825,12 +826,11 @@
 	\label{sec:fg}
 	
 	
-	\todo[size={{\scriptsize}}]{Why can't we use Tai?}
-	\todo[size={{\scriptsize}}]{Something like Sermanet or Hadsell?}
+	\todo[size={{\scriptsize}}]{Why can't we use Tai? Something like Sermanet or Hadsell?}
 	\todo[size={{\scriptsize}}]{Maybe Fully Convolutional Networks?}
 	\todo[size={{\scriptsize}}]{Or R-CNN for object detection, not only classification? (Mask R-CNN)}
-	\todo[size={{\scriptsize}}]{COCO 2016 for object detection? SSD? YOLO?}
-	COCO2016
+	\todo[size={{\scriptsize}}]{COCO for object detection? SSD? YOLO?}
+	
 	
 	
 	Semantically meaningful image understanding is a relatively recent topic in computer vision.
@@ -840,20 +840,23 @@
 	One of the most remarkable feats of the human visual system is how rapidly, 
 	accurately and comprehensively it can recognize and understand the complex visual 
 	world \citep{Socher}. The various types of tasks related to understanding what 
-	we see in a visual scene is called \term{visual recognition}. In computer vision, 
+	we see in a visual scene is called \term{visual recognition}. Such tasks are object 
+	classification and localization, which concern one object. In computer vision, 
 	visual recognition has enjoyed some great success in recent years, particularly 
-	in single object categorization, like in the example with the cat and the dog, 
-	mentioned above. While recognizing isolated objects is a critical component of 
-	visual recognition, a lot more is needed to be done to reach a complete 
-	understanding of visual scenes.
+	in single object categorization (i.e., classification and localization), like in 
+	the example with the cat and the dog, mentioned above in Section~\ref{sec:bg:data:neural}. 
+	While recognizing isolated objects is a critical component of visual recognition, 
+	a lot more is needed to be done in order to recognize multiple objects (i.e., 
+	detection or segmentation), let alone reach a complete understanding of visual 
+	scenes.
 	\\
 	
 	
 	In this thesis, our first goal is for the robot to be able to autonomously 
-	navigate in natural environments. So, the aim is on total scene segmentation 
-	rather than object recognition. Although humans perform scene segmentation with 
-	apparent ease, automatic scene segmentation is a very challenging problem 
-	\citep{Wang}. 
+	navigate in natural environments. So, the aim is on total scene segmentation or 
+	object detection rather than object recognition and localization. Although humans 
+	perform scene segmentation with apparent ease, automatic scene segmentation is 
+	a very challenging problem \citep{Wang}. 
 	\todo[size={{\tiny}}]{In: Arbib M.A. (ed.), The Handbook of Brain Theory and Neural Networks, 2nd Ed., MIT Press, Cambridge MA, pp. 1215-1219, 2003.}
 	\par
 	That is why we are going to use neural networks in order to attain 
@@ -876,6 +879,11 @@
 	\\
 	
 	
+	\todo[size={{\scriptsize}}]{FCN: need training ---> \url{https://medium.com/nanonets/how-to-do-image-segmentation-using-deep-learning-c673cc5862ef}}
+	\todo[size={{\scriptsize}}]{Hirose GONet: trained for indoors}
+	\todo[size={{\scriptsize}}]{ADE20K: scene parsing, dataset that has densely annotated images}
+	
+	\todo[size={{\scriptsize}}]{Semantic Segmentation, Urban Navigation, and Research Directions (Qasim Nadeem) -> not in Google Scholar}
 	
 	
 	
