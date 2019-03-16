@@ -142,7 +142,7 @@
 		and compare it with previous ones.
 		\item In Chapter~\ref{sec:concl} we give our conclusions and ideas for future 
 		work.
-		\item In Appendix~\ref{sec:app} we share some \acronym{url}s of prototype 
+		\item In Appendix~\ref{app:impl} we share some \acronym{url}s of prototype 
 		implementations from researchers who offered their work open-source.
 	\end{itemize}
 	
@@ -629,7 +629,8 @@
 	networks have much fewer connections and parameters and so they are easier to train 
 	\citep{Krizhevsky_alexnet}. Convolutional neural networks are perfectly suitable for 
 	computer vision (i.e. robot navigation), so below we are going to concentrate 
-	mainly on them.
+	mainly on them. For more basic information on how convolutional neural networks work, 
+	see Appendix~\ref{app:conv}.
 	\par
 	But when we come to adversarial examples, these are basically the images that fool 
 	convolutional networks \citep{Deshpande}. Let’s take an example image and apply 
@@ -658,6 +659,19 @@
 	to the solution, carrying the older input over and serving it freshly to a later 
 	layer. This essentially drives the new layer to learn something different from what 
 	the input has already encoded. 
+	\\
+	
+	One of the most remarkable feats of the human visual system is how rapidly, 
+	accurately and comprehensively it can recognize and understand the complex visual 
+	world \citep{Socher}. The various types of tasks related to understanding what 
+	we see in a visual scene is called \term{visual recognition}. In computer vision, 
+	visual recognition has enjoyed some great success in recent years, particularly 
+	in single object categorization (i.e., object classification, object localization), 
+	like in the example with the cat and the dog, mentioned above. 
+	While recognizing isolated objects is a critical component of visual recognition, 
+	a lot more is needed to be done in order to recognize multiple objects (i.e., 
+	object detection, object segmentation), let alone reach a complete understanding 
+	of visual scenes (i.e., scene segmentation).
 	\\
 	
 	Convolutional networks have recently enjoyed a great success in large-scale image 
@@ -690,7 +704,7 @@
 	And others, like SqueezeNet, MobileNet \citep{Iandola_squeezenet, Howard_mobilenet} 
 	etc participated in it.
 	\par
-	For a brief description of the most important models mentioned above, \citet{Krizhevsky_alexnet} 
+	\citet{Krizhevsky_alexnet} 
 	are widely regarded to have done one of the most influential publications in the field. 
 	Because of AlexNet, 2012 marked the first year where a convolutional network was used to 
 	achieve a top 5 test error rate of 15.3\%. The next best entry achieved an error 
@@ -703,7 +717,7 @@
 	\citet{Simonyan_vgg} reinforced the notion that \defn{convolutional neural networks 
 	have to have a deep network of layers in order for this hierarchical representation 
 	of visual data to work}. VGGNet is characterized by its simplicity, using very small 
-	($3\times$3) convolutional filters, instead of AlexNet’s ($11\times$11), stacked on 
+	(3$\times$3) convolutional filters, instead of AlexNet’s (11$\times$11), stacked on 
 	top of each other in increasing depth from 16 to 19 layers. It was best utilized with 
 	its 7.3\% error rate. But it is painfully slow to train.
 	\par
@@ -801,7 +815,7 @@
 	re-usable to accomplish many possible tasks in a certain class of environments.
 	\\
 	
-	It has become clear to researchers in robotics and adaptive behaviour that 
+	It has become clear to researchers in robotics and adaptive behavior that 
 	current approaches are yielding systems with limited autonomy and capacity for 
 	self-improvement. To learn autonomously and in a cumulative fashion is one of 
 	the hallmarks of intelligence, so that is what we want to achieve in the current 
@@ -819,11 +833,25 @@
 	\\\\
 	
 	Enough of background, let’s now see how our autonomous mobile robot handles the 
-	knowledge taken from its environment to improve	its traversability estimation method.
+	knowledge taken from its environment to improve	its traversability estimation 
+	method.
 	\\
 	
 	\chapter{Core Foreground}
 	\label{sec:fg}
+	
+	In this thesis, our first goal is for the robot to be able to autonomously 
+	navigate in natural environments. To do so, we could use a pre-trained neural 
+	network in order to be able to distinguish traversable from non-traversable 
+	terrain. So, the aim is on total scene segmentation rather than single or even 
+	multiple object categorization. Although humans perform scene segmentation with 
+	apparent ease, automatic scene segmentation is a very challenging problem 
+	\citep{Wang}. 
+	\todo[size={{\tiny}}]{In: Arbib M.A. (ed.), The Handbook of Brain Theory and Neural Networks, 2nd Ed., MIT Press, Cambridge MA, pp. 1215-1219, 2003.}
+	
+	
+	\todo[size={{\scriptsize}}]{Write all efforts and ideas, whether successful or not}
+	
 	
 	
 	\todo[size={{\scriptsize}}]{Why can't we use Tai? Something like Sermanet or Hadsell?}
@@ -837,28 +865,7 @@
 	\\
 	
 	
-	One of the most remarkable feats of the human visual system is how rapidly, 
-	accurately and comprehensively it can recognize and understand the complex visual 
-	world \citep{Socher}. The various types of tasks related to understanding what 
-	we see in a visual scene is called \term{visual recognition}. Such tasks are object 
-	classification and localization, which concern one object. In computer vision, 
-	visual recognition has enjoyed some great success in recent years, particularly 
-	in single object categorization (i.e., classification and localization), like in 
-	the example with the cat and the dog, mentioned above in Section~\ref{sec:bg:data:neural}. 
-	While recognizing isolated objects is a critical component of visual recognition, 
-	a lot more is needed to be done in order to recognize multiple objects (i.e., 
-	detection or segmentation), let alone reach a complete understanding of visual 
-	scenes.
-	\\
 	
-	
-	In this thesis, our first goal is for the robot to be able to autonomously 
-	navigate in natural environments. So, the aim is on total scene segmentation or 
-	object detection rather than object recognition and localization. Although humans 
-	perform scene segmentation with apparent ease, automatic scene segmentation is 
-	a very challenging problem \citep{Wang}. 
-	\todo[size={{\tiny}}]{In: Arbib M.A. (ed.), The Handbook of Brain Theory and Neural Networks, 2nd Ed., MIT Press, Cambridge MA, pp. 1215-1219, 2003.}
-	\par
 	That is why we are going to use neural networks in order to attain 
 	autonomous driving. 
 	\par
@@ -896,8 +903,8 @@
 	\label{sec:concl}
 	
 	\appendix
-	\chapter{Prototype / reference implementations}
-	\label{sec:app}
+	\chapter{Prototype / Reference Implementations}
+	\label{app:impl}
 	
 	Many writers published their code open-source so that other researchers may 
 	use their work. Here we give some \acronym{url}s and comments about the work 
@@ -909,6 +916,104 @@
 		\centering	
 		\input{urls}
 	\end{table}
+	
+	\chapter{Basic information on Convolutional Neural Networks}
+	\label{app:conv}
+	
+	Summing up a part of \citet{Deshpande_guide} beginner's guide, we give a brief 
+	description on convolutional neural networks.
+	\\
+	
+	When a computer takes an image as input, it sees an array of pixel values. This 
+	array is sized depending on the resolution and size of the image. Let's say we 
+	have a color image in \acronym{jpg} form and its size is 32 $\times$ 32. The 
+	representative array will be 32 $\times$ 32 $\times$ 3 (the 3 refers to \acronym{rgb} 
+	values). Each of these numbers is given a value from 0 to 255 which describes the 
+	pixel intensity at that point. These numbers, while meaningless to us when we 
+	perform image classification, are the only inputs available to the computer. The 
+	idea of neural networks is that we give the computer this array of numbers and 
+	it outputs numbers that describe the probability of the image being a certain 
+	class (e.g. 80\% for cat, 15\% for dog, 5\% for bird etc).
+	\\
+	
+	So what we want the computer to do is to be able to differentiate between the 
+	images it is given and figure out the unique features that make a dog a dog or 
+	that make a cat a cat. This is what human minds do subconsciously as well. Roughly,
+	we can classify a dog in a picture if it has identifiable features such as paws or 
+	four legs. In a similar way, the computer is able perform image classification by 
+	looking for low level features such as edges and curves, and then building up to 
+	more abstract concepts through a series of convolutional layers. This is a general 
+	overview of what a convolutional neural network does.
+	\\
+	
+	The first layer in a convolutional neural network is always a \term{convolutional 
+	layer}. The best way to explain a convolutional layer is to imagine a flashlight 
+	that is shining over the top left of the image. Let’s say that the light this 
+	flashlight shines covers a 5 $\times$ 5 area. And now, let’s imagine this flashlight 
+	sliding across all the areas of the input image. In machine learning terms, this 
+	flashlight is called a \term{filter} (also referred to as a \term{neuron} or a 
+	\term{kernel}) and the region that it is shining over is called \term{receptive 
+	field}. This filter is also an array of numbers called \term{weights} or 
+	\term{parameters}. A very important note is that the depth of this filter has to 
+	be the same as the depth of the input (in order for the math to work out), so the 
+	dimensions of this filter is 5 $\times$ 5 $\times$ 3. 
+	\par
+	As the filter is sliding, or \term{convolving}, around the input image, it is 
+	multiplying the values in the filter with the original pixel values of the image 
+	(aka computing \term{element wise multiplications}). Mathematically speaking, this 
+	would be 75 multiplications in total for the first position the filter is in. Then 
+	these multiplications are all summed up to a single number. The next step is to 
+	move the filter to the right by one unit and repeat. This process is repeated for 
+	every location on the input volume and produce a number.
+	\par
+	There are 784 different locations that a 5 $\times$ 5 filter can fit on a 
+	32 $\times$ 32 input image. So after sliding the filter over all the locations, 
+	the result is an 28 $\times$ 28 $\times$ 1 array of numbers, called an \term{activation 
+	map} or \term{feature map}. Using more filters makes possible to preserve the spatial 
+	dimensions. If there are two 5 $\times$ 5 $\times$ 3 filters used instead of one, 
+	the output volume would be 28 $\times$ 28 $\times$ 2. The more filters, the greater 
+	the depth of the activation map, and the more the information about the input image.
+	\par
+	Each of these filters can be thought of as \term{feature identifiers}, for features 
+	like straight edges, curves, simple colors. For example, let's assume one filter 
+	is a curve detector. If there is a shape in the input image that generally resembles 
+	the curve that this filter is representing, then all of the multiplications summed 
+	together will result in a large value. And if not, the value will be much lower. 
+	This will happen if there is nothing in the image section that responds to the 
+	curve detector filter. So the activation map will have large values in the areas 
+	where is most likely to have curves, and low values on the least likely.
+	\\
+	
+	Moving to the next layer, its input would be the output of the previous layer. 
+	In this case the input of the second layer will be the activation maps that result 
+	from the first layer. So the input is basically describing the locations in the 
+	original image where certain low level features appear. Applying a set of filters 
+	on top of that, as it passes through the second convolutional layer, the output 
+	will be activations that represent higher level features. Types of these features 
+	could be semicircles (i.e. combination of a curve and straight edge) or squares 
+	(i.e. combination of several straight edges).
+	\par
+	As going through the network and through more convolutional layers, the activation 
+	maps represent more and more complex features. By the end of the network, there 
+	might be some filters that activate when there is handwriting in the image, when 
+	they recognize green objects, etc. An interesting thing to note is that going deeper 
+	into the network, the filters begin to have a larger receptive field. That means 
+	they are able to consider information from a bigger region of the original input 
+	volume.
+	\\
+	
+	Finally, at the end of the network there is a \term{fully connected layer}. This 
+	layer takes as input the output from the layer preceding it, and outputs a vector 
+	with dimensions the number of classes that the program has to choose from. Each 
+	value of the vector represents the probability of a certain class.	For example, 
+	let's take a digit classification program. The output the a dimensional vector 
+	such as [0 0.1 0.1 0.75 0 0 0 0 0 0.05], since there are ten digits. This represents 
+	a 10\% probability that the original image is a 1, a 10\% that it is a 2, a 75\% 
+	that it is a 3, and a 5\% that it is a 9. Basically, a fully connected layer take 
+	the activation maps of the previous layer and determines which features most 
+	correlate to a particular class.
+	\\
+	
 	
 	\renewcommand{\bibname}{References}
 	\bibliography{ref}
