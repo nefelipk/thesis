@@ -144,6 +144,8 @@
 		work.
 		\item In Appendix~\ref{app:impl} we share some \acronym{url}s of prototype 
 		implementations from researchers who offered their work open-source.
+		\item In Appendix~\ref{app:conv} one can find a brief outline on how 
+		convolutional neural networks work.
 	\end{itemize}
 	
 	\chapter{Background}
@@ -832,10 +834,11 @@
 	improve its knowledge of traversability.
 	\\\\
 	
-	Enough of background, let’s now see how our autonomous mobile robot handles the 
-	knowledge taken from its environment to improve	its traversability estimation 
-	method.
+	Enough of background, let’s now see how our autonomous mobile robot takes input 
+	from its environment and handles the newly acquired knowledge to improve its 
+	traversability estimation method.
 	\\
+	
 	
 	\chapter{Core Foreground}
 	\label{sec:fg}
@@ -843,10 +846,40 @@
 	In this thesis, our first goal is for the robot to be able to autonomously 
 	navigate in natural environments. To do so, we could use a pre-trained neural 
 	network in order to be able to distinguish traversable from non-traversable 
-	terrain. So, the aim is on total scene segmentation rather than single or even 
-	multiple object categorization. Although humans perform scene segmentation with 
-	apparent ease, automatic scene segmentation is a very challenging problem 
-	\citep{Wang}. 
+	terrain. 
+	\\
+	
+	The first thought was to use one of the most-well known models from \acronym{ilsvrc}. 
+	With a little help from the code of \citet{Rosebrocke} we experimented on 
+	pre-trained VGGNet, ResNet, Inception and Xception. We fed them images and, 
+	as expected, they returned classification predictions about them. With the 
+	contribution of ImageNet a list of human-readable labels and the probability 
+	associated with them was printed.
+	\par
+	Images containing just one object (e.g. soccer ball, couch) led to predictions 
+	that were satisfactory in their entirety. But being fed with images containing 
+	multiple objects (e.g. book and glasses) the networks got confused. They gave 
+	some decent predictions (like envelope or book jacket, in the previous example) 
+	but also some that were a little bit off (like lighter or birdhouse), within 
+	their top-5 list.
+	\par
+	Images that contain vegetation, which are of particular interest to us in this 
+	work, were the worst case scenario. For example, these networks after being 
+	fed with an image of a tree gave as predictions with the largest probabilities 
+	kinds of seeds, like lemons. This probably happened because the networks concentrated 
+	to only the one part of the whole image that was most recognizable by them. 
+	Finding out what the predictions with smaller probabilities were did not help. 
+	As the networks kept predicting they got desperate are started giving all sorts 
+	of provisions. 
+	\par
+	Even though these networks are proven to be great on object classification, when 
+	it comes to scene recognition there is no trivial way to make them work correctly.
+	\\
+	
+	So, the aim is on total scene segmentation rather than single or even multiple 
+	object categorization. Although humans perform scene segmentation with apparent 
+	ease, automatic scene segmentation is a very challenging problem \citep{Wang}.
+	\\ 
 	\todo[size={{\tiny}}]{In: Arbib M.A. (ed.), The Handbook of Brain Theory and Neural Networks, 2nd Ed., MIT Press, Cambridge MA, pp. 1215-1219, 2003.}
 	
 	
@@ -899,8 +932,10 @@
 	\chapter{Experimental Validation and Comparison}
 	\label{sec:exp}
 	
+	
 	\chapter{Conclusions and Future Work}
 	\label{sec:concl}
+	
 	
 	\appendix
 	\chapter{Prototype / Reference Implementations}
@@ -917,10 +952,11 @@
 		\input{urls}
 	\end{table}
 	
+	
 	\chapter{Basic information on Convolutional Neural Networks}
 	\label{app:conv}
 	
-	Summing up a part of \citet{Deshpande_guide} beginner's guide, we give a brief 
+	Based mainly on \citet{Deshpande_guide} beginner's guide, we give a brief 
 	description on convolutional neural networks.
 	\\
 	
@@ -940,10 +976,11 @@
 	images it is given and figure out the unique features that make a dog a dog or 
 	that make a cat a cat. This is what human minds do subconsciously as well. Roughly,
 	we can classify a dog in a picture if it has identifiable features such as paws or 
-	four legs. In a similar way, the computer is able perform image classification by 
-	looking for low level features such as edges and curves, and then building up to 
-	more abstract concepts through a series of convolutional layers. This is a general 
-	overview of what a convolutional neural network does.
+	snout or four legs. In a similar way, the computer is able perform image 
+	classification by looking for low level features such as edges and curves, and 
+	then building up to more abstract concepts, like paws and beaks, through a series 
+	of convolutional layers. This is a general overview of what a convolutional neural 
+	network does.
 	\\
 	
 	The first layer in a convolutional neural network is always a \term{convolutional 
