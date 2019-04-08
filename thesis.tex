@@ -747,7 +747,7 @@
 	robot for traversability \citep{Sermanet, Hadsell}. In others the concept of deep 
 	neural networks is further extended to not only perception but also decision-making 
 	\citep{Tai}.
-	\todo[size={{\scriptsize}}]{\citet{Sermanet, Hadsell} not available code}
+	\todo[size={{\scriptsize}}]{\citet{Tai, Sermanet, Hadsell} not available code}
 	\\\\
 	
 	
@@ -843,6 +843,44 @@
 	\chapter{Core Foreground}
 	\label{sec:fg}
 	
+	In Defense of Pre-trained ImageNet Architectures for Real-time Semantic Segmentation of Road-driving Images (\url{https://github.com/orsic/swiftnet}) -> March 2019
+	
+	DenseASPP for Semantic Segmentation in Street Scenes (\url{https://github.com/DeepMotionAIResearch/DenseASPP})
+		
+	Failed trials:
+	
+	Vision-Based Real-Time Traversable Region Detection for Mobile Robot in the Outdoors -> no available code
+	From On-Road to Off: Transfer Learning within a Deep Convolutional Neural Network for Segmentation and Classification of Off-Road Scenes (\url{https://www.youtube.com/watch?v=HfdoM9GJVAw})  ->  no available code
+	Fast Road Scene Segmentation using Deep Learning and Scene-based Models -> road, obstacles, sky
+	Pixel-wise Segmentation of Street with Neural Networks -> just street
+	
+	Segmentation and description of natural outdoor scenes -> road, vegetation, grass classes -> no available code
+	
+	Learning Hierarchical Features for Scene Labeling -> 8 classes: sky, road, building, tree, grass, water, mountain, object -> no available code
+	
+	VUNet: Dynamic Scene View Synthesis for Traversability Estimation using an RGB Camera -> similar to GONet -> trained for indoors
+	
+	DeepLab (\url{https://github.com/tensorflow/models/tree/master/research/deeplab} 
+	\& \url{https://gluon-cv.mxnet.io/build/examples_segmentation/index.html} -> getting .param files)
+	
+	and datasets:
+	PLVP dataset -> pedestrian lane
+	KITTI dataset -> road and lane detection, asphalt roads
+	Stanford background dataset -> grass and tree as classes
+	ADE20K -> whole image segmentation
+	COCO, PASCAL VOC -> semantic for foreground only
+	
+	thesis (no code available):
+	Road Detection and Recognition from Monocular Images Using Neural Networks -> image has road or not,
+	Autonomous Terrain Classification Through Unsupervised Learning -> neural network trained on colour, depth and infrared data,
+	Semantic Segmentation for Terrain Roughness Estimation Using Data Autolabeled with a Custom Roughness Metric -> roughness of each path
+	\\\\
+	
+	
+	
+	
+	
+	
 	In this thesis, our first goal is for the robot to be able to autonomously 
 	navigate in natural environments. To do so, we could use a pre-trained neural 
 	network in order to be able to distinguish traversable from non-traversable 
@@ -882,12 +920,15 @@
 	\\ 
 	\todo[size={{\tiny}}]{In: Arbib M.A. (ed.), The Handbook of Brain Theory and Neural Networks, 2nd Ed., MIT Press, Cambridge MA, pp. 1215-1219, 2003.}
 	
+	The next idea was to use part of the work that \citet{Tai} did in order to explore 
+	an unknown environment. They used a structure that fuses several convolutional 
+	neural network layers with decision-making process.
+	\todo[size={{\scriptsize}}]{Why can't we use Tai? Something like Sermanet or Hadsell?}
 	
 	\todo[size={{\scriptsize}}]{Write all efforts and ideas, whether successful or not}
 	
 	
-	
-	\todo[size={{\scriptsize}}]{Why can't we use Tai? Something like Sermanet or Hadsell?}
+
 	\todo[size={{\scriptsize}}]{Maybe Fully Convolutional Networks?}
 	\todo[size={{\scriptsize}}]{Or R-CNN for object detection, not only classification? (Mask R-CNN)}
 	\todo[size={{\scriptsize}}]{COCO for object detection? SSD? YOLO?}
