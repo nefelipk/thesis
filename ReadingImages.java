@@ -39,15 +39,16 @@ public class ReadingImages {
 	static Map<String, Integer> rgbToTrav = new HashMap<String, Integer>();
 	static Map<String, Integer> rgbToObst = new HashMap<String, Integer>();
 	
+	
 	static void readClasses() {
 		BufferedReader br;
 		try {
 			br = new BufferedReader(new FileReader(color_file));
 			String line =  null;
 			
-			while((line = br.readLine()) != null){
+			while ((line = br.readLine()) != null) {
 				String str[] = line.split("\t");
-				for(int i = 0; i < str.length; i++) {
+				for (int i = 0; i < str.length; i++) {
 					rgbToClass.put(str[0], str[3].split(";")[0]);
 				}
 			}
@@ -60,49 +61,49 @@ public class ReadingImages {
 	}
 	
 	
+	static void train(File dir, Map<String, Integer> map) {
+		Mat matrix;
+		String colors;
+		Set<String> hash_set = new HashSet<String>();
+		
+		if (dir.isDirectory()) {
+			for (File input_img : dir.listFiles()) {
+				matrix = Highgui.imread(input_img.getAbsolutePath());
+				Imgproc.cvtColor(matrix, matrix, Imgproc.COLOR_BGR2RGB);
+				for (int i = 0; i < matrix.rows(); i++) {
+					for (int j = 0; j < matrix.cols(); j++) {
+						colors = "(";
+						for (int k = 0; k < matrix.channels(); k++) {
+							colors += (int) matrix.get(i,j)[k];
+							if (k != 2) colors += ", ";
+							else colors += ")";
+						}
+						hash_set.add(colors);
+					}
+				}
+//				System.out.println("hash_set: " + hash_set);
+								
+				for (String temp : hash_set) {
+					if (map.get(temp) != null) {
+						map.put(temp, map.get(temp) + 1);
+					}
+					else {
+						map.put(temp, 1);
+					}
+				}
+				hash_set.clear();
+			}
+		}
+	}
+	
+	
 	public static void main(String[] args) {
 		//Load the OpenCV core library
 		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
 		
-		//Instantiating the Imagecodecs/Highgui class
-//		Highgui imageCodecs = new Highgui();
-		
-		
 		Mat matrix;
-//		List<Integer> list;
 		String colors;
 		Set<String> hash_set = new HashSet<String>();
-		//Set<List<Integer>> hash_set;
-		
-//		if (color_dir.isDirectory()) { // make sure it's a directory
-//			for (File input_img : color_dir.listFiles()) {
-//				matrix = Highgui.imread(input_img.getAbsolutePath());
-//				Imgproc.cvtColor(matrix, matrix, Imgproc.COLOR_BGR2RGB);
-////				System.out.println(input_img.getAbsolutePath());
-//
-//				list = new ArrayList<Integer>();
-//				for(int k = 0; k < matrix.channels(); k++)
-//					list.add((int) matrix.get(2,2)[k]);
-////				System.out.println("list: " + list);
-//				rgbToClass.put(list, input_img.getName().substring(0, (input_img.getName().indexOf("."))));
-//			}
-//		}
-		
-//		if (my_dir.isDirectory()) { // make sure it's a directory
-//			for (File input_img : my_dir.listFiles()) {
-//				matrix = Highgui.imread(input_img.getAbsolutePath());
-////				System.out.println(input_img.getAbsolutePath());
-//
-//				list = new ArrayList<Integer>();
-//				for(int k = 0; k < matrix.channels(); k++)
-//					list.add((int) matrix.get(0,0)[k]);
-////				System.out.println("list: " + list);
-//				myMap.put(list, input_img.getName().substring(0, (input_img.getName().indexOf("."))));
-//			}
-//		}
-		
-//		System.out.println(Arrays.asList(numToColor));
-//		System.out.println(Collections.singletonList(numToColor));
 		
 		readClasses();
 		for (Entry<String, String> entry : rgbToClass.entrySet()) {
@@ -110,74 +111,75 @@ public class ReadingImages {
 		}
 		
 		
-		if (trav_dir.isDirectory()) {
-			for (File input_img : trav_dir.listFiles()) {
-				matrix = Highgui.imread(input_img.getAbsolutePath());
-				Imgproc.cvtColor(matrix, matrix, Imgproc.COLOR_BGR2RGB);
-				for(int i = 0; i < matrix.rows(); i++) {
-					for (int j = 0; j < matrix.cols(); j++) {
-//						list = new ArrayList<Integer>();
-						colors = "(";
-						for(int k = 0; k < matrix.channels(); k++) {
-//							list.add((int) matrix.get(i,j)[k]);
-							colors += (int) matrix.get(i,j)[k];
-							if (k != 2) colors += ", ";
-							else colors += ")";
-						}
-						hash_set.add(colors);
-					}
-				}
-//				System.out.println("hash_set size: " + hash_set.size());
-				System.out.println("hash_set: " + hash_set);
-				
-				
-				for (String temp : hash_set) {
-					if (rgbToTrav.get(temp) != null) {
-						rgbToTrav.put(temp, rgbToTrav.get(temp) + 1);
-					}
-					else {
-						rgbToTrav.put(temp, 1);
-					}
-				}
-				hash_set.clear();
-			}
-		}
+		train(trav_dir, rgbToTrav);
+		
+//		if (trav_dir.isDirectory()) {
+//			for (File input_img : trav_dir.listFiles()) {
+//				matrix = Highgui.imread(input_img.getAbsolutePath());
+//				Imgproc.cvtColor(matrix, matrix, Imgproc.COLOR_BGR2RGB);
+//				for(int i = 0; i < matrix.rows(); i++) {
+//					for (int j = 0; j < matrix.cols(); j++) {
+//						colors = "(";
+//						for(int k = 0; k < matrix.channels(); k++) {
+//							colors += (int) matrix.get(i,j)[k];
+//							if (k != 2) colors += ", ";
+//							else colors += ")";
+//						}
+//						hash_set.add(colors);
+//					}
+//				}
+//				System.out.println("hash_set: " + hash_set);
+//				
+//				
+//				for (String temp : hash_set) {
+//					if (rgbToTrav.get(temp) != null) {
+//						rgbToTrav.put(temp, rgbToTrav.get(temp) + 1);
+//					}
+//					else {
+//						rgbToTrav.put(temp, 1);
+//					}
+//				}
+//				hash_set.clear();
+//			}
+//		}
 		
 		System.out.println("Done with traversable images");
 		
-		if (obst_dir.isDirectory()) {
-			for (File input_img : obst_dir.listFiles()) {
-				matrix = Highgui.imread(input_img.getAbsolutePath());
-				Imgproc.cvtColor(matrix, matrix, Imgproc.COLOR_BGR2RGB);
-				for(int i = 0; i < matrix.rows(); i++) {
-					for (int j = 0; j < matrix.cols(); j++) {
-//						list = new ArrayList<Integer>();
+		train(obst_dir, rgbToObst);
+		
+//		if (obst_dir.isDirectory()) {
+//			for (File input_img : obst_dir.listFiles()) {
+//				matrix = Highgui.imread(input_img.getAbsolutePath());
+//				Imgproc.cvtColor(matrix, matrix, Imgproc.COLOR_BGR2RGB);
+//				for(int i = 0; i < matrix.rows(); i++) {
+//					for (int j = 0; j < matrix.cols(); j++) {
+////						list = new ArrayList<Integer>();
+////						for(int k = 0; k < matrix.channels(); k++) {
+////							list.add((int) matrix.get(i,j)[k]);
+////						}
+////						hash_set.add(list);
+//						colors = "(";
 //						for(int k = 0; k < matrix.channels(); k++) {
-//							list.add((int) matrix.get(i,j)[k]);
+////							list.add((int) matrix.get(i,j)[k]);
+//							colors += (int) matrix.get(i,j)[k];
+//							if (k != 2) colors += ", ";
+//							else colors += ")";
 //						}
-//						hash_set.add(list);
-						colors = "(";
-						for(int k = 0; k < matrix.channels(); k++) {
-//							list.add((int) matrix.get(i,j)[k]);
-							colors += (int) matrix.get(i,j)[k];
-							if (k != 2) colors += ", ";
-							else colors += ")";
-						}
-						hash_set.add(colors);
-					}
-				}	
-				
-				for (String temp : hash_set) {
-					if (rgbToObst.get(temp) != null) {
-						rgbToObst.put(temp, rgbToObst.get(temp) + 1);
-					}
-					else {
-						rgbToObst.put(temp, 1);
-					}
-				}
-				hash_set.clear();
-			}
-		}
+//						hash_set.add(colors);
+//					}
+//				}	
+//				
+//				for (String temp : hash_set) {
+//					if (rgbToObst.get(temp) != null) {
+//						rgbToObst.put(temp, rgbToObst.get(temp) + 1);
+//					}
+//					else {
+//						rgbToObst.put(temp, 1);
+//					}
+//				}
+//				hash_set.clear();
+//			}
+//		}
 		
 		System.out.println("Done with non-traversable images\n");
 		
