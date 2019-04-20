@@ -24,6 +24,7 @@
 	{
 		\hypersetup{linkcolor=black}
 		\tableofcontents
+		\listoftables
 	}
 	
 	\chapter{Introduction}
@@ -97,7 +98,7 @@
 	Estimating the traversability of terrain in an unstructured outdoor 
 	environment is a core functionality for autonomous robot navigation \citep{Kim}. 
 	Nevertheless, the traversability of more complex terrain, such as 
-	vegetation and sloping ground, is extremely difficult to characterize a priori. 
+	vegetation and sloping ground, is extremely difficult to characterize beforehand. 
 	It is difficult to find general rules which work for each vehicle's	capabilities
 	and for a wide variety of terrain types such as trees, rocks, tall grass, logs, 
 	and bushes. As a result, methods which provide traversability estimates 
@@ -686,20 +687,9 @@
 	ImageNet team since 2010 (basically, the annual Olympics of computer vision \citep{Deshpande}). 
 	There research teams evaluate their computer vision algorithms with various visual 
 	recognition tasks such as \term{Object Classification} and \term{Object Localization}.
-	\par
-	For the purposes of this thesis we will basically deal with pre-trained models. 
-	Borrowing a little story from \citet{Gupta} we are going to explain why. Imagine two 
-	people, Mr. Potato and Mr. Athlete. They sign up for soccer training at the same time. 
-	Neither of them has ever played soccer and the skills like dribbling, passing, 
-	kicking etc. are new to both of them. Mr. Potato does not move much but Mr. Athlete 
-	does. That is the core difference between the two even before the training has even 
-	started. As you can imagine, the skills Mr. Athlete has developed as an athlete 
-	(e.g. stamina, speed and even sporting instincts) are going to be very useful for 
-	learning soccer even though Mr. Athlete has never trained for soccer. Mr. Athlete 
-	benefits from his pre-training.
 	\\
 	
-	Many research groups have been very generous in releasing their pre-trained 
+	Many research groups have been very generous in releasing their 
 	models to the open-source community. Some of the most well-known models, such as 
 	AlexNet, VGGNet, Inception, ResNet, Xception \citep{Krizhevsky_alexnet, Simonyan_vgg, 
 	Szegedy_inception, He_resnet, Chollet_xception} won in the \acronym{ilsvrc}. 
@@ -714,7 +704,8 @@
 	vision community. \term{Top 5 error} is called the rate at which, given an image, 
 	the model does not output the correct label with its top 5 predictions. AlexNet 
 	really illustrated the benefits of convolutional networks and backed them up with 
-	record breaking performance in the \acronym{ilsvrc}.
+	record breaking performance in the \acronym{ilsvrc}. Since then the use of convolutional 
+	neural networks for classification has dominated the field.
 	\par
 	\citet{Simonyan_vgg} reinforced the notion that \defn{convolutional neural networks 
 	have to have a deep network of layers in order for this hierarchical representation 
@@ -740,14 +731,74 @@
 	the idea of residual learning.
 	\\
 	
-	\todo[size={{\scriptsize}}]{Probably should say some things about SSD, YOLO, etc. And the one we will use..}
+	\todo[size={{\scriptsize}}]{Did SSD and YOLO won some competition? Say a few words about them..}
+	The difference between object detection algorithms and classification algorithms 
+	is that in detection algorithms, the aim is to draw a bounding box around the object 
+	of interest to locate it within the image. Also, it is not necessary to draw just 
+	one bounding box in the object detection case. There could be many bounding boxes 
+	representing different objects of interest within the image, the number of which is 
+	known a priori. 
+	\par
+	A naive approach to do that would be to take different regions of interest from the 
+	image by sliding windows from left and right, and from up to down. And then use a 
+	convolutional network to classify the presence of the object within the chosen region. 
+	The problem with this approach is that the objects of interest might have different 
+	spatial locations and aspect ratios. Hence, the number of regions would be huge leading 
+	to computationally blow up. Therefore, algorithms like \acronym{ssd}, \acronym{yolo} 
+	and \acronym{r-cnn} \citep{Girshick, Redmon, Liu} have been developed to find these 
+	occurrences in the fastest way possible. The aforementioned models are also released 
+	to the open-source community.
+	\par
+	To bypass the problem of selecting a huge number of regions, \citet{Girshick} proposed 
+	a method called \term{\acronym{r-cnn}: Regions with \acronym{cnn} features}. A selective 
+	search \citep{Uijlings} is used to extract just 2000 regions from the image. The authors 
+	called them region proposals. These 2000 candidate region proposals are warped into a 
+	square and fed into a convolutional neural network (in this case VGGNet) that acts as a 
+	feature extractor. The extracted features are then used to classify the presence of the 
+	object within that candidate region proposal and to refine the boundary box. The main 
+	disadvantage here is that it still takes a huge amount of time to train the network as 
+	there 2000 region proposals per image to classify. Also, the selective search algorithm 
+	is a fixed algorithm. Therefore, no learning is happening at that stage, something that 
+	could lead to generating bad candidate region proposals. That is why \term{Fast 
+	\acronym{r-cnn}} and \term{Faster \acronym{r-cnn}} followed up.
+	\par
+	But, as an alternative, is a separate region proposal step needed? Can both boundary 
+	boxes and classes directly from feature maps in one step? \citet{Redmon} use a single 
+	convolutional network to predict the bounding boxes and the class probabilities for 
+	these boxes. The use a \term{single shot object detection} algorithm called 
+	\term{\acronym{yolo}: You Only Look Once}, that is much different from the 
+	\term{region based detection} algorithm mentioned above. \acronym{yolo} divides every 
+	image into a S $\times$ S grid and every grid predicts N bounding boxes and class 
+	probability for them. The bounding boxes having the class probability above a threshold 
+	value are selected and used to locate the object within the image. Note that at runtime, 
+	the image runs on the convolutional network only once. Hence, \acronym{yolo} is super 
+	fast and can be run real time. It sees the complete image at once as opposed to looking 
+	at generated region proposals. However, a limitation for \acronym{yolo} is that it only 
+	predicts one type of class in each grid. Hence, it struggles with very small objects.
+	\par
+	Yet another algorithm was developed by \citet{Liu}. \term{\acronym{ssd}: Single Shot 
+	Detector} differs from others single shot detectors due to the usage of multiple layers 
+	that provide a finer accuracy on objects with different scales. \acronym{ssd} runs a 
+	convolutional network (a VGGNet pre-trained model) on input image only once and 
+	calculates a feature map. Then it runs a 3 $\times$ 3 sized convolutional filter on 
+	this feature map to foresee the bounding boxes and classification probability. It 
+	attains a good balance between speed and accuracy.
+	\\
 	
-	Also, many papers have been published regarding robot navigation approaches that 
-	use already existing deep neural networks. Some classify the area in front of the 
-	robot for traversability \citep{Sermanet, Hadsell}. In others the concept of deep 
-	neural networks is further extended to not only perception but also decision-making 
-	\citep{Tai}.
-	\todo[size={{\scriptsize}}]{\citet{Tai, Sermanet, Hadsell} not available code}
+	\todo[size={{\scriptsize}}]{A few words about FCNs..}
+	Nowadays, semantic segmentation is one of the key problems in the field of computer 
+	vision \citep{Le}. Looking at the big picture, semantic segmentation is one of the 
+	high-level task that paves the way towards complete scene understanding. The 
+	importance of scene understanding as a core computer vision problem is highlighted 
+	by the fact that an increasing number of applications nourish from inferring 
+	knowledge from imagery. Some of those applications include self-driving vehicles, 
+	human-computer interaction, virtual reality etc. With the popularity of deep learning 
+	in recent years, many semantic segmentation problems are being tackled using deep 
+	architectures, most often convolutional neural networks, which surpass other 
+	approaches by a large margin in terms of accuracy and efficiency.
+	\par
+	Probably the most well known models concentrating on scene segmentation are 
+	\term{Fully Convolutional Neural Networks (\acronym{fcn}s)} \citep{Long}.
 	\\\\
 	
 	
@@ -881,13 +932,23 @@
 	
 	
 	
-	In this thesis, our first goal is for the robot to be able to autonomously 
-	navigate in natural environments. To do so, we could use a pre-trained neural 
-	network in order to be able to distinguish traversable from non-traversable 
-	terrain. 
+	Our first goal is for the robot to be able to autonomously navigate in natural 
+	environments. To do so, we could use a pre-trained neural network in order to be 
+	able to distinguish traversable from non-traversable terrain.
+	\par
+	For the purposes of this thesis we will basically deal with pre-trained models. By
+	borrowing a little story from \citet{Gupta} we are going to explain why. Imagine two 
+	people, Mr. Potato and Mr. Athlete. They sign up for soccer training at the same time. 
+	Neither of them has ever played soccer and the skills like dribbling, passing, 
+	kicking etc. are new to both of them. Mr. Potato does not move much but Mr. Athlete 
+	does. That is the core difference between the two even before the training has even 
+	started. As you can imagine, the skills Mr. Athlete has developed as an athlete 
+	(e.g. stamina, speed and even sporting instincts) are going to be very useful for 
+	learning soccer even though Mr. Athlete has never trained for soccer. Mr. Athlete 
+	benefits from his pre-training.
 	\\
 	
-	The first thought was to use one of the most-well known models from \acronym{ilsvrc}. 
+	The first attempt was to use one of the most-well known models from \acronym{ilsvrc}. 
 	With a little help from the code of \citet{Rosebrocke} we experimented on 
 	pre-trained VGGNet, ResNet, Inception and Xception. We fed them images and, 
 	as expected, they returned classification predictions about them. With the 
@@ -902,36 +963,70 @@
 	their top-5 list.
 	\par
 	Images that contain vegetation, which are of particular interest to us in this 
-	work, were the worst case scenario. For example, these networks after being 
-	fed with an image of a tree gave as predictions with the largest probabilities 
+	work, were the worst case scenario. For example, after being fed with an image 
+	of a tree the networks above gave as predictions with the largest probabilities 
 	kinds of seeds, like lemons. This probably happened because the networks concentrated 
-	to only the one part of the whole image that was most recognizable by them. 
-	Finding out what the predictions with smaller probabilities were did not help. 
-	As the networks kept predicting they got desperate are started giving all sorts 
-	of provisions. 
+	on the one part of the whole image that was most recognizable by them. Finding out 
+	what the predictions with smaller probabilities were did not help. As the networks 
+	kept predicting they got desperate and started giving all sorts of provisions. 
 	\par
 	Even though these networks are proven to be great on object classification, when 
 	it comes to scene recognition there is no trivial way to make them work correctly.
 	\\
 	
+	\todo[size={{\scriptsize}}]{COCO for object detection, not only classification? SSD? YOLO? R-CNN? (Mask R-CNN)}
+	Similarly, models specialized in object detection, like \acronym{ssd} and \acronym{yolo}, 
+	do not seen to have good results on scene segmentation.
+	\\
+	
+	Many papers have been published regarding robot navigation approaches that use 
+	already existing deep neural networks, or modify them in order to meet/fulfill their needs.
+	So, another idea was to use part of the work that some of these researchers made 
+	publicly available. 
+	(na vasistoume se auta)
+	\par
+	\todo[size={{\scriptsize}}]{A few more things about Tai...}
+	\citet{Tai} used a structure that fuses several convolutional neural network layers 
+	with decision-making process, in order to explore an unknown environment. 
+	Basically 
+	they further extended the concept of deep neural networks to not only perception but 
+	also decision-making.
+	\todo[size={{\scriptsize}}]{A few more things about Sermanet and Hadsell...}
+	\citet{Sermanet} and \citet{Hadsell} classify the area in front of the robot for 
+	traversability . 
+	
+	NO, mentioned above: In others the concept of deep 
+	neural networks is further extended to not only perception but also decision-making 
+	\citep{Tai}.
+	\todo[size={{\scriptsize}}]{Why can't we use Tai, Sermanet or Hadsell? not available code}
+	\todo[size={{\scriptsize}}]{Also other papers mentioned above \& MAYBEs on papers file}
+	
+
+	
+	
 	So, the aim is on total scene segmentation rather than single or even multiple 
 	object categorization. Although humans perform scene segmentation with apparent 
-	ease, automatic scene segmentation is a very challenging problem \citep{Wang}.
+	ease, automatic scene segmentation is a very challenging problem \citep{Wang}. 
+	Segmentation refers to the process of mapping each pixel in an image to an object 
+	class. Each object class has to be segmented separately. As one can imagine, this 
+	is a much more complex problem as compared to the classification problem.	
 	\\ 
 	\todo[size={{\tiny}}]{In: Arbib M.A. (ed.), The Handbook of Brain Theory and Neural Networks, 2nd Ed., MIT Press, Cambridge MA, pp. 1215-1219, 2003.}
 	
-	The next idea was to use part of the work that \citet{Tai} did in order to explore 
-	an unknown environment. They used a structure that fuses several convolutional 
-	neural network layers with decision-making process.
-	\todo[size={{\scriptsize}}]{Why can't we use Tai? Something like Sermanet or Hadsell?}
-	
-	\todo[size={{\scriptsize}}]{Write all efforts and ideas, whether successful or not}
 	
 	
+	
+	\todo[size={{\scriptsize}}]{Hirose GONet: trained for indoors}
+	
+	\todo[size={{\scriptsize}}]{Fully Convolutional Networks?}
+	\todo[size={{\scriptsize}}]{FCN: need training ---> \url{https://medium.com/nanonets/how-to-do-image-segmentation-using-deep-learning-c673cc5862ef}}
+		
+	\todo[size={{\scriptsize}}]{Datasets? COCO, Pascal VOC, ADE20K, PLVP, KITTI, Stanford background?}
 
-	\todo[size={{\scriptsize}}]{Maybe Fully Convolutional Networks?}
-	\todo[size={{\scriptsize}}]{Or R-CNN for object detection, not only classification? (Mask R-CNN)}
-	\todo[size={{\scriptsize}}]{COCO for object detection? SSD? YOLO?}
+	\todo[size={{\scriptsize}}]{ADE20K (dataset that has densely annotated images) scene parsing \& semantic segmentation -> matlab \& PyTorch}
+	
+	\todo[size={{\scriptsize}}]{DeepLab using ADE20K (what happened when used other dataset?)}
+	
 	
 	
 	
@@ -959,12 +1054,9 @@
 	significantly lowered.
 	\\
 	
+
 	
-	\todo[size={{\scriptsize}}]{FCN: need training ---> \url{https://medium.com/nanonets/how-to-do-image-segmentation-using-deep-learning-c673cc5862ef}}
-	\todo[size={{\scriptsize}}]{Hirose GONet: trained for indoors}
-	\todo[size={{\scriptsize}}]{ADE20K: scene parsing, dataset that has densely annotated images}
-	
-	\todo[size={{\scriptsize}}]{Semantic Segmentation, Urban Navigation, and Research Directions (Qasim Nadeem) -> not in Google Scholar}
+	\todo[size={{\scriptsize}}]{Semantic Segmentation, Urban Navigation, and Research Directions (Qasim Nadeem) -> not in Google Scholar -> ???}
 	
 	
 	
@@ -990,7 +1082,7 @@
 	
 	\begin{table}[h]
 		\centering	
-		\input{urls}
+		\input{urls}	
 	\end{table}
 	
 	
