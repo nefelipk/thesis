@@ -14,6 +14,9 @@
 \usepackage[normalem]{ulem}
 \usepackage{amsmath}
 
+\usepackage{graphicx}
+\graphicspath{ {./images/} }
+
 \newcommand{\defn}[1]{\enquote{\textit{#1}}}
 \newcommand{\alleg}{\enquote}
 \newcommand{\term}{\textit}
@@ -25,6 +28,7 @@
 		\hypersetup{linkcolor=black}
 		\tableofcontents
 		\listoftables
+		\listoffigures
 	}
 	
 	\chapter{Introduction}
@@ -686,8 +690,18 @@
 	(\acronym{ilsvrc})} \citep{Russakovsky}, an annual competition organized by the 
 	ImageNet team since 2010 (basically, the annual Olympics of computer vision \citep{Deshpande}). 
 	There research teams evaluate their computer vision algorithms with various visual 
-	recognition tasks such as \term{Object Classification} and \term{Object Localization}.
+	recognition tasks such as \term{Object Classification} and \term{Object Localization}, 
+	as shown in Figure~\ref{fig:clas}.
 	\\
+	
+	\begin{figure}[h!]
+		\caption{Object Classification is identifying that picture is a dog (left). Object 
+			Localization involves as well a bounding box to show where the object is located, 
+			apart from the class label \alleg{dog} (right). Both are suitable for single object.}
+		\centering
+		\includegraphics[width=\textwidth]{clas_loc}
+		\label{fig:clas}
+	\end{figure}
 	
 	Many research groups have been very generous in releasing their 
 	models to the open-source community. Some of the most well-known models, such as 
@@ -731,13 +745,21 @@
 	the idea of residual learning.
 	\\
 	
-	\todo[size={{\scriptsize}}]{Did SSD and YOLO won some competition? Say a few words about them..}
+	\begin{figure}[h!]
+		\caption{Object Detection locates and identifies multiple objects and all their 
+		instances (\textcolor{red}{cat}, \textcolor{blue}{dog}, \textcolor{green}{duck}) 
+		within the image.}
+		\centering
+		\includegraphics[width=\textwidth]{detect}
+		\label{fig:det}
+	\end{figure}
+	
 	The difference between object detection algorithms and classification algorithms 
 	is that in detection algorithms, the aim is to draw a bounding box around the object 
-	of interest to locate it within the image. Also, it is not necessary to draw just 
-	one bounding box in the object detection case. There could be many bounding boxes 
-	representing different objects of interest within the image, the number of which is 
-	known a priori. 
+	of interest to locate it within the image, as shown in Figure~\ref{fig:det}. Also, 
+	it is not necessary to draw just one bounding box in the object detection case. There 
+	could be many bounding boxes representing different objects of interest within the 
+	image, the number of which is known a priori. 
 	\par
 	A naive approach to do that would be to take different regions of interest from the 
 	image by sliding windows from left and right, and from up to down. And then use a 
@@ -750,17 +772,21 @@
 	to the open-source community.
 	\par
 	To bypass the problem of selecting a huge number of regions, \citet{Girshick} proposed 
-	a method called \term{\acronym{r-cnn}: Regions with \acronym{cnn} features}. A selective 
-	search \citep{Uijlings} is used to extract just 2000 regions from the image. The authors 
-	called them region proposals. These 2000 candidate region proposals are warped into a 
-	square and fed into a convolutional neural network (in this case VGGNet) that acts as a 
-	feature extractor. The extracted features are then used to classify the presence of the 
-	object within that candidate region proposal and to refine the boundary box. The main 
-	disadvantage here is that it still takes a huge amount of time to train the network as 
-	there 2000 region proposals per image to classify. Also, the selective search algorithm 
-	is a fixed algorithm. Therefore, no learning is happening at that stage, something that 
-	could lead to generating bad candidate region proposals. That is why \term{Fast 
-	\acronym{r-cnn}} and \term{Faster \acronym{r-cnn}} followed up.
+	a method called \term{\acronym{r-cnn}: Regions with \acronym{cnn} features}, one of the 
+	most impactful advancements in computer vision \citep{Deshpande}. The process can be 
+	split into two general components, the region proposal step and the classification step. 
+	For the former step, a selective search \citep{Uijlings} is used to extract just 2000 
+	regions from the image that have the highest probability of containing an object. The 
+	authors called them region proposals. These 2000 candidate region proposals are warped 
+	into a square and fed into a trained convolutional network (VGGNet or AlexNet in this case) 
+	that acts as a feature extractor. In the latter step, the extracted features are used to 
+	classify the presence of the object within that candidate region proposal and to refine 
+	the boundary box with the most accurate coordinates. The main disadvantage here is that 
+	it still takes a huge amount of time to train the network as there 2000 region proposals 
+	per image to classify. Also, the selective search algorithm is a fixed algorithm. Therefore, 
+	no learning is happening at that stage, something that could lead to generating bad 
+	candidate region proposals. That is why \term{Fast \acronym{r-cnn}} and 
+	\term{Faster \acronym{r-cnn}} followed up.
 	\par
 	But, as an alternative, is a separate region proposal step needed? Can both boundary 
 	boxes and classes directly from feature maps in one step? \citet{Redmon} use a single 
@@ -779,16 +805,25 @@
 	Yet another algorithm was developed by \citet{Liu}. \term{\acronym{ssd}: Single Shot 
 	Detector} differs from others single shot detectors due to the usage of multiple layers 
 	that provide a finer accuracy on objects with different scales. \acronym{ssd} runs a 
-	convolutional network (a VGGNet pre-trained model) on input image only once and 
+	trained convolutional network (for example VGGNet model) on input image only once and 
 	calculates a feature map. Then it runs a 3 $\times$ 3 sized convolutional filter on 
 	this feature map to foresee the bounding boxes and classification probability. It 
 	attains a good balance between speed and accuracy.
 	\\
 	
-	\todo[size={{\scriptsize}}]{A few words about FCNs..}
+	\begin{figure}[h!]
+		\caption{Semantic Segmentation makes a prediction at every pixel within an image. 
+		That means there is a label for each pixel, instead of object (\textcolor{green}{grass}, \textcolor{orange}{cat}, \textcolor{purple}{tree}, \textcolor{blue}{sky}). Original 
+		image (left), output of the semantic segmentation (right).}
+		\centering
+		\includegraphics[width=\textwidth]{segm}
+		\label{fig:segm}
+	\end{figure}
+	
 	Nowadays, semantic segmentation is one of the key problems in the field of computer 
 	vision \citep{Le}. Looking at the big picture, semantic segmentation is one of the 
-	high-level task that paves the way towards complete scene understanding. The 
+	high-level task that paves the way towards complete scene understanding. For example 
+	see Figure~\ref{fig:segm}. The 
 	importance of scene understanding as a core computer vision problem is highlighted 
 	by the fact that an increasing number of applications nourish from inferring 
 	knowledge from imagery. Some of those applications include self-driving vehicles, 
@@ -798,8 +833,28 @@
 	approaches by a large margin in terms of accuracy and efficiency.
 	\par
 	Probably the most well known models concentrating on scene segmentation are 
-	\term{Fully Convolutional Neural Networks (\acronym{fcn}s)} \citep{Long}.
-	\\\\
+	\term{Fully Convolutional Neural Networks (\acronym{fcn}s)} \citep{Long}. The original 
+	fully convolutional network is trained for pixel-wise prediction, without extracting 
+	the region proposals. The authors adapt contemporary classification networks (AlexNet,
+	VGGNet and GoogLeNet) into fully convolutional networks and transfer their learned 
+	representations by \term{fine-tuning} to the segmentation task. Fine-tuning is a 
+	process in which a network model that has already been trained for a given task, is 
+	modified in order to perform another similar task. The main idea of fully convolutional 
+	networks is to make classical convolutional networks take as input arbitrary-sized 
+	images. Contrary to them, fully convolutional networks only have convolutional and 
+	pooling layers which give them the ability to make predictions on arbitrary-sized inputs. 
+	\term{Pooling layers} are in charge of reducing the number of parameters when the images 
+	are too large. The results of the original fully convolutional networks are shown in 
+	Figure~\ref{fig:fcn}.
+	
+	\begin{figure}[h!]
+		\caption{Fully Convolutional Neural Networks: Original image (left), predicted label 
+		map (right). Notice the predictions are only for the foreground, the entire background 
+		in the left image appears black on the right.}
+		\centering
+		\includegraphics[width=\textwidth]{fcn}
+		\label{fig:fcn}
+	\end{figure}
 	
 	
 	But what is the strategy for deciding where to go next? Is there a specific goal 
