@@ -123,11 +123,11 @@
 	the environment, the interaction between them \citep{Ugur}.
 	\\
 	
-	In this thesis, we will tackle how an autonomous mobile robot can improve its 
+	In this thesis we will tackle on how an autonomous mobile robot can improve its 
 	traversability estimation method in natural environments, meaning not 
-	only on bare ground-like environment, but also on terrain containing vegetation. 
+	only on bare ground-like environment but also on terrain containing vegetation. 
 	On contrast, we will rule out high-risk applications where a single accident can 
-	be fatal to the robot, like planetary or volcano exploration. We will concentrate 
+	be fatal to the robot like planetary or volcano exploration. We will concentrate 
 	in everyday practical situations. We will determine how to introduce a learning 
 	capability to the robot that will enable it to decide for itself the 
 	traversability of the terrain around it, based on input from its sensors 
@@ -148,7 +148,7 @@
 		\item In Chapter~\ref{sec:concl} we give our conclusions and ideas for future 
 		work.
 		\item In Appendix~\ref{app:impl} we share some \acronym{url}s of prototype 
-		implementations from researchers who offered their work open-source.
+		implementations from researchers who kindly offered their work open-source.
 		\item In Appendix~\ref{app:conv} one can find a brief outline on how 
 		convolutional neural networks work.
 	\end{itemize}
@@ -280,7 +280,7 @@
 	provide information from the senors. Every sell is associated with at least one 
 	feature vector that is computed from the \acronym{3d} point clouds (like 
 	\citet{Lalonde}) that are mapped to the respective cell. The authors use the 
-	features mentioned bellow (mostly geometrical, like \citet{Lalonde} and 
+	features mentioned bellow (mostly geometrical like \citet{Lalonde} and 
 	\citet{Pfaff}) to distinguish different types of terrain as well as 
 	traversability constraints of the robot. 
 	\begin{enumerate}
@@ -353,8 +353,8 @@
 	terrain under and behind the robot. And that is the main reason why global maps 
 	are useful. 
 	\par
-	In this case \citep{Droeschel}, the global map is built from local multiresolution 
-	maps acquired at different view poses of the robot. This is useful in order to 
+	In this case, the global map is built from local multiresolution maps acquired at 
+	different view poses of the robot \citep{Droeschel}. This is useful in order to 
 	overcome pose errors and to localize the robot with respect to a fixed frame. 
 	While traversing the environment, a local map is extended whenever the robot 
 	explores previously unseen terrain and optimized when a \term{loop closure} has 
@@ -376,7 +376,7 @@
 	that dynamic objects are detected and removed in advance.
 	\\
 	
-	\todo[size={{\scriptsize}}]{Hirose et al. presenting GONet (we have the code for this)}
+	\todo[size={{\scriptsize}}]{Hirose et al. presenting  (we have the code for this)}
 	\citet{HiroseGonet} introduced a semi-supervised approach for traversability 
 	estimation, called GONet. The core of the proposed approach are \term{Generative 
 	Adversarial Networks (\acronym{gan}s)} \citep{Goodfellow}. \acronym{gan}s are a 
@@ -517,12 +517,12 @@
 	
 	Another option is to not use geometric data, but instead concentrate on visual 
 	data. Instead of using \acronym{lidar} \citep{Suger, Lalonde}, one can use 
-	different sensors, like fisheye camera \citep{Hirose, HiroseGonet}, 
+	different sensors like fisheye camera \citep{Hirose, HiroseGonet}, 
 	to estimate whether a physical space is traversable or not. This kind of 
 	approaches are mainly focused on obstacle detection and avoidance, even in 
 	dynamic environments. But they are less interested in traversability 
 	estimation for obstacles that may seem untraversable while in fact can be 
-	easily driven over by a robot, like tall grass.
+	easily driven over by a robot like tall grass.
 	\par
 	More so, even without the introduction of uncertainty, sensors in themselves are 
 	ambiguous \citep{Shabbir}. For example, a lemon and a soccer ball can look 
@@ -556,7 +556,7 @@
 	grass will result in a similar height. However, they differ in visual 
 	appearance. 
 	\par 
-	Similarly a white vertical flat surface may be an impenetrable wall in one 
+	Likewise, a white vertical flat surface may be an impenetrable wall in one 
 	environment whereas in another environment a similar surface may be a door that 
 	can just be pushed to open \citep{Ugur}. But appearance data may not be enough 
 	to distinguish the two cases mentioned above. So, a robot can be equipped with 
@@ -672,9 +672,9 @@
 	accurately and comprehensively it can recognize and understand the complex visual 
 	world \citep{Socher}. The various types of tasks related to understanding what 
 	we see in a visual scene is called \term{visual recognition}. In computer vision, 
-	visual recognition has enjoyed some great success in recent years, particularly 
-	in single object categorization (i.e., object classification, object localization), 
-	like in the example with the cat and the dog, mentioned above. 
+	visual recognition has enjoyed some great success in recent years. Particularly 
+	in single object categorization (i.e., object classification, object localization) 
+	like in the example with the cat and the dog mentioned above. 
 	While recognizing isolated objects is a critical component of visual recognition, 
 	a lot more is needed to be done in order to recognize multiple objects (i.e., 
 	object detection, object segmentation), let alone reach a complete understanding 
@@ -754,12 +754,14 @@
 		\label{fig:det}
 	\end{figure}
 	
-	The difference between object detection algorithms and classification algorithms 
-	is that in detection algorithms, the aim is to draw a bounding box around the object 
-	of interest to locate it within the image, as shown in Figure~\ref{fig:det}. Also, 
-	it is not necessary to draw just one bounding box in the object detection case. There 
-	could be many bounding boxes representing different objects of interest within the 
-	image, the number of which is known a priori. 
+	Image classification is a lightweight form of object detection. The difference between 
+	them is that in classification algorithms the goal is to label an image with a category 
+	of the object it belongs (or at least the most likely predictions). While in detection 
+	algorithms the aim is to draw a bounding box around the object of interest to locate it 
+	within the image, as shown in Figure~\ref{fig:det}. Also, it is not necessary to draw 
+	just one bounding box in the object detection case. There could be many bounding boxes 
+	representing different objects of interest within the image, the number of which is 
+	known a priori.
 	\par
 	A naive approach to do that would be to take different regions of interest from the 
 	image by sliding windows from left and right, and from up to down. And then use a 
@@ -912,15 +914,15 @@
 	\section{Conclusions}
 	\label{sec:bg:concl}
 	
-	\todo[size={{\scriptsize}}]{How to add citation for site? Or book..?}
-	Although investigated by psychologists for a long time, and despite some early 
-	pioneering computational explorations, intrinsic motivations fully entered the 
-	field of machine learning and robotics only recently. They are important for 
-	autonomous robotics as they allow the acquisition of knowledge and skills in the 
-	absence of tasks directly established by the robot users, e.g., to learn to 
-	manipulate different objects without being instructed to do so. They are 
-	task-independent meaning that they can drive the robotic system to acquire skills 
-	re-usable to accomplish many possible tasks in a certain class of environments.
+	Intrinsic motivations fully entered the field of machine learning and robotics 
+	only recently. That is despite some early pioneering computational explorations, 
+	and although they were investigated by psychologists for a long time. Intrinsic 
+	motivations are very important for autonomous robotics. They allow the acquisition 
+	of knowledge and skills, in the absence of tasks directly established by the robot 
+	users, e.g. to learn to manipulate different objects without being instructed to 
+	do so. Also they are task-independent. That means they can drive the robotic system 
+	to acquire skills re-usable to accomplish many possible tasks in a certain class 
+	of environments.
 	\\
 	
 	It has become clear to researchers in robotics and adaptive behavior that 
@@ -949,47 +951,12 @@
 	\chapter{Core Foreground}
 	\label{sec:fg}
 	
-	In Defense of Pre-trained ImageNet Architectures for Real-time Semantic Segmentation of Road-driving Images (\url{https://github.com/orsic/swiftnet}) -> March 2019
+	\section{A few words}
+	\label{sec:fg:intro}
 	
-	DenseASPP for Semantic Segmentation in Street Scenes (\url{https://github.com/DeepMotionAIResearch/DenseASPP})
-		
-	Failed trials:
-	
-	Vision-Based Real-Time Traversable Region Detection for Mobile Robot in the Outdoors -> no available code
-	From On-Road to Off: Transfer Learning within a Deep Convolutional Neural Network for Segmentation and Classification of Off-Road Scenes (\url{https://www.youtube.com/watch?v=HfdoM9GJVAw})  ->  no available code
-	Fast Road Scene Segmentation using Deep Learning and Scene-based Models -> road, obstacles, sky
-	Pixel-wise Segmentation of Street with Neural Networks -> just street
-	
-	Segmentation and description of natural outdoor scenes -> road, vegetation, grass classes -> no available code
-	
-	Learning Hierarchical Features for Scene Labeling -> 8 classes: sky, road, building, tree, grass, water, mountain, object -> no available code
-	
-	VUNet: Dynamic Scene View Synthesis for Traversability Estimation using an RGB Camera -> similar to GONet -> trained for indoors
-	
-	DeepLab (\url{https://github.com/tensorflow/models/tree/master/research/deeplab} 
-	\& \url{https://gluon-cv.mxnet.io/build/examples_segmentation/index.html} -> getting .param files)
-	
-	and datasets:
-	PLVP dataset -> pedestrian lane
-	KITTI dataset -> road and lane detection, asphalt roads
-	Stanford background dataset -> grass and tree as classes
-	ADE20K -> whole image segmentation
-	COCO, PASCAL VOC -> semantic for foreground only
-	
-	thesis (no code available):
-	Road Detection and Recognition from Monocular Images Using Neural Networks -> image has road or not,
-	Autonomous Terrain Classification Through Unsupervised Learning -> neural network trained on colour, depth and infrared data,
-	Semantic Segmentation for Terrain Roughness Estimation Using Data Autolabeled with a Custom Roughness Metric -> roughness of each path
-	\\\\
-	
-	
-	
-	
-	
-	
-	Our first goal is for the robot to be able to autonomously navigate in natural 
-	environments. To do so, we could use a pre-trained neural network in order to be 
-	able to distinguish traversable from non-traversable terrain.
+	Our goal is for the robot to be able to autonomously navigate in natural environments. 
+	To do so, we could use a pre-trained neural network in order to be able to distinguish 
+	traversable from non-traversable terrain.
 	\par
 	For the purposes of this thesis we will basically deal with pre-trained models. By
 	borrowing a little story from \citet{Gupta} we are going to explain why. Imagine two 
@@ -1000,8 +967,12 @@
 	started. As you can imagine, the skills Mr. Athlete has developed as an athlete 
 	(e.g. stamina, speed and even sporting instincts) are going to be very useful for 
 	learning soccer even though Mr. Athlete has never trained for soccer. Mr. Athlete 
-	benefits from his pre-training.
+	benefits from his pre-training. Mr. Potato on the other hand will have to develop all 
+	these skills from scratch, something that will cost him much more energy and time.
 	\\
+	
+	\section{Initial attempts / efforts}
+	\label{sec:fg:at}
 	
 	The first attempt was to use one of the most-well known models from \acronym{ilsvrc}. 
 	With a little help from the code of \citet{Rosebrocke} we experimented on 
@@ -1017,47 +988,106 @@
 	but also some that were a little bit off (like lighter or birdhouse), within 
 	their top-5 list.
 	\par
-	Images that contain vegetation, which are of particular interest to us in this 
-	work, were the worst case scenario. For example, after being fed with an image 
-	of a tree the networks above gave as predictions with the largest probabilities 
-	kinds of seeds, like lemons. This probably happened because the networks concentrated 
-	on the one part of the whole image that was most recognizable by them. Finding out 
-	what the predictions with smaller probabilities were did not help. As the networks 
-	kept predicting they got desperate and started giving all sorts of provisions. 
+	Images that contain vegetation, which are of particular interest to us in this work, 
+	were the worst case scenario. For example, the networks above, after being fed with 
+	an image of a tree, gave as most likely predictions kinds of seeds like lemons. This 
+	probably happened because the networks concentrated on the one part of the whole image 
+	that was most recognizable by them. Finding out what the predictions with smaller 
+	probabilities were, did not help. As the networks kept predicting, they got desperate 
+	and started giving all sorts of provisions. 
 	\par
 	Even though these networks are proven to be great on object classification, when 
 	it comes to scene recognition there is no trivial way to make them work correctly.
-	\\
-	
-	\todo[size={{\scriptsize}}]{COCO for object detection, not only classification? SSD? YOLO? R-CNN? (Mask R-CNN)}
-	Similarly, models specialized in object detection, like \acronym{ssd} and \acronym{yolo}, 
-	do not seen to have good results on scene segmentation.
+	\par
+	Similarly, models specialized in object detection like \acronym{ssd} or \acronym{yolo}, 
+	do not seem to be able to generalize on scene segmentation issues. As dictated by their 
+	name, they detect all objects within an image, but ignore the rest of the scene.
 	\\
 	
 	Many papers have been published regarding robot navigation approaches that use 
-	already existing deep neural networks, or modify them in order to meet/fulfill their needs.
-	So, another idea was to use part of the work that some of these researchers made 
-	publicly available. 
-	(na vasistoume se auta)
+	already existing deep neural networks, or modify them in order to meet their needs.
+	Unfortunately some of these researchers had not made their code publicly available, 
+	in order for us to rely on part of their work and extend it with our own ideas. And 
+	while others kindly released their code online, their networks were not trained 
+	compatible to the needs of this thesis.
 	\par
-	\todo[size={{\scriptsize}}]{A few more things about Tai...}
-	\citet{Tai} used a structure that fuses several convolutional neural network layers 
-	with decision-making process, in order to explore an unknown environment. 
-	Basically 
-	they further extended the concept of deep neural networks to not only perception but 
-	also decision-making.
-	\todo[size={{\scriptsize}}]{A few more things about Sermanet and Hadsell...}
-	\citet{Sermanet} and \citet{Hadsell} classify the area in front of the robot for 
-	traversability . 
-	
-	NO, mentioned above: In others the concept of deep 
-	neural networks is further extended to not only perception but also decision-making 
-	\citep{Tai}.
-	\todo[size={{\scriptsize}}]{Why can't we use Tai, Sermanet or Hadsell? not available code}
-	\todo[size={{\scriptsize}}]{Also other papers mentioned above \& MAYBEs on papers file}
-	
+	Some papers considering traversability estimation concentrate on go or no-go situations, 
+	\citep{HiroseGonet, HiroseVunet}. They use generative adversarial networks and train 
+	them to estimate whether the space seen through the given image is traversable or not. 
+	They are trained in indoor environments, which means that we would have to train them 
+	from scratch to work in natural outdoor environments.
+	\par
+	Likewise, \citet{Tai} further extended the concept of deep neural networks to not only 
+	perception but also decision-making. Basically, they used a structure that fuses several 
+	convolutional neural network layers with decision-making process, in order to explore 
+	an unknown environment. According to the writers, in traditional computer vision 
+	applications each label of the output represents either an object or scene categories. 
+	The outputs of their model are control commands that show the platform which route to 
+	follow.
+	\par
+	Other researchers use neural networks to classify the area in front of the robot 
+	according to traversability and level of confidence \citep{Sermanet, Hadsell}. These 
+	neural networks assign class labels to parts of the input image. Classes which show 
+	that \defn{only ground or only obstacle is seen in window}, are of high confidence. 
+	While the rest inspire lower confidence. These classes are separated to 
+	\defn{ground and obstacle may be seen}, \defn{obstacle is seen but does not fill window}, 
+	\defn{location where an obstacle meets the ground}.
+	\par
+	Some approaches identify only a few class labels to classify the whole image 
+	\citep{Holder, Bosch, Farabet}. While others have as their main goal to find and follow 
+	a path \citep{Yang, Orsic}. The first category usually includes class labels that can 
+	be used in outdoor environments, as their title declares (such as sky, road, tree, grass, 
+	building). The second one, while also being able to recognize such class labels, 
+	identifies them as obstacles.
+	\\\\\\
 
+	\todo[size={{\scriptsize}}]{Also other papers mentioned below \& MAYBEs on papers file}
 	
+	
+	
+	
+	
+	
+	
+In Defense of Pre-trained ImageNet Architectures for Real-time Semantic Segmentation of Road-driving Images (\url{https://github.com/orsic/swiftnet}) -> March 2019
+	
+DenseASPP for Semantic Segmentation in Street Scenes (\url{https://github.com/DeepMotionAIResearch/DenseASPP})
+	
+	Failed trials:
+	
+	Vision-Based Real-Time Traversable Region Detection for Mobile Robot in the Outdoors -> no available code
+From On-Road to Off: Transfer Learning within a Deep Convolutional Neural Network for Segmentation and Classification of Off-Road Scenes (\url{https://www.youtube.com/watch?v=HfdoM9GJVAw})  ->  no available code -> {sky, water, dirt, paved road, grass, foliage, tree, and man-made obstacle}
+	Fast Road Scene Segmentation using Deep Learning and Scene-based Models -> road, obstacles, sky
+	Pixel-wise Segmentation of Street with Neural Networks -> just street
+	
+Segmentation and description of natural outdoor scenes -> road, vegetation, grass classes -> no available code
+	
+Learning Hierarchical Features for Scene Labeling -> 8 classes: sky, road, building, tree, grass, water, mountain, object -> no available code
+	
+VUNet: Dynamic Scene View Synthesis for Traversability Estimation using an RGB Camera -> similar to GONet -> trained for indoors
+	
+DeepLab (\url{https://github.com/tensorflow/models/tree/master/research/deeplab} 
+\& \url{https://gluon-cv.mxnet.io/build/examples_segmentation/index.html} -> getting .param files)
+
+and datasets:
+PLVP dataset -> pedestrian lane
+KITTI dataset -> road and lane detection, asphalt roads
+Stanford background dataset -> grass and tree as classes
+ADE20K -> whole image segmentation
+COCO, PASCAL VOC -> semantic for foreground only
+	
+	thesis (no code available):
+	Road Detection and Recognition from Monocular Images Using Neural Networks -> image has road or not,
+	Autonomous Terrain Classification Through Unsupervised Learning -> neural network trained on colour, depth and infrared data,
+	Semantic Segmentation for Terrain Roughness Estimation Using Data Autolabeled with a Custom Roughness Metric -> roughness of each path
+	\\\\
+	
+	
+	
+	
+	
+	\section{Our approach}
+	\label{sec:fg:app}
 	
 	So, the aim is on total scene segmentation rather than single or even multiple 
 	object categorization. Although humans perform scene segmentation with apparent 
@@ -1120,6 +1150,15 @@
 	\chapter{Experimental Validation and Comparison}
 	\label{sec:exp}
 	
+	\section{Evaluation setup}
+	\label{sec:exp:eval}
+	
+	\section{Results}
+	\label{sec:exp:res}
+	
+	\section{Discussion}
+	\label{sec:exp:dis}
+	
 	
 	\chapter{Conclusions and Future Work}
 	\label{sec:concl}
@@ -1166,7 +1205,7 @@
 	we can classify a dog in a picture if it has identifiable features such as paws or 
 	snout or four legs. In a similar way, the computer is able perform image 
 	classification by looking for low level features such as edges and curves, and 
-	then building up to more abstract concepts, like paws and beaks, through a series 
+	then building up to more abstract concepts like paws and beaks, through a series 
 	of convolutional layers. This is a general overview of what a convolutional neural 
 	network does.
 	\\
