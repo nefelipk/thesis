@@ -822,12 +822,16 @@
 		\label{fig:segm}
 	\end{figure}
 	
-	Nowadays, semantic segmentation is one of the key problems in the field of computer 
-	vision \citep{Le}. Looking at the big picture, semantic segmentation is one of the 
-	high-level task that paves the way towards complete scene understanding. For example 
-	see Figure~\ref{fig:segm}. The 
-	importance of scene understanding as a core computer vision problem is highlighted 
-	by the fact that an increasing number of applications nourish from inferring 
+	Nowadays, \term{semantic segmentation} is one of the key problems in the field of 
+	computer vision \citep{Le}. Looking at the big picture, semantic segmentation is one 
+	of the high-level task that paves the way towards complete scene understanding. 
+	Although humans perform scene segmentation with apparent ease, automatic scene 
+	segmentation is a very challenging problem \citep{Wang}. Segmentation refers to the 
+	process of mapping each pixel in an image to an object class. Each object class has 
+	to be segmented separately. For example see Figure~\ref{fig:segm}. As one can imagine, 
+	this is a much more complex problem as compared to the classification or even detection 
+	problem. The importance of scene understanding as a core computer vision problem is 
+	highlighted by the fact that an increasing number of applications nourish from inferring 
 	knowledge from imagery. Some of those applications include self-driving vehicles, 
 	human-computer interaction, virtual reality etc. With the popularity of deep learning 
 	in recent years, many semantic segmentation problems are being tackled using deep 
@@ -1039,9 +1043,31 @@
 	be used in outdoor environments, as their title declares (such as sky, road, tree, grass, 
 	building). The second one, while also being able to recognize such class labels, 
 	identifies them as obstacles.
-	\\\\\\
+	\\
+	
+	So, the aim is on total scene segmentation rather than single or even multiple object 
+	categorization. Semantically meaningful image understanding is a relatively recent topic 
+	in computer vision. That explains why, compared to recognition, far fewer papers address 
+	scene segmentation in neural networks \cite{Wang}. A general semantic segmentation 
+	architecture can be broadly thought of as an \term{encoder network} followed by a 
+	\term{decoder network} \citep{Le}. The encoder is usually a pre-trained classification 
+	network like VGGNet or ResNet that outputs a feature map. The task of the decoder is 
+	to semantically project the lower resolution features learned by the encoder, onto the 
+	higher resolution (pixel space) to get the best closest match to the original input.
+	\par
+	Following the instructions of \citet{Le} we attempted to implement the most popular 
+	architecture for semantic segmentation, fully convolutional networks. We had in mind 
+	that the encoder, VGGNet in this case, would be pre-trained, but we would have to 
+	train the decoder from the beginning. But fully convolutional networks, at least 
+	on the cases we saw them used, do semantic segmentation only on foreground and ignore 
+	the background (Figure~\ref{fig:fcn}). In order for us to be able to decide terrain 
+	traversability, whole scene segmentation is necessary.
+	\\
+	
+	ADE20K dataset
+	\\
 
-	\todo[size={{\scriptsize}}]{Also other papers mentioned below \& MAYBEs on papers file}
+
 	
 	
 	
@@ -1049,22 +1075,12 @@
 	
 	
 	
-In Defense of Pre-trained ImageNet Architectures for Real-time Semantic Segmentation of Road-driving Images (\url{https://github.com/orsic/swiftnet}) -> March 2019
-	
-DenseASPP for Semantic Segmentation in Street Scenes (\url{https://github.com/DeepMotionAIResearch/DenseASPP})
 	
 	Failed trials:
 	
 	Vision-Based Real-Time Traversable Region Detection for Mobile Robot in the Outdoors -> no available code
-From On-Road to Off: Transfer Learning within a Deep Convolutional Neural Network for Segmentation and Classification of Off-Road Scenes (\url{https://www.youtube.com/watch?v=HfdoM9GJVAw})  ->  no available code -> {sky, water, dirt, paved road, grass, foliage, tree, and man-made obstacle}
 	Fast Road Scene Segmentation using Deep Learning and Scene-based Models -> road, obstacles, sky
 	Pixel-wise Segmentation of Street with Neural Networks -> just street
-	
-Segmentation and description of natural outdoor scenes -> road, vegetation, grass classes -> no available code
-	
-Learning Hierarchical Features for Scene Labeling -> 8 classes: sky, road, building, tree, grass, water, mountain, object -> no available code
-	
-VUNet: Dynamic Scene View Synthesis for Traversability Estimation using an RGB Camera -> similar to GONet -> trained for indoors
 	
 DeepLab (\url{https://github.com/tensorflow/models/tree/master/research/deeplab} 
 \& \url{https://gluon-cv.mxnet.io/build/examples_segmentation/index.html} -> getting .param files)
@@ -1089,22 +1105,8 @@ COCO, PASCAL VOC -> semantic for foreground only
 	\section{Our approach}
 	\label{sec:fg:app}
 	
-	So, the aim is on total scene segmentation rather than single or even multiple 
-	object categorization. Although humans perform scene segmentation with apparent 
-	ease, automatic scene segmentation is a very challenging problem \citep{Wang}. 
-	Segmentation refers to the process of mapping each pixel in an image to an object 
-	class. Each object class has to be segmented separately. As one can imagine, this 
-	is a much more complex problem as compared to the classification problem.	
-	\\ 
+	
 	\todo[size={{\tiny}}]{In: Arbib M.A. (ed.), The Handbook of Brain Theory and Neural Networks, 2nd Ed., MIT Press, Cambridge MA, pp. 1215-1219, 2003.}
-	
-	
-	
-	
-	\todo[size={{\scriptsize}}]{Hirose GONet: trained for indoors}
-	
-	\todo[size={{\scriptsize}}]{Fully Convolutional Networks?}
-	\todo[size={{\scriptsize}}]{FCN: need training ---> \url{https://medium.com/nanonets/how-to-do-image-segmentation-using-deep-learning-c673cc5862ef}}
 		
 	\todo[size={{\scriptsize}}]{Datasets? COCO, Pascal VOC, ADE20K, PLVP, KITTI, Stanford background?}
 
@@ -1112,34 +1114,6 @@ COCO, PASCAL VOC -> semantic for foreground only
 	
 	\todo[size={{\scriptsize}}]{DeepLab using ADE20K (what happened when used other dataset?)}
 	
-	
-	
-	
-	Semantically meaningful image understanding is a relatively recent topic in computer vision.
-	\\
-	
-	
-	
-	That is why we are going to use neural networks in order to attain 
-	autonomous driving. 
-	\par
-	Compared to recognition, far fewer papers address scene segmentation in neural 
-	networks \cite{Wang}. A main reason is that the problem is particularly 
-	challenging for neural networks because they also need to address the \term{binding 
-	problem}. The binding problem refers to how the coherence of a pattern, generally 
-	as a large collection of features, is represented in a neural network. 
-	\par
-	Several real-world objects can share common attributes which allude to their 
-	intended usage \citep{Shabbir}. By placing emphasis on these related object 
-	attributes, the complexity of autonomous driving is lowered. For example, visual 
-	data can be analyzed for the identification of few points which correspond to 
-	locations at which a robot can maneuver. Furthermore, since movement features 
-	are similar across many objects, robots could be trained to identify them. As a 
-	consequence, the space that requires exploration in order to move is 
-	significantly lowered.
-	\\
-	
-
 	
 	\todo[size={{\scriptsize}}]{Semantic Segmentation, Urban Navigation, and Research Directions (Qasim Nadeem) -> not in Google Scholar -> ???}
 	
