@@ -852,6 +852,12 @@
 	\term{Pooling layers} are in charge of reducing the number of parameters when the images 
 	are too large. The results of the original fully convolutional networks are shown in 
 	Figure~\ref{fig:fcn}.
+	\par
+	Semantic understanding of visual scenes is one of the holy grails of computer vision 
+	\citep{Zhou_sem}. The emergence of large-scale image datasets like ImageNet \citep{Deng} 
+	and \acronym{coco} \citep{Lin},	along with the rapid development of the deep convolutional 
+	neural network approaches, have brought great advancements to visual scene understanding.
+	\\
 	
 	\begin{figure}[h!]
 		\caption{Fully Convolutional Neural Networks: Original image (left), predicted label 
@@ -955,9 +961,6 @@
 	\chapter{Core Foreground}
 	\label{sec:fg}
 	
-	\section{A few words}
-	\label{sec:fg:intro}
-	
 	Our goal is for the robot to be able to autonomously navigate in natural environments. 
 	To do so, we could use a pre-trained neural network in order to be able to distinguish 
 	traversable from non-traversable terrain.
@@ -975,7 +978,11 @@
 	these skills from scratch, something that will cost him much more energy and time.
 	\\
 	
-	\section{Initial attempts / efforts}
+	In this chapter we describe our primary thoughts and then our actual strategy on how to 
+	reach the aforementioned goal.
+	\\
+	
+	\section{Initial efforts}
 	\label{sec:fg:at}
 	
 	The first attempt was to use one of the most-well known models from \acronym{ilsvrc}. 
@@ -1039,9 +1046,9 @@
 	\par
 	Some approaches identify only a few class labels to classify the whole image 
 	\citep{Holder, Bosch, Farabet}. While others have as their main goal to find and follow 
-	a path \citep{Yang, Orsic}. The first category usually includes class labels that can 
-	be used in outdoor environments, as their title declares (such as sky, road, tree, grass, 
-	building). The second one, while also being able to recognize such class labels, 
+	a path \citep{Yang, Orsic}. The first category usually includes scene labels that can 
+	be used in outdoor environments (such as sky, road, tree, grass, building), as their 
+	title declares. The second one, while also being able to recognize such class labels, 
 	identifies them as obstacles.
 	\\
 	
@@ -1055,70 +1062,69 @@
 	to semantically project the lower resolution features learned by the encoder, onto the 
 	higher resolution (pixel space) to get the best closest match to the original input.
 	\par
+	In our time, given a visual scene of, let us say, a living room, a robot equipped with 
+	a trained convolutional network can accurately predict the scene category. However, to 
+	freely navigate in the scene and manipulate the objects inside, the robot has far more 
+	information to digest \citep{Zhou_sem}. It needs to recognize and localize not only the 
+	objects like sofa, table, and television but as well to segment the stuff like floor, 
+	wall and ceiling for spatial navigation. It probably needs to recognize also object parts, 
+	e.g. a seat of a chair or a handle of a cup, to allow proper interaction.
+	\par
 	Following the instructions of \citet{Le} we attempted to implement the most popular 
 	architecture for semantic segmentation, fully convolutional networks. We had in mind 
 	that the encoder, VGGNet in this case, would be pre-trained, but we would have to 
-	train the decoder from the beginning. But fully convolutional networks, at least 
-	on the cases we saw them used, do semantic segmentation only on foreground and ignore 
-	the background (Figure~\ref{fig:fcn}). In order for us to be able to decide terrain 
-	traversability, whole scene segmentation is necessary.
+	train the decoder from the beginning on \acronym{kitti} \citep{kitti}. But fully 
+	convolutional networks, at least on the cases we saw them used, do semantic segmentation 
+	only on foreground and ignore the background (Figure~\ref{fig:fcn}). In order for us to 
+	be able to decide terrain traversability, whole scene segmentation is necessary.
 	\\
 	
-	ADE20K dataset
+	Scene parsing, or recognizing and segmenting objects and stuff in an image, remains one 
+	of the key problems in scene understanding \citep{Zhou_sem}. Going beyond the image-level 
+	recognition, scene parsing requires a much denser annotation of scenes with a large set 
+	of objects. 
+	\par
+	However, the current datasets have limited number of objects, e.g. \acronym{coco} 
+	\citep{coco}, \acronym{pascal voc} \citep{pascal}. In many cases those objects are not 
+	the most common objects one encounters in the world like frisbees or baseball bats. 
+	Or the datasets only cover a limited set of scenes, like urban sceneries, e.g. Cityscapes 
+	\citep{cityscapes} and \acronym{kitti} \citep{kitti}. Most of the large-scale datasets 
+	typically only contain labels at the image level or provide bounding boxes, e.g. ImageNet 
+	\citep{Deng}, \acronym{pascal voc} and \acronym{kitti}. ImageNet has the largest set of 
+	classes, but contains relatively simple scenes. Compared to the largest annotated datasets 
+	\acronym{coco} and ImageNet, \acronym{ade20k} \citep{Zhou_pars} comprises of much more 
+	diverse scenes. 
+	\par
+	Finally, existing datasets with pixel-level labels typically provide annotations only 
+	for a subset of foreground objects, and no background, e.g. \acronym{pascal voc} and 
+	\acronym{coco}. That is probably why fully convolutional networks trained on \acronym{kitti}, 
+	as mentioned before, ignore the background. But pixel appearance features allow to perform 
+	well on classifying (amorphous) background classes. \acronym{ade20k} categorizes semantic 
+	classes of the scenes into stuff (sky, road, building, etc), foreground objects (car, tree, 
+	sofa, etc), and object parts (car wheels and door, people head and torso, etc).
 	\\
-
-
 	
+	After finding some pre-trained models (\url{https://gluon-cv.mxnet.io/model_zoo/segmentation.html}) 
+	we experimented on different algorithms and training datasets. The backbone network in 
+	all those cases was ResNet. Let us remind that successful deep neural network architectures 
+	for image level classification like AlexNet, VGGNet and ResNet are a natural precursor 
+	to, and often a direct part of semantic segmentation architectures. 
+	\par
+	DeepLab ???
+	\\
 	
-	
-	
-	
-	
-	
-	
-	Failed trials:
-	
-	Vision-Based Real-Time Traversable Region Detection for Mobile Robot in the Outdoors -> no available code
-	Fast Road Scene Segmentation using Deep Learning and Scene-based Models -> road, obstacles, sky
-	Pixel-wise Segmentation of Street with Neural Networks -> just street
-	
-DeepLab (\url{https://github.com/tensorflow/models/tree/master/research/deeplab} 
-\& \url{https://gluon-cv.mxnet.io/build/examples_segmentation/index.html} -> getting .param files)
-
-and datasets:
-PLVP dataset -> pedestrian lane
-KITTI dataset -> road and lane detection, asphalt roads
-Stanford background dataset -> grass and tree as classes
-ADE20K -> whole image segmentation
-COCO, PASCAL VOC -> semantic for foreground only
-	
-	thesis (no code available):
-	Road Detection and Recognition from Monocular Images Using Neural Networks -> image has road or not,
-	Autonomous Terrain Classification Through Unsupervised Learning -> neural network trained on colour, depth and infrared data,
-	Semantic Segmentation for Terrain Roughness Estimation Using Data Autolabeled with a Custom Roughness Metric -> roughness of each path
-	\\\\
-	
-	
-	
+	\todo[size={{\scriptsize}}]{DeepLab using ADE20K (what happened when used other dataset?)}
 	
 	
 	\section{Our approach}
 	\label{sec:fg:app}
 	
-	
-	\todo[size={{\tiny}}]{In: Arbib M.A. (ed.), The Handbook of Brain Theory and Neural Networks, 2nd Ed., MIT Press, Cambridge MA, pp. 1215-1219, 2003.}
-		
-	\todo[size={{\scriptsize}}]{Datasets? COCO, Pascal VOC, ADE20K, PLVP, KITTI, Stanford background?}
-
-	\todo[size={{\scriptsize}}]{ADE20K (dataset that has densely annotated images) scene parsing \& semantic segmentation -> matlab \& PyTorch}
-	
-	\todo[size={{\scriptsize}}]{DeepLab using ADE20K (what happened when used other dataset?)}
-	
-	
-	\todo[size={{\scriptsize}}]{Semantic Segmentation, Urban Navigation, and Research Directions (Qasim Nadeem) -> not in Google Scholar -> ???}
-	
-	
-	
+	Many deep learning architectures (like fully connected networks mentioned above) have 
+	been proposed for image segmentation. But Google’s DeepLab model \citep{Chen} has given 
+	the best results till date \cite{Pal}. This, together with the fact that we managed to 
+	find DeepLab pre-trained on \acronym{ade20k}, is why we finally chose to use it in this 
+	thesis.
+	\\
 	
 	
 	\chapter{Experimental Validation and Comparison}
@@ -1151,6 +1157,24 @@ COCO, PASCAL VOC -> semantic for foreground only
 	\begin{table}[h]
 		\centering	
 		\input{urls}	
+	\end{table}
+	
+	\begin{table}[h!]
+		\resizebox{\textwidth}{!}{%
+			\begin{tabular}{cc}
+				Dataset & \acronym{url}\\ 
+				\hline\hline
+				\acronym{ade20k} \citep{Zhou_pars} & \url{http://groups.csail.mit.edu/vision/datasets/ADE20K/}\\
+				ImageNet \citep{Deng} & \url{http://www.image-net.org/}\\
+				Places \citep{places} & \url{http://places.csail.mit.edu/}\\
+				\acronym{coco} \citep{coco} & \url{http://cocodataset.org/}\\
+				Cityscapes \citep{cityscapes} & \url{https://www.cityscapes-dataset.com/}\\
+				\acronym{kitti} \citep{kitti} & \url{http://www.cvlibs.net/datasets/kitti/}\\
+				\acronym{pascal voc} \citep{pascal} & \url{http://host.robots.ox.ac.uk/pascal/VOC/}\\
+			\end{tabular}
+		}
+		\caption{Datasets and their \acronym{url}s}
+		\label{table:dataset}
 	\end{table}
 	
 	
