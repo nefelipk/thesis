@@ -15,6 +15,7 @@
 \usepackage{amsmath}
 
 \usepackage{graphicx}
+\usepackage{subcaption}
 \graphicspath{ {./images/} }
 
 \newcommand{\defn}[1]{\enquote{\textit{#1}}}
@@ -575,6 +576,7 @@
 	
 	Since most of the approaches use at least some visual information, we will 
 	deepen a bit more on this.
+	\\
 	
 	\subsection{Visual information}
 	\label{sec:bg:data:neural}
@@ -850,8 +852,8 @@
 	images. Contrary to them, fully convolutional networks only have convolutional and 
 	pooling layers which give them the ability to make predictions on arbitrary-sized inputs. 
 	\term{Pooling layers} are in charge of reducing the number of parameters when the images 
-	are too large. The results of the original fully convolutional networks are shown in 
-	Figure~\ref{fig:fcn}.
+	are too large. The results of the original fully convolutional network trained on 
+	\acronym{pascal voc} are shown in Figure~\ref{fig:fcn}.
 	\par
 	Semantic understanding of visual scenes is one of the holy grails of computer vision 
 	\citep{Zhou_sem}. The emergence of large-scale image datasets like ImageNet \citep{Deng} 
@@ -860,9 +862,10 @@
 	\\
 	
 	\begin{figure}[h!]
-		\caption{Fully Convolutional Neural Networks: Original image (left), predicted label 
-		map (right). Notice the predictions are only for the foreground, the entire background 
-		in the left image appears black on the right.}
+		\caption{Figure taken from Fully Convolutional Neural Networks for Semantic 
+		Segmentation, trained on \acronym{pascal voc}: Original image (left), predicted 
+		label map (right). Notice the predictions are only for the foreground, the entire 
+		background in the left image appears black on the right.}
 		\centering
 		\includegraphics[width=\textwidth]{fcn}
 		\label{fig:fcn}
@@ -1074,9 +1077,10 @@
 	architecture for semantic segmentation, fully convolutional networks. We had in mind 
 	that the encoder, VGGNet in this case, would be pre-trained, but we would have to 
 	train the decoder from the beginning on \acronym{kitti} \citep{kitti}. But fully 
-	convolutional networks, at least on the cases we saw them used, do semantic segmentation 
-	only on foreground and ignore the background (Figure~\ref{fig:fcn}). In order for us to 
-	be able to decide terrain traversability, whole scene segmentation is necessary.
+	convolutional networks, at least those trained on \acronym{kitti} dataset, do semantic 
+	segmentation only on foreground and ignore the background (Figure~\ref{fig:fcn}). In 
+	order for us to be able to decide terrain traversability, whole scene segmentation is 
+	necessary.
 	\\
 	
 	Scene parsing, or recognizing and segmenting objects and stuff in an image, remains one 
@@ -1098,10 +1102,11 @@
 	Finally, existing datasets with pixel-level labels typically provide annotations only 
 	for a subset of foreground objects, and no background, e.g. \acronym{pascal voc} and 
 	\acronym{coco}. That is probably why fully convolutional networks trained on \acronym{kitti}, 
-	as mentioned before, ignore the background. But pixel appearance features allow to perform 
-	well on classifying (amorphous) background classes. \acronym{ade20k} categorizes semantic 
-	classes of the scenes into stuff (sky, road, building, etc), foreground objects (car, tree, 
-	sofa, etc), and object parts (car wheels and door, people head and torso, etc).
+	as mentioned before, do not give class labels to the background pixels. But, generally, 
+	pixel appearance features allow to perform well on classifying (amorphous) background 
+	classes. \acronym{ade20k} categorizes semantic classes of the scenes into stuff (sky, 
+	road, building, etc), foreground objects (car, tree, sofa, etc), and object parts (car 
+	wheels and door, people head and torso, etc).
 	\\
 	
 	After finding some pre-trained models (\url{https://gluon-cv.mxnet.io/model_zoo/segmentation.html}) 
@@ -1110,21 +1115,161 @@
 	for image level classification like AlexNet, VGGNet and ResNet are a natural precursor 
 	to, and often a direct part of semantic segmentation architectures. 
 	\par
-	DeepLab ???
+	The aforementioned algorithms are the fully convolutional network \citep{Long}, 
+	\term{Pyramid Scene Parsing Network (\acronym{psp})} \citep{Zhao} and DeepLab \citep{Chen}. 
+	All three of them when trained on \acronym{coco} or \acronym{pascal voc} do not perform 
+	complete scene semantic segmentation. When they are fed with indoor images they recognize 
+	only foreground objects. No class labels are given to the background pixels. Our 
+	hypothesis that the part of the image they ignore is the background is even more 
+	verified by the way they deal with outdoor images. Their result on outdoor input is 
+	a black image. On the contrary, when trained on \acronym{ade20k} all tree networks 
+	transact semantic segmentation on the whole scene. The outputs from all tree algorithms 
+	trained on each of the three datasets are depicted in Figure~\ref{fig:in} for indoor 
+	inputs, and Figure~\ref{fig:out} for outdoor inputs.
 	\\
 	
-	\todo[size={{\scriptsize}}]{DeepLab using ADE20K (what happened when used other dataset?)}
+	\begin{figure}[h!]
+		\caption{Results given from indoor input. Fully convolutional network, Pyramid 
+		scene parsing network and DeepLab trained on \acronym{coco}, \acronym{pascal voc} 
+		and \acronym{ade20k} dataset.}
+		\centering
+		\begin{subfigure}[b]{0.3\textwidth}
+			\includegraphics[width=\textwidth]{in}
+			\caption{Original image}
+		\end{subfigure}
+		\begin{subfigure}[b]{0.3\textwidth}
+			\includegraphics[width=\textwidth]{in_coco_voc}
+			\caption{\acronym{coco} or \acronym{voc}}
+		\end{subfigure}
+		\\
+		\begin{subfigure}[b]{0.3\textwidth}
+			\includegraphics[width=\textwidth]{in_ade_fcn}
+			\caption{\acronym{fcn} with \acronym{ade}}
+		\end{subfigure}
+		\begin{subfigure}[b]{0.3\textwidth}
+			\includegraphics[width=\textwidth]{in_ade_psp}
+			\caption{\acronym{psp} with \acronym{ade}}
+		\end{subfigure}
+		\begin{subfigure}[b]{0.3\textwidth}
+			\includegraphics[width=\textwidth]{in_ade_deep}
+			\caption{DeepLab with \acronym{ade}}
+		\end{subfigure}
+		\label{fig:in}
+	\end{figure}
 	
 	
+	\begin{figure}[h!]
+		\caption{Results given from outdoor input. Fully convolutional network, Pyramid 
+		scene parsing network and DeepLab trained on \acronym{coco}, \acronym{pascal voc} 
+		and \acronym{ade20k} dataset.}
+		\centering
+		\begin{subfigure}[b]{0.3\textwidth}
+			\includegraphics[width=\textwidth]{out}
+			\caption{Original image}
+		\end{subfigure}
+		\begin{subfigure}[b]{0.3\textwidth}
+			\includegraphics[width=\textwidth]{out_coco_voc}
+			\caption{\acronym{coco} or \acronym{voc}}
+		\end{subfigure}
+		\\
+		\begin{subfigure}[b]{0.3\textwidth}
+			\includegraphics[width=\textwidth]{out_ade_fcn}
+			\caption{\acronym{fcn} with \acronym{ade}}
+		\end{subfigure}
+		\begin{subfigure}[b]{0.3\textwidth}
+			\includegraphics[width=\textwidth]{out_ade_psp}
+			\caption{\acronym{psp} with \acronym{ade}}
+		\end{subfigure}
+		\begin{subfigure}[b]{0.3\textwidth}
+			\includegraphics[width=\textwidth]{out_ade_deep}
+			\caption{DeepLab with \acronym{ade}}
+		\end{subfigure}
+		\label{fig:out}
+	\end{figure}
+	
+	
+	Many deep learning architectures have been proposed for image segmentation. As far as
+	we know, in order to be able to semantically segment the whole image we can use any 
+	of the three algorithms mentioned above as long as they are pre-trained on the 
+	\acronym{ade20k} dataset. But how can we use them to help us distinguish traversable 
+	from non-traversable terrain?
+	\\
+		
 	\section{Our approach}
 	\label{sec:fg:app}
 	
-	Many deep learning architectures (like fully connected networks mentioned above) have 
-	been proposed for image segmentation. But Google’s DeepLab model \citep{Chen} has given 
-	the best results till date \cite{Pal}. This, together with the fact that we managed to 
-	find DeepLab pre-trained on \acronym{ade20k}, is why we finally chose to use it in this 
-	thesis.
-	\\
+	
+	
+	\begin{table}[h!]
+		\centering
+		\begin{tabular}{|c|c|c|c|}
+			\hline
+			Fold & Success with \acronym{fcn} & Success with \acronym{psp} & Success with DeepLab\\ 
+			\hline\hline
+			1 & 57.57\% & 77.45\% & 56.97\%\\
+			\hline
+			2 & 65.9\% & 94.36\% & 56.67\%\\
+			\hline
+			3 & 66.58\% & 87.15\% & 58.87\%\\
+			\hline
+			4 & 84.31\% & 86.86\% & 72.26\%\\
+			\hline
+			5 & 75.98\% & 94.89\% & 75.08\%\\
+			\hline
+		\end{tabular}
+		\caption{Percentage of evaluation images that their traversability was found 
+		correctly with the 1st calculating method.}
+		\label{table:1st}
+	\end{table}
+	
+	Even thought we think that the second calculating method is more representative of 
+	the overall sample, in this case the first one gives better results. That is probably 
+	because the non-traversable images of the training set are much more that the 
+	traversable ones.
+	
+	\begin{table}[h!]
+		\centering
+		\begin{tabular}{|c|c|c|c|}
+			\hline
+			Fold & Success with \acronym{fcn} & Success with \acronym{psp} & Success with DeepLab\\ 
+			\hline\hline
+			1 & 54.6\% & 62.61\% & 54.6\%\\
+			\hline
+			2 & 57.69\% & 93.33\% & 56.67\%\\
+			\hline
+			3 & 57.84\% & 80.46\% & 58.35\%\\
+			\hline
+			4 & 63.5\% & 79.2\% & 60.58\%\\
+			\hline
+			5 & 45.05\% & 45.05\% & 45.05\%\\
+			\hline
+		\end{tabular}
+		\caption{Percentage of evaluation images that their traversability was found 
+		correctly with the 2nd calculating method.}
+		\label{table:2nd}
+	\end{table}
+	
+	
+	\begin{table}[h!]
+		\centering
+		\begin{tabular}{|c|c|c|}
+			\hline
+			Fold & 1st method & 2nd method\\ 
+			\hline\hline
+			1 & 77.45\% & 62.61\%\\
+			\hline
+			2 & 94.36\% & 93.33\%\\
+			\hline
+			3 & 87.15\% & 80.46\%\\
+			\hline
+			4 & 86.86\% & 79.2\%\\
+			\hline
+			5 & 94.89\% & 45.05\%\\
+			\hline
+		\end{tabular}
+		\caption{Pyramid Scene Parsing Network - Percentage of evaluation images that their traversability was found correctly with the 1st and the 2nd calculating method.}
+		\label{table:psp}
+	\end{table}
 	
 	
 	\chapter{Experimental Validation and Comparison}
@@ -1160,6 +1305,7 @@
 	\end{table}
 	
 	\begin{table}[h!]
+		\centering
 		\resizebox{\textwidth}{!}{%
 			\begin{tabular}{cc}
 				Dataset & \acronym{url}\\ 
