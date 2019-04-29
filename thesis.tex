@@ -16,6 +16,7 @@
 
 \usepackage{graphicx}
 \usepackage{subcaption}
+\usepackage{multirow}
 \graphicspath{ {./images/} }
 
 \newcommand{\defn}[1]{\enquote{\textit{#1}}}
@@ -981,12 +982,12 @@
 	these skills from scratch, something that will cost him much more energy and time.
 	\\
 	
-	In this chapter we describe our primary thoughts and then our actual strategy on how to 
+	In this chapter we describe our primary thoughts and our actual strategy on how to 
 	reach the aforementioned goal.
 	\\
 	
 	\section{Initial efforts}
-	\label{sec:fg:at}
+	\label{sec:fg:ef}
 	
 	The first attempt was to use one of the most-well known models from \acronym{ilsvrc}. 
 	With a little help from the code of \citet{Rosebrocke} we experimented on 
@@ -1198,7 +1199,141 @@
 	\section{Our approach}
 	\label{sec:fg:app}
 	
+	We implemented a program that given an image predicts whether it the illustrated scene 
+	is traversable or not. It trains itself and then evaluates its effectiveness. All 
+	the input values of the program are images extracted from a neural network for whole 
+	image semantic segmentation. These images, as shown in Figure~\ref{fig:segm}, consist 
+	of colors depicting objects and parts of the scene. Each color is recognized by the 
+	computer as a triad of numbers representing the amount of red, green and blue present 
+	to produce the original color. For humans to be able to observe the program's 
+	functionality we keep a default correspondence/matching between colors and class labels. 
+	Also for ease of comprehension/reading, all operations are rounded to the second decimal place/number.
+	\\
 	
+	During training the program reads images previously annotated as permeable region or 
+	obstacles. It keeps track of how many times 
+	each color is found in traversable and how many in non-traversable images. So, it can 
+	compute the traversability percentage of each color. For example, let's suppose \alleg{red} corresponds to \alleg{sidewalk}. It is read 70 times from which the 
+	56 is in traversable images and the other 14 in non-traversable. Then the traversability 
+	percentage of the sidewalk is 56 $\times$ 100 $\div$ 70 = 80. Therefore, the sidewalk 
+	(and, as matter of fact, the color red)	has a 80\% chance of being traversable.
+	\\
+	
+	During evaluation we implement two different calculating methods. Both of them are in 
+	charge of deciding whether the given images are traversable or not. Every image with 
+	chance of being traversable greater than or equal to 50\% is considered to be traversable.
+	
+	\begin{enumerate}
+		\item The first method assumes that the probability/likelihood of an image being permeable is the average probability of all the colors contained therein. Let's say that red (from the example above) has a 80\% chance of being traversable, purple 30\% and yellow 45\%. An image containing red, purple and yellow has a probability of (80\% + 30\% + 45\%) $\div$ 3 = 51.67\% being traversable.
+		\item The second one specifies/determines that the traversability percentage of an image is the traversability percentage of all the colors within it. Continuing with the previous example, we specify that red is found to be permeable 8 times at/of the total of 10 (80\%). Purple 9 at 30 (30\%) and yellow 9 at 20 (45\%). Let's assume again that the input image contains red, purple and yellow. The probability of this image being traversable is (8 + 9 + 9) $\times$ 100\% $\div$ (10 + 30 + 20) = 43.33\%.
+	\end{enumerate}
+	
+	It is known in advance whether the testing images are permeable. So after their 
+	evaluation by the previously described methods it is trivial to discover whether the 
+	judgments are right or wrong. In the example above the first method decides that the 
+	image is non-traversable, while the second method determined the opposite. Note that 
+	in other cases the results may coincide.
+	\\\\ 
+	
+	The second one uses the number of times each color was found in traversable and in non-traversable images. It specifies/determines that the likelihood of an image being traversable is in direct dependence on the number of times each color within is found to be permeable or not.
+	
+	The second one specifies/determines that the likelihood of an image being traversable is proportional to the number of times each color within is found to be permeable. It does not deal with probabilities. It deals with ratios/proportions.
+	
+	
+	
+	\chapter{Experimental Validation and Comparison}
+	\label{sec:exp}
+	
+	In this chapter we will evaluate our program. We will describe the model validation 
+	technique we use, present the obtained results and discuss them.
+	\\
+	
+	\section{Evaluation setup}
+	\label{sec:exp:eval}
+	
+	We evaluate our machine learning model with a procedure called \term{cross validation} 
+	\citep{Brownlee}. It is also known as \term{rotation estimation} or \term{out-of-sample 
+	testing}. Cross validation is primarily used in applied machine learning to estimate 
+	the skill of a machine learning model on unseen data. That is, to use a limited sample 
+	in order to estimate how the model is expected to perform in general when used to make 
+	predictions. In a prediction problem, a model is usually given two datasets. First a 
+	dataset of known data on which training is run (\term{training set}). And then a dataset 
+	of unknown data (or first seen data) against which the model is tested (\term{validation 
+	set} or \term{testing set}). The goal of cross validation is to test the model's ability 
+	to predict data not used during the training of the model.
+	\par
+	The procedure has a single parameter N that refers to the number of groups that a given 
+	data sample is to be split into. As such, the procedure is often called \term{N-fold 
+	cross validation}. When a specific value for N is chosen, it may be used in place of N 
+	in the reference to the model. 
+	\\
+	
+	In this thesis our data sample consists of twenty \term{rosbags} from the open source 
+	software framework robot operating system \term{\acronym{ros}} (http://www.ros.org). 
+	Ten of these rosbags contain traversable images and the other ten include non-traversable 
+	images.
+	\par
+	So in order to evaluate our model we split our data sample in five groups and perform 
+	5-fold cross validation. Because we have twenty rosbags, each group will have an equal 
+	number of four rosbags. During each fold we use two \alleg{traversable} and two 
+	\alleg{non-traversable} rosbags for evaluation and the rest for training. In 
+	Table~\ref{table:folds} one can see how the rosbags split for each fold.
+	\\
+	
+	\begin{table}[h!]
+		\centering
+		\begin{tabular}{|c|c|c|c|c|}
+			\hline
+			\multirow{2}{*}{Fold} & \multicolumn{2}{|c|}{Traversable rosbags} & 
+			\multicolumn{2}{|c|}{Non-traversable rosbags}\\
+			& Training set & Validation set & Training set & Validation set\\
+			\hline\hline
+			1 & 1-2 & 3-4-5-6-7-8-9-10 & 1-2 & 3-4-5-6-7-8-9-10\\
+			\hline
+			2 & 3-4 & 1-2-5-6-7-8-9-10 & 3-4 & 1-2-5-6-7-8-9-10\\
+			\hline
+			3 & 5-6 & 1-2-3-4-7-8-9-10 & 5-6 & 1-2-3-4-7-8-9-10\\
+			\hline
+			4 & 7-8 & 1-2-3-4-5-6-9-10 & 7-8 & 1-2-3-4-5-6-9-10\\
+			\hline
+			5 & 9-10 & 1-2-3-4-5-6-7-8 & 9-10 & 1-2-3-4-5-6-7-8\\
+			\hline
+		\end{tabular}
+		\caption{Rosbags chosen for each train and test set in 5-fold cross validation.}
+		\label{table:folds}
+	\end{table}
+	
+	Let's see next the evaluation results of our model. 
+	\\
+	
+	
+	\section{Results}
+	\label{sec:exp:res}
+	
+	As mentioned in Section~\ref{sec:fg:app} we implemented a program that predicts whether 
+	a scene is traversable or not. It accepts as input images outputted by a neural network 
+	for semantic segmentation. In Section~\ref{sec:fg:ef} we established that the 
+	\acronym{ade20k} dataset is the best fit for whole scene semantic segmentation. And that, 
+	in theory, whichever of the fully convolutional network (\acronym{fcn}), pyramid scene 
+	parsing network (\acronym{psp}) and DeepLab can be used equally effectively. So we run 
+	our program with images that have emerged by each one of them to check which has the 
+	best results.
+	\\
+	
+	We gave as input to each of the three neural network models the rosbags mentioned in 
+	Section~\ref{sec:exp:eval}. And then fed our program with their outputs. The results of 
+	the first calculating method are shown in Table~\ref{table:1st}. And the results of the 
+	second in Table~\ref{table:2nd}. In both tables it is quite clear that the PSP has clearly/without doubt/undoubtedly/patently 
+	better results than the other two models, both individually and globally.
+	\\
+	
+	Consequently, we decided to continue our research using \acronym{psp} model. 
+	In Table~\ref{table:psp} we gathered the results from both methods when using data 
+	from the \acronym{psp} algorithm. Even thought we think that the second calculating 
+	method is more representative of the overall sample, in this case the first one gives 
+	better results. That happens probably because the non-traversable images of the 
+	training set are much more that the traversable ones.
+	\\
 	
 	\begin{table}[h!]
 		\centering
@@ -1215,17 +1350,16 @@
 			4 & 84.31\% & 86.86\% & 72.26\%\\
 			\hline
 			5 & 75.98\% & 94.89\% & 75.08\%\\
+			\hline\hline
+			Average & 70.07\% & 88.14\% & 63.97\%\\
 			\hline
 		\end{tabular}
-		\caption{Percentage of evaluation images that their traversability was found 
-		correctly with the 1st calculating method.}
+		\caption{1st calculating method - Percentage of evaluation images that their 
+		traversability was found correctly. In the first column are the results from 
+		images derived from the \acronym{fcn}, the second from \acronym{psp} and the 
+		third from DeepLab.}
 		\label{table:1st}
 	\end{table}
-	
-	Even thought we think that the second calculating method is more representative of 
-	the overall sample, in this case the first one gives better results. That is probably 
-	because the non-traversable images of the training set are much more that the 
-	traversable ones.
 	
 	\begin{table}[h!]
 		\centering
@@ -1242,13 +1376,16 @@
 			4 & 63.5\% & 79.2\% & 60.58\%\\
 			\hline
 			5 & 45.05\% & 45.05\% & 45.05\%\\
+			\hline\hline
+			Average & 55.74\% & 72.13\% & 55.05\%\\
 			\hline
 		\end{tabular}
-		\caption{Percentage of evaluation images that their traversability was found 
-		correctly with the 2nd calculating method.}
+		\caption{2nd calculating method - Percentage of evaluation images that their 
+		traversability was found correctly. In the first column are the results from 
+		images derived from the \acronym{fcn}, the second from \acronym{psp} and the 
+		third from DeepLab.}
 		\label{table:2nd}
 	\end{table}
-	
 	
 	\begin{table}[h!]
 		\centering
@@ -1265,24 +1402,23 @@
 			4 & 86.86\% & 79.2\%\\
 			\hline
 			5 & 94.89\% & 45.05\%\\
+			\hline\hline
+			Average & 88.14\% & 72.13\%\\
 			\hline
 		\end{tabular}
-		\caption{Pyramid Scene Parsing Network - Percentage of evaluation images that their traversability was found correctly with the 1st and the 2nd calculating method.}
+		\caption{\acronym{psp} - Percentage of evaluation images that their 
+		traversability was found correctly with the 1st and the 2nd calculating 
+		method.}
 		\label{table:psp}
 	\end{table}
 	
-	
-	\chapter{Experimental Validation and Comparison}
-	\label{sec:exp}
-	
-	\section{Evaluation setup}
-	\label{sec:exp:eval}
-	
-	\section{Results}
-	\label{sec:exp:res}
+	Therefore, as is obvious, we chose to deepen into the first method of deciding on 
+	image traversability.
+	\\
 	
 	\section{Discussion}
 	\label{sec:exp:dis}
+	
 	
 	
 	\chapter{Conclusions and Future Work}
