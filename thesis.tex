@@ -14,6 +14,8 @@
 \usepackage[normalem]{ulem}
 \usepackage{amsmath}
 
+\usepackage{wrapfig}
+\usepackage{longtable}
 \usepackage{graphicx}
 \usepackage{subcaption}
 \usepackage{multirow}
@@ -1365,6 +1367,8 @@
 		\centering
 		\begin{tabular}{|c|c|c|c|}
 			\hline
+			\multicolumn{4}{|c|}{2nd calculating method}\\
+			\hline
 			Fold & Success with \acronym{fcn} & Success with \acronym{psp} & Success with DeepLab\\ 
 			\hline\hline
 			1 & 54.6\% & 62.61\% & 54.6\%\\
@@ -1419,10 +1423,430 @@
 	\section{Discussion}
 	\label{sec:exp:dis}
 	
-	As one can easily observe in Table~\ref{table:psp} fold 1 has the worst results 
+	In Table~\ref{table:psp} one can easily observe that fold 1 has the worst results 
 	compared to the other folds. But why does this happen? Why does each fold have 
-	different success rate?
+	different success rate? 
 	\\
+	
+	\begin{table}[h!]
+		\begin{subtable}[h]{0.5\textwidth}
+			\centering
+			\begin{tabular}{|c|c|c|}
+				\hline
+				\multicolumn{3}{|c|}{Fold 1}\\
+				\hline
+				Class label & Instances & Trav (\%)\\
+				\hline\hline
+				grass & 52 & 100\\
+				\hline
+				person & 47 & 30\\
+				\hline
+				plant & 153 & 73\\
+				\hline
+				tree & 153 & 45\\
+				\hline
+				signboard & 11 & 18\\
+				\hline
+				sidewalk & 68 & 22\\
+				\hline
+				path & 60 & 100\\
+				\hline
+				earth & 153 & 46\\
+				\hline
+				sky & 153 & 46\\
+				\hline
+				car & 93 & 100\\
+				\hline
+				building & 101 & 8\\
+				\hline
+				house & 10 & -\\
+				\hline
+				wall & 97 & 24\\
+				\hline
+				floor & 19 & 0\\
+				\hline
+			\end{tabular}
+			\caption{Fold 1}
+			\label{table:trav.f1}
+		\end{subtable}
+		\hfill
+		\begin{subtable}[h]{0.5\textwidth}
+			\centering
+			\begin{tabular}{|c|c|c|}
+				\hline
+				\multicolumn{3}{|c|}{Fold 2}\\
+				\hline
+				Class label & Instances & Trav (\%)\\
+				\hline\hline
+				grass & 1 & 100 \%\\
+				\hline
+				person & 6 & 58 \%\\
+				\hline
+				plant & 169 & 72 \%\\
+				\hline
+				tree & 169 & 46 \%\\
+				\hline
+				flower & 17 & 100\%\\
+				\hline
+				earth & 169 & 46\%\\
+				\hline
+				sky & 169 & 47\%\\
+				\hline
+				rock & 13 & 22\%\\
+				\hline
+				wall & 13 & 30\%\\
+				\hline
+			\end{tabular}
+			\caption{Fold 2}
+			\label{table:trav.f2}
+		\end{subtable}
+		\caption{Traversable images - Labels, number of their instances and their 
+			traversability percentage. (continuing in next page)}
+		\label{table:trav.folds}
+	\end{table}
+	
+	\begin{table}[h!]
+		\ContinuedFloat % continue from previous page
+		\begin{subtable}[h!]{0.5\textwidth}
+			\centering
+			\begin{tabular}{|c|c|c|}
+				\hline
+				\multicolumn{3}{|c|}{Fold 3}\\
+				\hline
+				Class label & Instances & Trav (\%)\\
+				\hline\hline
+				grass & 18 & 100\\
+				\hline
+				plant & 161 & 73\\
+				\hline
+				tree & 164 & 46\\
+				\hline
+				sidewalk & 29 & 65\\
+				\hline
+				path & 22 & 100\\
+				\hline
+				earth & 164 & 47\\
+				\hline
+				sky & 164 & 47\\
+				\hline
+				rock & 27 & 20\\
+				\hline
+				building & 68 & 12\\
+				\hline
+				wall & 72 & 28\\
+				\hline
+			\end{tabular}
+			\caption{Fold 3}
+			\label{table:trav.f3}
+		\end{subtable}
+		\hfill
+		\begin{subtable}[h!]{0.5\textwidth}
+			\centering
+			\begin{tabular}{|c|c|c|}
+				\hline
+				\multicolumn{3}{|c|}{Fold 4}\\
+				\hline
+				Class label & Instances & Trav (\%)\\
+				\hline\hline
+				grass & 49 & 100\\
+				\hline
+				plant & 86 & 84\\
+				\hline
+				tree & 109 & 46\\
+				\hline
+				signboard & 1 & 25\\
+				\hline
+				earth & 83 & 48\\
+				\hline
+				sky & 109 & 47\\
+				\hline
+				rock & 33 & 17\\
+				\hline
+				wall & 21 & 30\\
+				\hline
+				fence & 2 & 100\\
+				\hline
+			\end{tabular}
+			\caption{Fold 4}
+			\label{table:trav.f4}
+		\end{subtable}
+		\hfill
+		\begin{subtable}[h!]{\textwidth}
+			\centering
+			\begin{tabular}{|c|c|c|}
+				\hline
+				\multicolumn{3}{|c|}{Fold 5}\\
+				\hline
+				Class label & Instances & Trav (\%)\\
+				\hline\hline
+				person & 14 & 62\\
+				\hline
+				plant & 182 & 84\\
+				\hline
+				tree & 183 & 43\\
+				\hline
+				flower & 9 & 100\\
+				\hline
+				signboard & 17 & 13\\
+				\hline
+				path & 1 & 100\\
+				\hline
+				earth & 183 & 43\\
+				\hline
+				sky & 183 & 43\\
+				\hline
+				car & 117 & 100\\
+				\hline
+				rock & 99 & 10\\
+				\hline
+				pole & 11 & -\\
+				\hline
+				wall & 100 & 23\\
+				\hline
+				fence & 94 & 100\\
+				\hline
+			\end{tabular}
+			\caption{Fold 5}
+			\label{table:trav.f5}
+		\end{subtable}
+		\caption{(continued) Traversable images - Labels, number of their instances and 
+			their traversability percentage.}
+	\end{table}
+	
+	In Tables~\ref{table:trav.folds} we have gathered all class labels appearing in each 
+	one of the traversable	images for evaluation. Each subtable contains the information 
+	for each fold. For every label mentioned we keep track of two numbers. The number of 
+	its appearances in the current fold (in how many images is the color participating?). 
+	And its traversability percentage given the training images of the remaining rosbags 
+	(after training, how likely is that this color is traversable?). 
+	(after training, how likely is for this color to be traversable?). 
+	\\
+	
+	Have in mind that in this work we do not care about the annotations representing each 
+	color within the image. These labels are available to facilitate reading. They do not 
+	always represent what is depicted in the image. But this thesis is not about judging 
+	the proper functioning of the neural network. It is about estimating the traversability 
+	of images resulting from the nervous network. (But we are not here to judge the proper 
+	functioning of the neural network.)
+	\\
+	
+	As mentioned before fold 1 seems to have/be having worse results than the other folds. 
+	\\
+	
+	\begin{table}[h!]
+		\begin{subtable}[h]{0.5\textwidth}
+			\centering
+			\begin{tabular}{|c|c|c|}
+				\hline
+				\multicolumn{3}{|c|}{Fold 1}\\
+				\hline
+				Class label & Instances & Trav (\%)\\
+				\hline\hline
+				plant & 1 & 73\\
+				\hline
+				tree & 184 & 45\\
+				\hline
+				water & 1 & 0\\
+				\hline
+				rock & 74 & 20\\
+				\hline
+				building & 184 & 8\\
+				\hline
+				earth & 184 & 46\\
+				\hline
+				sky & 183 & 46\\
+				\hline
+				mountain & 42 & 0\\
+				\hline
+				wall & 146 & 24\\
+				\hline
+				floor & 32 & 0\\
+				\hline
+			\end{tabular}
+			\caption{Fold 1}
+			\label{table:obst.f1}
+		\end{subtable}
+		\hfill
+		\begin{subtable}[h]{0.5\textwidth}
+			\centering
+			\begin{tabular}{|c|c|c|}
+				\hline
+				\multicolumn{3}{|c|}{Fold 2}\\
+				\hline
+				Class label & Instances & Trav (\%)\\
+				\hline\hline
+				person & 2 & 58 \%\\
+				\hline
+				plant & 1 & 72 \%\\
+				\hline
+				tree & 221 & 46 \%\\
+				\hline
+				rock & 219 & 22\%\\
+				\hline
+				building & 221 & 19\%\\
+				\hline
+				windowpane & 168 & 0\%\\
+				\hline
+				earth & 195 & 46\%\\
+				\hline
+				sky & 221 & 47\%\\
+				\hline
+				mountain & 47 & 0\%\\
+				\hline
+				wall & 137 & 30\%\\
+				\hline
+				floor & 192 & 7\%\\
+				\hline
+				sidewalk & 37 & 59\%\\
+				\hline
+				skyscraper & 43 & 0\%\\
+				\hline
+				monitor & 1 & -\%\\
+				\hline
+				crt screen & 48 & 102\%\\
+				\hline
+				signboard & 82 & 0\%\\
+				\hline
+			\end{tabular}
+			\caption{Fold 2}
+			\label{table:obst.f2}
+		\end{subtable}
+		\caption{Non-traversable images - Labels, number of their instances and their 
+			traversability percentage. (continuing in next page)}
+		\label{table:obst.folds}
+	\end{table}
+	
+	\begin{table}[h!]
+		\ContinuedFloat % continue from previous page
+		\begin{subtable}[h!]{0.5\textwidth}
+			\centering
+			\begin{tabular}{|c|c|c|}
+				\hline
+				\multicolumn{3}{|c|}{Fold 3}\\
+				\hline
+				Class label & Instances & Trav (\%)\\
+				\hline\hline
+				plant & 7 & 73\\
+				\hline
+				tree & 225 & 46\\
+				\hline
+				water & 1 & 0\\
+				\hline
+				rock & 218 & 20\\
+				\hline
+				building & 202 & 12\\
+				\hline
+				windowpane & 93 & 0\\
+				\hline
+				earth & 220 & 47\\
+				\hline
+				sky & 225 & 47\\
+				\hline
+				mountain & 8 & 0\\
+				\hline
+				wall & 225 & 28\\
+				\hline
+				floor & 70 & 5\\
+				\hline
+				ceiling & 1 & -\\
+				\hline
+				sidewalk & 68 & 65\\
+				\hline
+				hill & 51 & -\\
+				\hline
+				skyscraper & 97 & 0\\
+				\hline
+				crt screen & 36 & 0\\
+				\hline
+				television & 27 & -\\
+				\hline
+				microwave & 72 & -\\
+				\hline
+			\end{tabular}
+			\caption{Fold 3}
+			\label{table:obst.f3}
+		\end{subtable}
+		\hfill
+		\begin{subtable}[h!]{0.5\textwidth}
+			\centering
+			\begin{tabular}{|c|c|c|}
+				\hline
+				\multicolumn{3}{|c|}{Fold 4}\\
+				\hline
+				Class label & Instances & Trav (\%)\\
+				\hline
+				person & 30 & 81\\
+				\hline
+				plant & 98 & 84\\
+				\hline
+				tree & 165 & 46\\
+				\hline
+				rock & 122 & 17\\
+				\hline
+				building & 165 & 18\\
+				\hline
+				windowpane & 94 & 0\\
+				\hline
+				earth & 165 & 48\\
+				\hline
+				sky & 165 & 47\\
+				\hline
+				mountain & 43 & 0\\
+				\hline
+				wall & 162 & 30\\
+				\hline
+				floor & 69 & 5\\
+				\hline
+				computer & 8 & -\\
+				\hline
+				crt screen & 35 & 0\\
+				\hline
+			\end{tabular}
+			\caption{Fold 4}
+			\label{table:obst.f4}
+		\end{subtable}
+		\hfill
+		\begin{subtable}[h!]{\textwidth}
+			\centering
+			\begin{tabular}{|c|c|c|}
+				\hline
+				\multicolumn{3}{|c|}{Fold 5}\\
+				\hline
+				Class label & Instances & Trav (\%)\\
+				\hline\hline
+				person & 14 & 62\\
+				\hline
+				plant & 119 & 84\\
+				\hline
+				tree & 150 & 43\\
+				\hline
+				rock & 150 & 10\\
+				\hline
+				building & 150 & 18\\
+				\hline
+				windowpane & 68 & 0\\
+				\hline
+				earth & 127 & 43\\
+				\hline
+				sky & 122 & 43\\
+				\hline
+				wall & 140 & 23\\
+				\hline
+				floor & 66 & 5\\
+				\hline
+				streetlight & 20 & -\\
+				\hline
+				crt screen & 31 & 0\\
+				\hline
+				plate & 9 & -\\
+				\hline
+			\end{tabular}
+			\caption{Fold 5}
+			\label{table:obst.f5}
+		\end{subtable}
+		\caption{(continued) Non-traversable images - Labels, number of their instances 
+			and their traversability percentage.}
+	\end{table}
 	
 	
 	\chapter{Conclusions and Future Work}
