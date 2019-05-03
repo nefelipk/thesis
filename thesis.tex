@@ -3,6 +3,11 @@
 \usepackage[utf8]{inputenc}
 
 \usepackage[colorlinks]{hyperref}
+\hypersetup{
+%	urlcolor=blue,
+%	urlcolor=cyan,
+%	urlcolor=magenta, % default
+}
 \usepackage[colorinlistoftodos]{todonotes}
 
 \usepackage[numbers]{natbib}
@@ -26,6 +31,7 @@
 \newcommand{\term}{\textit}
 \newcommand{\acronym}{\MakeUppercase}
 \newcommand{\itfrac}[2]{\frac{\textit{#1}}{\textit{#2}}}
+\newcommand{\bref}[1]{{\hypersetup{linkcolor=blue}\ref{#1}}}
 
 \begin{document}
 	{
@@ -696,7 +702,7 @@
 	ImageNet team since 2010 (basically, the annual Olympics of computer vision \citep{Deshpande}). 
 	There research teams evaluate their computer vision algorithms with various visual 
 	recognition tasks such as \term{Object Classification} and \term{Object Localization}, 
-	as shown in Figure~\ref{fig:clas}.
+	as shown in Figure~\bref{fig:clas}.
 	\\
 	
 	\begin{figure}[h!]
@@ -763,7 +769,7 @@
 	them is that in classification algorithms the goal is to label an image with a category 
 	of the object it belongs (or at least the most likely predictions). While in detection 
 	algorithms the aim is to draw a bounding box around the object of interest to locate it 
-	within the image, as shown in Figure~\ref{fig:det}. Also, it is not necessary to draw 
+	within the image, as shown in Figure~\bref{fig:det}. Also, it is not necessary to draw 
 	just one bounding box in the object detection case. There could be many bounding boxes 
 	representing different objects of interest within the image, the number of which is 
 	known a priori.
@@ -833,7 +839,7 @@
 	Although humans perform scene segmentation with apparent ease, automatic scene 
 	segmentation is a very challenging problem \citep{Wang}. Segmentation refers to the 
 	process of mapping each pixel in an image to an object class. Each object class has 
-	to be segmented separately. For example see Figure~\ref{fig:segm}. As one can imagine, 
+	to be segmented separately. For example see Figure~\bref{fig:segm}. As one can imagine, 
 	this is a much more complex problem as compared to the classification or even detection 
 	problem. The importance of scene understanding as a core computer vision problem is 
 	highlighted by the fact that an increasing number of applications nourish from inferring 
@@ -856,7 +862,7 @@
 	pooling layers which give them the ability to make predictions on arbitrary-sized inputs. 
 	\term{Pooling layers} are in charge of reducing the number of parameters when the images 
 	are too large. The results of the original fully convolutional network trained on 
-	\acronym{pascal voc} are shown in Figure~\ref{fig:fcn}.
+	\acronym{pascal voc} are shown in Figure~\bref{fig:fcn}.
 	\par
 	Semantic understanding of visual scenes is one of the holy grails of computer vision 
 	\citep{Zhou_sem}. The emergence of large-scale image datasets like ImageNet \citep{Deng} 
@@ -1081,7 +1087,7 @@
 	that the encoder, VGGNet in this case, would be pre-trained, but we would have to 
 	train the decoder from the beginning on \acronym{kitti} \citep{kitti}. But fully 
 	convolutional networks, at least those trained on \acronym{kitti} dataset, do semantic 
-	segmentation only on foreground and ignore the background (Figure~\ref{fig:fcn}). In 
+	segmentation only on foreground and ignore the background (Figure~\bref{fig:fcn}). In 
 	order for us to be able to decide terrain traversability, whole scene segmentation is 
 	necessary.
 	\\
@@ -1127,8 +1133,8 @@
 	verified by the way they deal with outdoor images. Their result on outdoor input is 
 	a black image. On the contrary, when trained on \acronym{ade20k} all tree networks 
 	transact semantic segmentation on the whole scene. The outputs from all tree algorithms 
-	trained on each of the three datasets are depicted in Figure~\ref{fig:in} for indoor 
-	inputs, and Figure~\ref{fig:out} for outdoor inputs.
+	trained on each of the three datasets are depicted in Figure~\bref{fig:in} for indoor 
+	inputs, and Figure~\bref{fig:out} for outdoor inputs.
 	\\
 	
 	\begin{figure}[h!]
@@ -1204,7 +1210,7 @@
 	We implemented a program that given an image predicts whether it the illustrated scene 
 	is traversable or not. It trains itself and then evaluates its effectiveness. All 
 	the input values of the program are images extracted from a neural network for whole 
-	image semantic segmentation. These images, as shown in Figure~\ref{fig:segm}, consist 
+	image semantic segmentation. These images, as shown in Figure~\bref{fig:segm}, consist 
 	of colors depicting objects and parts of the scene. Each color is recognized by the 
 	computer as a triad of numbers representing the amount of red, green and blue present 
 	to produce the original color. For humans to be able to observe the program's 
@@ -1270,25 +1276,31 @@
 	in the reference to the model. 
 	\\
 	
-	In this thesis our data sample consists of twenty \term{rosbags} from the open source 
-	software framework robot operating system \term{\acronym{ros}} (http://www.ros.org). 
-	Ten of these rosbags contain traversable images and the other ten include non-traversable 
-	images.
+	In this thesis our data sample consists of twenty \term{bag} files. A bag is a file 
+	format in \term{\acronym{ros}} for storing \acronym{ros} message data. \acronym{ros} 
+	(\url{http://www.ros.org}), short for \term{robot operating system} is an open source, 
+	meta-operating system for robots. It is a set of software libraries and tools that 
+	help in building robot applications. Using a 
+	\href{http://wiki.ros.org/rosbag/Tutorials/Exporting%20image%20and%20video%20data}
+	{tutorial on how to export image and video data from a bag file} we extract 778 
+	traversable and 945 non-traversable images. Ten of these bag files contain the 
+	traversable images and the other ten include the non-traversable.
 	\par
 	So in order to evaluate our model we split our data sample in five groups and perform 
-	5-fold cross validation. Because we have twenty rosbags, each group will have an equal 
-	number of four rosbags. During each fold we use two \alleg{traversable} and two 
-	\alleg{non-traversable} rosbags for evaluation and the rest for training. In 
-	Table~\ref{table:folds} one can see how the rosbags split for each fold.
+	5-fold cross validation. Because we have twenty bag files, each group has an equal 
+	number of four bags. During each fold we use two traversable and two non-traversable 
+	bag files for testing and the rest for training. In Table~\bref{table:folds_bags} one 
+	can see how the bag files split for each fold. And in Table~\bref{table:folds_images} 
+	are shown the numbers of images used for training and testing for each fold.
 	\\
 	
 	\begin{table}[h!]
 		\centering
 		\begin{tabular}{|c|c|c|c|c|}
 			\hline
-			\multirow{2}{*}{Fold} & \multicolumn{2}{|c|}{Traversable rosbags} & 
-			\multicolumn{2}{|c|}{Non-traversable rosbags}\\
-			& Training set & Validation set & Training set & Validation set\\
+			\multirow{2}{*}{Fold} & \multicolumn{2}{|c|}{Traversable bags} & 
+			\multicolumn{2}{|c|}{Non-traversable bags}\\
+			& Testing set & Training set & Testing set & Training set\\
 			\hline\hline
 			1 & 1-2 & 3-4-5-6-7-8-9-10 & 1-2 & 3-4-5-6-7-8-9-10\\
 			\hline
@@ -1301,8 +1313,31 @@
 			5 & 9-10 & 1-2-3-4-5-6-7-8 & 9-10 & 1-2-3-4-5-6-7-8\\
 			\hline
 		\end{tabular}
-		\caption{Rosbags chosen for each train and test set in 5-fold cross validation.}
-		\label{table:folds}
+		\caption{Bag files chosen for each testing and training set in 5-fold cross validation.}
+		\label{table:folds_bags}
+	\end{table}
+	
+	\begin{table}[h!]
+		\centering
+		\begin{tabular}{|c|c|c|c|c|}
+			\hline
+			\multirow{2}{*}{Fold} & \multicolumn{2}{|c|}{Traversable images} & 
+			\multicolumn{2}{|c|}{Non-traversable images}\\
+			& Testing set & Training set & Testing set & Training set\\
+			\hline\hline
+			1 & 153 & 625 & 184 & 761\\
+			\hline
+			2 & 169 & 609 & 221 & 724\\
+			\hline
+			3 & 164 & 614 & 225 & 720\\
+			\hline
+			4 & 109 & 669 & 165 & 780\\
+			\hline
+			5 & 183 & 595 & 150 & 795\\
+			\hline
+		\end{tabular}
+		\caption{Number of images for each testing and training set in 5-fold cross validation.}
+		\label{table:folds_images}
 	\end{table}
 	
 	Let's see next the evaluation results of our model. 
@@ -1316,44 +1351,42 @@
 	a scene is traversable or not. It accepts as input images outputted by a neural network 
 	for semantic segmentation. In Section~\ref{sec:fg:ef} we established that the 
 	\acronym{ade20k} dataset is the best fit for whole scene semantic segmentation. And that, 
-	in theory, whichever of the fully convolutional network (\acronym{fcn}), pyramid scene 
-	parsing network (\acronym{psp}) and DeepLab can be used equally effectively. So we run 
-	our program with images that have emerged by each one of them to check which has the 
-	best results.
+	in theory, whichever of the
+	\begin{enumerate}
+		\item fully convolutional network (\acronym{fcn}), 
+		\item pyramid scene parsing network (\acronym{psp}) and 
+		\item DeepLab 
+	\end{enumerate}
+	can be used equally effectively. So we run our program with images that have emerged by 
+	each one of them to check which has the best results.
 	\\
 	
-	We gave as input to each of the three neural network models the rosbags mentioned in 
-	Section~\ref{sec:exp:eval}. And then fed our program with their outputs. The results of 
-	the first calculating method are shown in Table~\ref{table:1st}. And the results of the 
-	second in Table~\ref{table:2nd}. In both tables it is quite clear that the PSP has clearly/without doubt/undoubtedly/patently 
-	better results than the other two models, both individually and globally.
-	\\
-	
-	Consequently, we decided to continue our research using \acronym{psp} model. 
-	In Table~\ref{table:psp} we gathered the results from both methods when using data 
-	from the \acronym{psp} algorithm. Even thought we think that the second calculating 
-	method is more representative of the overall sample, in this case the first one gives 
-	better results. That happens probably because the non-traversable images of the 
-	training set are much more that the traversable ones.
+	We gave as input to each of the three neural network models the images extracted from the 
+	bag files mentioned in Section~\ref{sec:exp:eval}. And then fed our program with their 
+	outputs. The results of the first calculating method, described in Section~\ref{sec:fg:app} 
+	are shown in Table~\bref{table:1st}. And the results of the second method in Table~\bref{table:2nd}. 
+	In both tables it is quite clear that the PSP has clearly/without doubt/undoubtedly/patently better results than the other two models, both individually and globally.
 	\\
 	
 	\begin{table}[h!]
 		\centering
 		\begin{tabular}{|c|c|c|c|}
 			\hline
-			Fold & Success with \acronym{fcn} & Success with \acronym{psp} & Success with DeepLab\\ 
+			\multicolumn{4}{|c|}{Success on 1st calculating method}\\
+			\hline
+			Fold & with \acronym{fcn} (\%) & with \acronym{psp} (\%) & with DeepLab (\%)\\ 
 			\hline\hline
-			1 & 57.57\% & 77.45\% & 56.97\%\\
+			1 & 57.57 & 77.45 & 56.97\\
 			\hline
-			2 & 65.9\% & 94.36\% & 56.67\%\\
+			2 & 65.9 & 94.36 & 56.67\\
 			\hline
-			3 & 66.58\% & 87.15\% & 58.87\%\\
+			3 & 66.58 & 87.15 & 58.87\\
 			\hline
-			4 & 84.31\% & 86.86\% & 72.26\%\\
+			4 & 84.31 & 86.86 & 72.26\\
 			\hline
-			5 & 75.98\% & 94.89\% & 75.08\%\\
+			5 & 75.98 & 94.89 & 75.08\\
 			\hline\hline
-			Average & 70.07\% & 88.14\% & 63.97\%\\
+			Average & 69.3 & 88.33 & 63.26\\
 			\hline
 		\end{tabular}
 		\caption{1st calculating method - Percentage of evaluation images that their 
@@ -1367,21 +1400,21 @@
 		\centering
 		\begin{tabular}{|c|c|c|c|}
 			\hline
-			\multicolumn{4}{|c|}{2nd calculating method}\\
+			\multicolumn{4}{|c|}{Success on 2nd calculating method}\\
 			\hline
-			Fold & Success with \acronym{fcn} & Success with \acronym{psp} & Success with DeepLab\\ 
+			Fold & with \acronym{fcn} (\%) & with \acronym{psp} (\%) & with DeepLab (\%)\\ 
 			\hline\hline
-			1 & 54.6\% & 62.61\% & 54.6\%\\
+			1 & 54.6 & 62.61 & 54.6\\
 			\hline
-			2 & 57.69\% & 93.33\% & 56.67\%\\
+			2 & 57.69 & 93.33 & 56.67\\
 			\hline
-			3 & 57.84\% & 80.46\% & 58.35\%\\
+			3 & 57.84 & 80.46 & 58.35\\
 			\hline
-			4 & 63.5\% & 79.2\% & 60.58\%\\
+			4 & 63.5 & 79.2 & 60.58\\
 			\hline
-			5 & 45.05\% & 45.05\% & 45.05\%\\
+			5 & 45.05 & 45.05 & 45.05\\
 			\hline\hline
-			Average & 55.74\% & 72.13\% & 55.05\%\\
+			Average & 55.6 & 72.84 & 55.02\\
 			\hline
 		\end{tabular}
 		\caption{2nd calculating method - Percentage of evaluation images that their 
@@ -1391,23 +1424,33 @@
 		\label{table:2nd}
 	\end{table}
 	
+	Consequently, we decided to continue our research using the \acronym{psp} model. 
+	In Table~\bref{table:psp} we gathered the results from both methods when using data 
+	from the \acronym{psp} algorithm. Even thought we think that the second calculating 
+	method is more representative of the overall sample, in this case the first one gives 
+	better results. That happens probably because the non-traversable images of the 
+	training set are much more that the traversable ones, as shown in Table~\bref{table:folds_images}.
+	\\
+	
 	\begin{table}[h!]
 		\centering
 		\begin{tabular}{|c|c|c|}
 			\hline
-			Fold & 1st method & 2nd method\\ 
+			\multicolumn{3}{|c|}{\acronym{psp} trained on \acronym{ade20k} dataset}\\
+			\hline
+			Fold & Success with 1st method (\%) & Success with 2nd method (\%)\\ 
 			\hline\hline
-			1 & 77.45\% & 62.61\%\\
+			1 & 77.45 & 62.61\\
 			\hline
-			2 & 94.36\% & 93.33\%\\
+			2 & 94.36 & 93.33\\
 			\hline
-			3 & 87.15\% & 80.46\%\\
+			3 & 87.15 & 80.46\\
 			\hline
-			4 & 86.86\% & 79.2\%\\
+			4 & 86.86 & 79.2\\
 			\hline
-			5 & 94.89\% & 45.05\%\\
+			5 & 94.89 & 45.05\\
 			\hline\hline
-			Average & 88.14\% & 72.13\%\\
+			Average & 88.33 & 72.84\\
 			\hline
 		\end{tabular}
 		\caption{\acronym{psp} - Percentage of evaluation images that their 
@@ -1420,22 +1463,50 @@
 	image traversability.
 	\\
 	
+	\begin{table}[h!]
+		\centering
+		\begin{tabular}{|c|c|c|c|c||c|}
+			\hline
+			\multicolumn{6}{|c|}{1st method with \acronym{psp}}\\
+			\hline
+			\multirow{2}{*}{Fold} & \multicolumn{2}{|c|}{Traversable images} & \multicolumn{2}{|c||}{Non-traversable images} & \multirow{2}{*}{Average (\%)}\\
+			& Number & Success (\%) & Number & Success (\%)\\ 
+			\hline\hline
+			1 & 153 & 50.33 & 184 & 100 & 77.45\\
+			\hline
+			2 & 169 & 86.98 & 221 & 100 & 94.36\\
+			\hline
+			3 & 164 & 69.51 & 225 & 100 & 87.15\\
+			\hline
+			4 & 109 & 66.97 & 165 & 100 & 86.86\\
+			\hline
+			5 & 183 & 90.71 & 150 & 100 & 94.89\\
+			\hline\hline
+			Average & 778 & 74.16 & 945 & 100 & 88.33\\
+			\hline
+		\end{tabular}
+		\caption{\acronym{psp} - Percentage of evaluation images that their 
+			traversability was found correctly with the 1st and the 2nd calculating 
+			method.}
+		\label{table:psp:1st}
+	\end{table}
+	
 	\section{Discussion}
 	\label{sec:exp:dis}
 	
-	In Table~\ref{table:psp} one can easily observe that fold 1 has the worst results 
+	In Table~\bref{table:psp} one can easily observe that fold 1 has the worst results 
 	compared to the other folds. But why does this happen? Why does each fold have 
 	different success rate? 
 	\\
 	
 	\begin{table}[h!]
-		\begin{subtable}[h]{0.5\textwidth}
+		\begin{subtable}[h]{\textwidth}
 			\centering
 			\begin{tabular}{|c|c|c|}
 				\hline
 				\multicolumn{3}{|c|}{Fold 1}\\
 				\hline
-				Class label & Instances & Trav (\%)\\
+				Class label & Instances & Traversability (\%)\\
 				\hline\hline
 				grass & 52 & 100\\
 				\hline
@@ -1466,39 +1537,8 @@
 				floor & 19 & 0\\
 				\hline
 			\end{tabular}
-			\caption{Fold 1}
+			\caption{Fold 1 (153 traversable images)}
 			\label{table:trav.f1}
-		\end{subtable}
-		\hfill
-		\begin{subtable}[h]{0.5\textwidth}
-			\centering
-			\begin{tabular}{|c|c|c|}
-				\hline
-				\multicolumn{3}{|c|}{Fold 2}\\
-				\hline
-				Class label & Instances & Trav (\%)\\
-				\hline\hline
-				grass & 1 & 100 \%\\
-				\hline
-				person & 6 & 58 \%\\
-				\hline
-				plant & 169 & 72 \%\\
-				\hline
-				tree & 169 & 46 \%\\
-				\hline
-				flower & 17 & 100\%\\
-				\hline
-				earth & 169 & 46\%\\
-				\hline
-				sky & 169 & 47\%\\
-				\hline
-				rock & 13 & 22\%\\
-				\hline
-				wall & 13 & 30\%\\
-				\hline
-			\end{tabular}
-			\caption{Fold 2}
-			\label{table:trav.f2}
 		\end{subtable}
 		\caption{Traversable images - Labels, number of their instances and their 
 			traversability percentage. (continuing in next page)}
@@ -1507,13 +1547,44 @@
 	
 	\begin{table}[h!]
 		\ContinuedFloat % continue from previous page
-		\begin{subtable}[h!]{0.5\textwidth}
+		\begin{subtable}[h]{\textwidth}
+			\centering
+			\begin{tabular}{|c|c|c|}
+				\hline
+				\multicolumn{3}{|c|}{Fold 2}\\
+				\hline
+				Class label & Instances & Traversability (\%)\\
+				\hline\hline
+				grass & 1 & 100\\
+				\hline
+				person & 6 & 58\\
+				\hline
+				plant & 169 & 72\\
+				\hline
+				tree & 169 & 46\\
+				\hline
+				flower & 17 & 100\\
+				\hline
+				earth & 169 & 46\\
+				\hline
+				sky & 169 & 47\\
+				\hline
+				rock & 13 & 22\\
+				\hline
+				wall & 13 & 30\\
+				\hline
+			\end{tabular}
+			\caption{Fold 2 (169 traversable images)}
+			\label{table:trav.f2}
+		\end{subtable}
+		\\\\\\
+		\begin{subtable}[h!]{\textwidth}
 			\centering
 			\begin{tabular}{|c|c|c|}
 				\hline
 				\multicolumn{3}{|c|}{Fold 3}\\
 				\hline
-				Class label & Instances & Trav (\%)\\
+				Class label & Instances & Traversability (\%)\\
 				\hline\hline
 				grass & 18 & 100\\
 				\hline
@@ -1536,17 +1607,22 @@
 				wall & 72 & 28\\
 				\hline
 			\end{tabular}
-			\caption{Fold 3}
+			\caption{Fold 3 (164 traversable images)}
 			\label{table:trav.f3}
 		\end{subtable}
-		\hfill
-		\begin{subtable}[h!]{0.5\textwidth}
+		\caption{(continued) Traversable images - Labels, number of their instances and 
+			their traversability percentage. (continuing in next page)}
+	\end{table}
+	
+	\begin{table}[h!]
+		\ContinuedFloat % continue from previous page
+		\begin{subtable}[h!]{\textwidth}
 			\centering
 			\begin{tabular}{|c|c|c|}
 				\hline
 				\multicolumn{3}{|c|}{Fold 4}\\
 				\hline
-				Class label & Instances & Trav (\%)\\
+				Class label & Instances & Traversability (\%)\\
 				\hline\hline
 				grass & 49 & 100\\
 				\hline
@@ -1567,17 +1643,17 @@
 				fence & 2 & 100\\
 				\hline
 			\end{tabular}
-			\caption{Fold 4}
+			\caption{Fold 4 (109 traversable images)}
 			\label{table:trav.f4}
 		\end{subtable}
-		\hfill
+		\\\\\\
 		\begin{subtable}[h!]{\textwidth}
 			\centering
 			\begin{tabular}{|c|c|c|}
 				\hline
 				\multicolumn{3}{|c|}{Fold 5}\\
 				\hline
-				Class label & Instances & Trav (\%)\\
+				Class label & Instances & Traversability (\%)\\
 				\hline\hline
 				person & 14 & 62\\
 				\hline
@@ -1606,7 +1682,7 @@
 				fence & 94 & 100\\
 				\hline
 			\end{tabular}
-			\caption{Fold 5}
+			\caption{Fold 5 (183 traversable images)}
 			\label{table:trav.f5}
 		\end{subtable}
 		\caption{(continued) Traversable images - Labels, number of their instances and 
@@ -1617,7 +1693,7 @@
 	one of the traversable	images for evaluation. Each subtable contains the information 
 	for each fold. For every label mentioned we keep track of two numbers. The number of 
 	its appearances in the current fold (in how many images is the color participating?). 
-	And its traversability percentage given the training images of the remaining rosbags 
+	And its traversability percentage, given the training images of the remaining rosbags 
 	(after training, how likely is that this color is traversable?). 
 	(after training, how likely is for this color to be traversable?). 
 	\\
@@ -1634,13 +1710,13 @@
 	\\
 	
 	\begin{table}[h!]
-		\begin{subtable}[h]{0.5\textwidth}
+		\begin{subtable}[h]{\textwidth}
 			\centering
 			\begin{tabular}{|c|c|c|}
 				\hline
 				\multicolumn{3}{|c|}{Fold 1}\\
 				\hline
-				Class label & Instances & Trav (\%)\\
+				Class label & Instances & Traversability (\%)\\
 				\hline\hline
 				plant & 1 & 73\\
 				\hline
@@ -1663,52 +1739,52 @@
 				floor & 32 & 0\\
 				\hline
 			\end{tabular}
-			\caption{Fold 1}
+			\caption{Fold 1 (184 non-traversable images)}
 			\label{table:obst.f1}
 		\end{subtable}
-		\hfill
-		\begin{subtable}[h]{0.5\textwidth}
+		\\\\\\
+		\begin{subtable}[h]{\textwidth}
 			\centering
 			\begin{tabular}{|c|c|c|}
 				\hline
 				\multicolumn{3}{|c|}{Fold 2}\\
 				\hline
-				Class label & Instances & Trav (\%)\\
+				Class label & Instances & Traversability (\%)\\
 				\hline\hline
-				person & 2 & 58 \%\\
+				person & 2 & 58\\
 				\hline
-				plant & 1 & 72 \%\\
+				plant & 1 & 72\\
 				\hline
-				tree & 221 & 46 \%\\
+				tree & 221 & 46\\
 				\hline
-				rock & 219 & 22\%\\
+				rock & 219 & 22\\
 				\hline
-				building & 221 & 19\%\\
+				building & 221 & 19\\
 				\hline
-				windowpane & 168 & 0\%\\
+				windowpane & 168 & 0\\
 				\hline
-				earth & 195 & 46\%\\
+				earth & 195 & 46\\
 				\hline
-				sky & 221 & 47\%\\
+				sky & 221 & 47\\
 				\hline
-				mountain & 47 & 0\%\\
+				mountain & 47 & 0\\
 				\hline
-				wall & 137 & 30\%\\
+				wall & 137 & 30\\
 				\hline
-				floor & 192 & 7\%\\
+				floor & 192 & 7\\
 				\hline
-				sidewalk & 37 & 59\%\\
+				sidewalk & 37 & 59\\
 				\hline
-				skyscraper & 43 & 0\%\\
+				skyscraper & 43 & 0\\
 				\hline
-				monitor & 1 & -\%\\
+				monitor & 1 & -\\
 				\hline
-				crt screen & 48 & 102\%\\
+				crt screen & 48 & 102\\
 				\hline
-				signboard & 82 & 0\%\\
+				signboard & 82 & 0\\
 				\hline
 			\end{tabular}
-			\caption{Fold 2}
+			\caption{Fold 2 (221 non-traversable images)}
 			\label{table:obst.f2}
 		\end{subtable}
 		\caption{Non-traversable images - Labels, number of their instances and their 
@@ -1718,13 +1794,13 @@
 	
 	\begin{table}[h!]
 		\ContinuedFloat % continue from previous page
-		\begin{subtable}[h!]{0.5\textwidth}
+		\begin{subtable}[h!]{\textwidth}
 			\centering
 			\begin{tabular}{|c|c|c|}
 				\hline
 				\multicolumn{3}{|c|}{Fold 3}\\
 				\hline
-				Class label & Instances & Trav (\%)\\
+				Class label & Instances & Traversability (\%)\\
 				\hline\hline
 				plant & 7 & 73\\
 				\hline
@@ -1758,23 +1834,21 @@
 				\hline
 				crt screen & 36 & 0\\
 				\hline
-				television & 27 & -\\
-				\hline
-				microwave & 72 & -\\
+				television / microwave & 27 / 72 & -\\
 				\hline
 			\end{tabular}
-			\caption{Fold 3}
+			\caption{Fold 3 (225 non-traversable images)}
 			\label{table:obst.f3}
 		\end{subtable}
-		\hfill
-		\begin{subtable}[h!]{0.5\textwidth}
+		\\\\\\
+		\begin{subtable}[h!]{\textwidth}
 			\centering
 			\begin{tabular}{|c|c|c|}
 				\hline
 				\multicolumn{3}{|c|}{Fold 4}\\
 				\hline
-				Class label & Instances & Trav (\%)\\
-				\hline
+				Class label & Instances & Traversability (\%)\\
+				\hline\hline
 				person & 30 & 81\\
 				\hline
 				plant & 98 & 84\\
@@ -1802,17 +1876,22 @@
 				crt screen & 35 & 0\\
 				\hline
 			\end{tabular}
-			\caption{Fold 4}
+			\caption{Fold 4 (165 non-traversable images)}
 			\label{table:obst.f4}
 		\end{subtable}
-		\hfill
+		\caption{(continued) Non-traversable images - Labels, number of their instances 
+			and their traversability percentage. (continuing in next page)}
+	\end{table}
+	
+	\begin{table}[h!]
+		\ContinuedFloat % continue from previous page
 		\begin{subtable}[h!]{\textwidth}
 			\centering
 			\begin{tabular}{|c|c|c|}
 				\hline
 				\multicolumn{3}{|c|}{Fold 5}\\
 				\hline
-				Class label & Instances & Trav (\%)\\
+				Class label & Instances & Traversability (\%)\\
 				\hline\hline
 				person & 14 & 62\\
 				\hline
@@ -1841,7 +1920,7 @@
 				plate & 9 & -\\
 				\hline
 			\end{tabular}
-			\caption{Fold 5}
+			\caption{Fold 5 (150 non-traversable images)}
 			\label{table:obst.f5}
 		\end{subtable}
 		\caption{(continued) Non-traversable images - Labels, number of their instances 
@@ -1858,7 +1937,7 @@
 	\label{app:impl}
 	
 	Many writers published their code open-source so that other researchers may 
-	use their work. In Table~\ref{table:refs} we give some \acronym{url}s and 
+	use their work. In Table~\bref{table:refs} we give some \acronym{url}s and 
 	comments about the work mentioned above in Section~\ref{sec:bg:trav}, 
 	Section~\ref{sec:bg:data} and Section~\ref{sec:fg:ef}. Some of them were 
 	actually used as our experimental basis.
@@ -1871,7 +1950,7 @@
 		\input{urls}	
 	\end{table}
 	
-	In Table~\ref{table:dataset} one can find some of the available datasets 
+	In Table~\bref{table:dataset} one can find some of the available datasets 
 	used for neural network training and evaluation.
 	\\
 	
