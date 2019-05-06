@@ -1,4 +1,4 @@
-\documentclass[12pt,a4paper]{report}
+\documentclass[12pt,a4paper,table,dvipsnames,tikz]{report}
 \usepackage[english]{babel}
 \usepackage[utf8]{inputenc}
 
@@ -19,12 +19,26 @@
 \usepackage[normalem]{ulem}
 \usepackage{amsmath}
 
-\usepackage{wrapfig}
-\usepackage{longtable}
-\usepackage{graphicx}
+\usepackage{amssymb}
+
+%\usepackage[dvipsnames]{xcolor}
+
+%\usepackage{wrapfig}
+%\usepackage{longtable}
+%\usepackage{graphicx}
+%\usepackage[table]{xcolor}
 \usepackage{subcaption}
 \usepackage{multirow}
 \graphicspath{ {./images/} }
+
+\definecolor{earth}{HTML}{787846}
+\definecolor{sky}{HTML}{06E6E6}
+\definecolor{tree}{HTML}{04C803}
+\definecolor{wall}{HTML}{787878}
+\definecolor{house}{HTML}{FF09E0}
+\definecolor{floor}{HTML}{503232}
+\definecolor{building}{HTML}{B47878}
+\definecolor{plant}{HTML}{CCFF04}
 
 \newcommand{\defn}[1]{\enquote{\textit{#1}}}
 \newcommand{\alleg}{\enquote}
@@ -32,6 +46,9 @@
 \newcommand{\acronym}{\MakeUppercase}
 \newcommand{\itfrac}[2]{\frac{\textit{#1}}{\textit{#2}}}
 \newcommand{\bref}[1]{{\hypersetup{linkcolor=blue}\ref{#1}}}
+\newcommand{\bl}[1]{{\hypersetup{linkcolor=blue}#1}}
+\newcommand{\boldcolor}[2]{\textbf{\textcolor{#1}{#2}}}
+\newcommand{\class}[1]{\textbf{\textcolor{#1}{#1}}} % or \colorbox
 
 \begin{document}
 	{
@@ -702,7 +719,7 @@
 	ImageNet team since 2010 (basically, the annual Olympics of computer vision \citep{Deshpande}). 
 	There research teams evaluate their computer vision algorithms with various visual 
 	recognition tasks such as \term{Object Classification} and \term{Object Localization}, 
-	as shown in Figure~\bref{fig:clas}.
+	as shown in Figure~\bl{\ref{fig:clas}}.
 	\\
 	
 	\begin{figure}[h!]
@@ -758,7 +775,7 @@
 	
 	\begin{figure}[h!]
 		\caption{Object Detection locates and identifies multiple objects and all their 
-		instances (\textcolor{red}{cat}, \textcolor{blue}{dog}, \textcolor{green}{duck}) 
+		instances (\boldcolor{red}{cat}, \boldcolor{Aquamarine}{dog}, \boldcolor{green}{duck}) 
 		within the image.}
 		\centering
 		\includegraphics[width=\textwidth]{detect}
@@ -769,7 +786,7 @@
 	them is that in classification algorithms the goal is to label an image with a category 
 	of the object it belongs (or at least the most likely predictions). While in detection 
 	algorithms the aim is to draw a bounding box around the object of interest to locate it 
-	within the image, as shown in Figure~\bref{fig:det}. Also, it is not necessary to draw 
+	within the image, as shown in Figure~\bl{\ref{fig:det}}. Also, it is not necessary to draw 
 	just one bounding box in the object detection case. There could be many bounding boxes 
 	representing different objects of interest within the image, the number of which is 
 	known a priori.
@@ -826,8 +843,8 @@
 	
 	\begin{figure}[h!]
 		\caption{Semantic Segmentation makes a prediction at every pixel within an image. 
-		That means there is a label for each pixel, instead of object (\textcolor{green}{grass}, \textcolor{orange}{cat}, \textcolor{purple}{tree}, \textcolor{blue}{sky}). Original 
-		image (left), output of the semantic segmentation (right).}
+		That means there is a label for each pixel, instead of object (\boldcolor{ForestGreen}{grass}, \boldcolor{YellowOrange}{cat}, \boldcolor{VioletRed}{tree}, \boldcolor{RoyalBlue}{sky}). 
+		Original image (left), output of the semantic segmentation (right).}
 		\centering
 		\includegraphics[width=\textwidth]{segm}
 		\label{fig:segm}
@@ -839,7 +856,7 @@
 	Although humans perform scene segmentation with apparent ease, automatic scene 
 	segmentation is a very challenging problem \citep{Wang}. Segmentation refers to the 
 	process of mapping each pixel in an image to an object class. Each object class has 
-	to be segmented separately. For example see Figure~\bref{fig:segm}. As one can imagine, 
+	to be segmented separately. For example see Figure~\bl{\ref{fig:segm}}. As one can imagine, 
 	this is a much more complex problem as compared to the classification or even detection 
 	problem. The importance of scene understanding as a core computer vision problem is 
 	highlighted by the fact that an increasing number of applications nourish from inferring 
@@ -862,7 +879,7 @@
 	pooling layers which give them the ability to make predictions on arbitrary-sized inputs. 
 	\term{Pooling layers} are in charge of reducing the number of parameters when the images 
 	are too large. The results of the original fully convolutional network trained on 
-	\acronym{pascal voc} are shown in Figure~\bref{fig:fcn}.
+	\acronym{pascal voc} are shown in Figure~\bl{\ref{fig:fcn}}.
 	\par
 	Semantic understanding of visual scenes is one of the holy grails of computer vision 
 	\citep{Zhou_sem}. The emergence of large-scale image datasets like ImageNet \citep{Deng} 
@@ -1087,7 +1104,7 @@
 	that the encoder, VGGNet in this case, would be pre-trained, but we would have to 
 	train the decoder from the beginning on \acronym{kitti} \citep{kitti}. But fully 
 	convolutional networks, at least those trained on \acronym{kitti} dataset, do semantic 
-	segmentation only on foreground and ignore the background (Figure~\bref{fig:fcn}). In 
+	segmentation only on foreground and ignore the background (Figure~\bl{\ref{fig:fcn}}). In 
 	order for us to be able to decide terrain traversability, whole scene segmentation is 
 	necessary.
 	\\
@@ -1133,8 +1150,8 @@
 	verified by the way they deal with outdoor images. Their result on outdoor input is 
 	a black image. On the contrary, when trained on \acronym{ade20k} all tree networks 
 	transact semantic segmentation on the whole scene. The outputs from all tree algorithms 
-	trained on each of the three datasets are depicted in Figure~\bref{fig:in} for indoor 
-	inputs, and Figure~\bref{fig:out} for outdoor inputs.
+	trained on each of the three datasets are depicted in Figure~\bl{\ref{fig:in}} for indoor 
+	inputs, and Figure~\bl{\ref{fig:out}} for outdoor inputs.
 	\\
 	
 	\begin{figure}[h!]
@@ -1210,7 +1227,7 @@
 	We implemented a program that given an image predicts whether it the illustrated scene 
 	is traversable or not. It trains itself and then evaluates its effectiveness. All 
 	the input values of the program are images extracted from a neural network for whole 
-	image semantic segmentation. These images, as shown in Figure~\bref{fig:segm}, consist 
+	image semantic segmentation. These images, as shown in Figure~\bl{\ref{fig:segm}}, consist 
 	of colors depicting objects and parts of the scene. Each color is recognized by the 
 	computer as a triad of numbers representing the amount of red, green and blue present 
 	to produce the original color. For humans to be able to observe the program's 
@@ -1218,7 +1235,7 @@
 	Also for ease of comprehension/reading, all operations are rounded to the second decimal place/number.
 	\\
 	
-	During training the program reads images previously annotated as permeable region or 
+	During training the program reads images previously annotated as penetrable region or 
 	obstacles. It keeps track of how many times 
 	each color is found in traversable and how many in non-traversable images. So, it can 
 	compute the traversability percentage of each color. For example, let's suppose \alleg{red} corresponds to \alleg{sidewalk}. It is read 70 times from which the 
@@ -1232,27 +1249,27 @@
 	chance of being traversable greater than or equal to 50\% is considered to be traversable.
 	
 	\begin{enumerate}
-		\item The first method assumes that the probability/likelihood of an image being permeable is the average probability of all the colors contained therein. Let's say that red (from the example above) has a 80\% chance of being traversable, purple 30\% and yellow 45\%. An image containing red, purple and yellow has a probability of (80\% + 30\% + 45\%) $\div$ 3 = 51.67\% being traversable.
-		\item The second one specifies/determines that the traversability percentage of an image is the traversability percentage of all the colors within it. Continuing with the previous example, we specify that red is found to be permeable 8 times at/of the total of 10 (80\%). Purple 9 at 30 (30\%) and yellow 9 at 20 (45\%). Let's assume again that the input image contains red, purple and yellow. The probability of this image being traversable is (8 + 9 + 9) $\times$ 100\% $\div$ (10 + 30 + 20) = 43.33\%.
+		\item The first method assumes that the probability/likelihood of an image being penetrable is the average probability of all the colors contained therein. Let's say that red (from the example above) has a 80\% chance of being traversable, purple 30\% and yellow 45\%. An image containing red, purple and yellow has a probability of (80\% + 30\% + 45\%) $\div$ 3 = 51.67\% being traversable.
+		\item The second one specifies/determines that the traversability percentage of an image is the traversability percentage of all the colors within it. Continuing with the previous example, we specify that red is found to be penetrable 8 times at/of the total of 10 (80\%). Purple 9 at 30 (30\%) and yellow 9 at 20 (45\%). Let's assume again that the input image contains red, purple and yellow. The probability of this image being traversable is (8 + 9 + 9) $\times$ 100\% $\div$ (10 + 30 + 20) = 43.33\%.
 	\end{enumerate}
 	
-	It is known in advance whether the testing images are permeable. So after their 
+	It is known in advance whether the testing images are penetrable. So after their 
 	evaluation by the previously described methods it is trivial to discover whether the 
 	judgments are right or wrong. In the example above the first method decides that the 
 	image is non-traversable, while the second method determined the opposite. Note that 
 	in other cases the results may coincide.
 	\\\\ 
 	
-	The second one uses the number of times each color was found in traversable and in non-traversable images. It specifies/determines that the likelihood of an image being traversable is in direct dependence on the number of times each color within is found to be permeable or not.
+	The second one uses the number of times each color was found in traversable and in non-traversable images. It specifies/determines that the likelihood of an image being traversable is in direct dependence on the number of times each color within is found to be penetrable or not.
 	
-	The second one specifies/determines that the likelihood of an image being traversable is proportional to the number of times each color within is found to be permeable. It does not deal with probabilities. It deals with ratios/proportions.
+	The second one specifies/determines that the likelihood of an image being traversable is proportional to the number of times each color within is found to be penetrable. It does not deal with probabilities. It deals with ratios/proportions.
 	
 	
 	
 	\chapter{Experimental Validation and Comparison}
 	\label{sec:exp}
 	
-	In this chapter we will evaluate our program. We will describe the model validation 
+	In this chapter we will evaluate our program. We will describe the model-validation 
 	technique we use, present the obtained results and discuss them.
 	\\
 	
@@ -1289,8 +1306,8 @@
 	So in order to evaluate our model we split our data sample in five groups and perform 
 	5-fold cross validation. Because we have twenty bag files, each group has an equal 
 	number of four bags. During each fold we use two traversable and two non-traversable 
-	bag files for testing and the rest for training. In Table~\bref{table:folds_bags} one 
-	can see how the bag files split for each fold. And in Table~\bref{table:folds_images} 
+	bag files for testing and the rest for training. In Table~\bl{\ref{table:folds_bags}} one 
+	can see how the bag files split for each fold. And in Table~\bl{\ref{table:folds_images}} 
 	are shown the numbers of images used for training and testing for each fold.
 	\\
 	
@@ -1298,8 +1315,8 @@
 		\centering
 		\begin{tabular}{|c|c|c|c|c|}
 			\hline
-			\multirow{2}{*}{Fold} & \multicolumn{2}{|c|}{Traversable bags} & 
-			\multicolumn{2}{|c|}{Non-traversable bags}\\
+			\multirow{2}{*}{Fold} & \multicolumn{2}{c|}{Traversable bags} & 
+			\multicolumn{2}{c|}{Non-traversable bags}\\
 			& Testing set & Training set & Testing set & Training set\\
 			\hline\hline
 			1 & 1-2 & 3-4-5-6-7-8-9-10 & 1-2 & 3-4-5-6-7-8-9-10\\
@@ -1321,8 +1338,8 @@
 		\centering
 		\begin{tabular}{|c|c|c|c|c|}
 			\hline
-			\multirow{2}{*}{Fold} & \multicolumn{2}{|c|}{Traversable images} & 
-			\multicolumn{2}{|c|}{Non-traversable images}\\
+			\multirow{2}{*}{Fold} & \multicolumn{2}{c|}{Traversable images} & 
+			\multicolumn{2}{c|}{Non-traversable images}\\
 			& Testing set & Training set & Testing set & Training set\\
 			\hline\hline
 			1 & 153 & 625 & 184 & 761\\
@@ -1336,7 +1353,8 @@
 			5 & 183 & 595 & 150 & 795\\
 			\hline
 		\end{tabular}
-		\caption{Number of images for each testing and training set in 5-fold cross validation.}
+		\caption{Number of images for each testing and training set in 5-fold cross validation. 
+			Total number of images: 778 traversable and 945 non-traversable.}
 		\label{table:folds_images}
 	\end{table}
 	
@@ -1364,8 +1382,8 @@
 	We gave as input to each of the three neural network models the images extracted from the 
 	bag files mentioned in Section~\ref{sec:exp:eval}. And then fed our program with their 
 	outputs. The results of the first calculating method, described in Section~\ref{sec:fg:app} 
-	are shown in Table~\bref{table:1st}. And the results of the second method in Table~\bref{table:2nd}. 
-	In both tables it is quite clear that the PSP has clearly/without doubt/undoubtedly/patently better results than the other two models, both individually and globally.
+	are shown in Table~\bl{\ref{table:1st}}. And the results of the second method in 
+	Table~\bl{\ref{table:2nd}}. In both tables it is quite clear that the PSP has clearly/without doubt/undoubtedly/patently better results than the other two models, both individually and globally.
 	\\
 	
 	\begin{table}[h!]
@@ -1389,7 +1407,7 @@
 			Average & 69.3 & 88.33 & 63.26\\
 			\hline
 		\end{tabular}
-		\caption{1st calculating method - Percentage of evaluation images that their 
+		\caption{1st calculating method - Percentage of evaluation images whose 
 		traversability was found correctly. In the first column are the results from 
 		images derived from the \acronym{fcn}, the second from \acronym{psp} and the 
 		third from DeepLab.}
@@ -1417,7 +1435,7 @@
 			Average & 55.6 & 72.84 & 55.02\\
 			\hline
 		\end{tabular}
-		\caption{2nd calculating method - Percentage of evaluation images that their 
+		\caption{2nd calculating method - Percentage of evaluation images whose 
 		traversability was found correctly. In the first column are the results from 
 		images derived from the \acronym{fcn}, the second from \acronym{psp} and the 
 		third from DeepLab.}
@@ -1425,11 +1443,12 @@
 	\end{table}
 	
 	Consequently, we decided to continue our research using the \acronym{psp} model. 
-	In Table~\bref{table:psp} we gathered the results from both methods when using data 
+	In Table~\bl{\ref{table:psp}} we gathered the results from both methods when using data 
 	from the \acronym{psp} algorithm. Even thought we think that the second calculating 
 	method is more representative of the overall sample, in this case the first one gives 
 	better results. That happens probably because the non-traversable images of the 
-	training set are much more that the traversable ones, as shown in Table~\bref{table:folds_images}.
+	training set are much more that the traversable ones, as shown in 
+	Table~\bl{\ref{table:folds_images}}.
 	\\
 	
 	\begin{table}[h!]
@@ -1453,24 +1472,30 @@
 			Average & 88.33 & 72.84\\
 			\hline
 		\end{tabular}
-		\caption{\acronym{psp} - Percentage of evaluation images that their 
-		traversability was found correctly with the 1st and the 2nd calculating 
+		\caption{\acronym{psp} - Percentage of testing images whose	traversability 
+			was found correctly with the 1st and the 2nd calculating 
 		method.}
 		\label{table:psp}
 	\end{table}
 	
 	Therefore, as is obvious, we chose to deepen into the first method of deciding on 
-	image traversability.
+	image traversability. In Table~\bl{\ref{table:psp:1st}} we describe how the success 
+	rates of the first method arose. For each fold (shown in the first column) we give 
+	the number of traversable images and the percentage of those that were successfully 
+	predicted traversable (columns two and tree). And then the same for non traversable 
+	images (columns four and five). The last column gives the total success rate of the 
+	first method, summarizing the results of both traversable and non-traversable images.
 	\\
 	
 	\begin{table}[h!]
 		\centering
 		\begin{tabular}{|c|c|c|c|c||c|}
 			\hline
-			\multicolumn{6}{|c|}{1st method with \acronym{psp}}\\
+			\multicolumn{6}{|c|}{Testing images on 1st method with \acronym{psp}}\\
 			\hline
-			\multirow{2}{*}{Fold} & \multicolumn{2}{|c|}{Traversable images} & \multicolumn{2}{|c||}{Non-traversable images} & \multirow{2}{*}{Average (\%)}\\
-			& Number & Success (\%) & Number & Success (\%)\\ 
+			\multirow{2}{*}{Fold} & \multicolumn{2}{c}{Traversable} 
+			& \multicolumn{2}{|c||}{Non-traversable} & \multirow{2}{*}{Average (\%)}\\
+			& Number & Success (\%) & Number & Success (\%) &\\ 
 			\hline\hline
 			1 & 153 & 50.33 & 184 & 100 & 77.45\\
 			\hline
@@ -1485,310 +1510,495 @@
 			Average & 778 & 74.16 & 945 & 100 & 88.33\\
 			\hline
 		\end{tabular}
-		\caption{\acronym{psp} - Percentage of evaluation images that their 
-			traversability was found correctly with the 1st and the 2nd calculating 
-			method.}
+		\caption{\acronym{psp} 1st method - Number of traversable and non-traversable 
+			images for each testing set, with their success rate in finding traversability. 
+			Observe that the success rate for non-traversable images is always 100\%, 
+			while in traversable images is much lower.}
 		\label{table:psp:1st}
 	\end{table}
 	
 	\section{Discussion}
 	\label{sec:exp:dis}
 	
-	In Table~\bref{table:psp} one can easily observe that fold 1 has the worst results 
-	compared to the other folds. But why does this happen? Why does each fold have 
-	different success rate? 
+	In Table~\bl{\ref{table:psp:1st}} we can see that the prediction for non-traversable 
+	images is always correct. The foresight on penetrable images is not equally great though. 
+	Also one can easily observe that fold 1 has the worst results compared to the other 
+	folds. Followed by fold 4 and fold 3. But why does this happen? Why does each non-traversable 
+	images easier to predict than traversable ones? And why does each fold have different 
+	success rate? These are some questions we will try to answer in this section.
 	\\
 	
 	\begin{table}[h!]
-		\begin{subtable}[h]{\textwidth}
+		\begin{subtable}[h!]{\textwidth}
 			\centering
-			\begin{tabular}{|c|c|c|}
+			\begin{tabular}{|c|c|c|c|}
 				\hline
-				\multicolumn{3}{|c|}{Fold 1}\\
+				\multicolumn{4}{|c|}{Fold 1}\\
 				\hline
-				Class label & Instances & Traversability (\%)\\
+				Class label & Instances & Traversability (\%) & Traversable\\
 				\hline\hline
-				grass & 52 & 100\\
+				grass & 52 & 100 & \checkmark\\
 				\hline
-				person & 47 & 30\\
+				person & 47 & 30 &\\
 				\hline
-				plant & 153 & 73\\
+				\rowcolor{plant}
+				plant & 153 & 73 & \checkmark\\
 				\hline
-				tree & 153 & 45\\
+				\rowcolor{tree}
+				tree & 153 & 45 &\\
 				\hline
-				signboard & 11 & 18\\
+				signboard & 11 & 18 &\\
 				\hline
-				sidewalk & 68 & 22\\
+				sidewalk & 68 & 22 &\\
 				\hline
-				path & 60 & 100\\
+				path & 60 & 100 & \checkmark\\
 				\hline
-				earth & 153 & 46\\
+				\rowcolor{earth}
+				earth & 153 & 46 &\\
 				\hline
-				sky & 153 & 46\\
+				\rowcolor{sky}
+				sky & 153 & 46 &\\
 				\hline
-				car & 93 & 100\\
+				car & 93 & 100 & \checkmark\\
 				\hline
-				building & 101 & 8\\
+				building & 101 & 8 &\\
 				\hline
-				house & 10 & -\\
+				\rowcolor{house}
+				house & 10 & - & -\\
 				\hline
-				wall & 97 & 24\\
+				\rowcolor{wall}
+				wall & 97 & 24 &\\
 				\hline
-				floor & 19 & 0\\
+				floor & 19 & 0 &\\
 				\hline
 			\end{tabular}
 			\caption{Fold 1 (153 traversable images)}
 			\label{table:trav.f1}
 		\end{subtable}
-		\caption{Traversable images - Labels, number of their instances and their 
-			traversability percentage. (continuing in next page)}
-		\label{table:trav.folds}
-	\end{table}
-	
-	\begin{table}[h!]
-		\ContinuedFloat % continue from previous page
-		\begin{subtable}[h]{\textwidth}
+		\\\\\\
+		\begin{subtable}[h!]{\textwidth}
 			\centering
-			\begin{tabular}{|c|c|c|}
+			\begin{tabular}{|c|c|c|c|}
 				\hline
-				\multicolumn{3}{|c|}{Fold 2}\\
+				\multicolumn{4}{|c|}{Fold 2}\\
 				\hline
-				Class label & Instances & Traversability (\%)\\
+				Class label & Instances & Traversability (\%) & Traversable\\
 				\hline\hline
-				grass & 1 & 100\\
+				grass & 1 & 100 & \checkmark\\
 				\hline
-				person & 6 & 58\\
+				person & 6 & 58 & \checkmark\\
 				\hline
-				plant & 169 & 72\\
+				plant & 169 & 72 & \checkmark\\
 				\hline
-				tree & 169 & 46\\
+				\rowcolor{tree}
+				tree & 169 & 46 &\\
 				\hline
-				flower & 17 & 100\\
+				flower & 17 & 100 & \checkmark\\
 				\hline
-				earth & 169 & 46\\
+				\rowcolor{earth}
+				earth & 169 & 46 &\\
 				\hline
-				sky & 169 & 47\\
+				\rowcolor{sky}
+				sky & 169 & 47 &\\
 				\hline
-				rock & 13 & 22\\
+				rock & 13 & 22 &\\
 				\hline
-				wall & 13 & 30\\
+				\rowcolor{house}
+				house & - & 100 & \checkmark\\
+				\hline
+				wall & 13 & 30 &\\
 				\hline
 			\end{tabular}
 			\caption{Fold 2 (169 traversable images)}
 			\label{table:trav.f2}
 		\end{subtable}
-		\\\\\\
-		\begin{subtable}[h!]{\textwidth}
-			\centering
-			\begin{tabular}{|c|c|c|}
-				\hline
-				\multicolumn{3}{|c|}{Fold 3}\\
-				\hline
-				Class label & Instances & Traversability (\%)\\
-				\hline\hline
-				grass & 18 & 100\\
-				\hline
-				plant & 161 & 73\\
-				\hline
-				tree & 164 & 46\\
-				\hline
-				sidewalk & 29 & 65\\
-				\hline
-				path & 22 & 100\\
-				\hline
-				earth & 164 & 47\\
-				\hline
-				sky & 164 & 47\\
-				\hline
-				rock & 27 & 20\\
-				\hline
-				building & 68 & 12\\
-				\hline
-				wall & 72 & 28\\
-				\hline
-			\end{tabular}
-			\caption{Fold 3 (164 traversable images)}
-			\label{table:trav.f3}
-		\end{subtable}
-		\caption{(continued) Traversable images - Labels, number of their instances and 
-			their traversability percentage. (continuing in next page)}
+		\caption{Traversable images for testing - Labels, number of their instances and their 
+			traversability percentage as emerged from training. The last column shows all 
+			classes with traversability percentage $>$ 50\%. (continuing in next page)}
+		\label{table:trav.folds}
 	\end{table}
 	
 	\begin{table}[h!]
 		\ContinuedFloat % continue from previous page
 		\begin{subtable}[h!]{\textwidth}
 			\centering
-			\begin{tabular}{|c|c|c|}
+			\begin{tabular}{|c|c|c|c|}
 				\hline
-				\multicolumn{3}{|c|}{Fold 4}\\
+				\multicolumn{4}{|c|}{Fold 3}\\
 				\hline
-				Class label & Instances & Traversability (\%)\\
+				Class label & Instances & Traversability (\%) & Traversable\\
 				\hline\hline
-				grass & 49 & 100\\
+				grass & 18 & 100 & \checkmark\\
 				\hline
-				plant & 86 & 84\\
+				plant & 161 & 73 & \checkmark\\
 				\hline
-				tree & 109 & 46\\
+				\rowcolor{tree}
+				tree & 164 & 46 &\\
 				\hline
-				signboard & 1 & 25\\
+				sidewalk & 29 & 65 & \checkmark\\
 				\hline
-				earth & 83 & 48\\
+				path & 22 & 100 & \checkmark\\
 				\hline
-				sky & 109 & 47\\
+				\rowcolor{earth}
+				earth & 164 & 47 &\\
 				\hline
-				rock & 33 & 17\\
+				\rowcolor{sky}
+				sky & 164 & 47 &\\
 				\hline
-				wall & 21 & 30\\
+				rock & 27 & 20 &\\
 				\hline
-				fence & 2 & 100\\
+				building & 68 & 12 &\\
+				\hline
+				\rowcolor{house}
+				house & - & 100 & \checkmark\\
+				\hline
+				wall & 72 & 28 &\\
+				\hline
+			\end{tabular}
+			\caption{Fold 3 (164 traversable images)}
+			\label{table:trav.f3}
+		\end{subtable}
+		\\\\\\
+		\begin{subtable}[h!]{\textwidth}
+			\centering
+			\begin{tabular}{|c|c|c|c|}
+				\hline
+				\multicolumn{4}{|c|}{Fold 4}\\
+				\hline
+				Class label & Instances & Traversability (\%) & Traversable\\
+				\hline\hline
+				grass & 49 & 100 & \checkmark\\
+				\hline
+				plant & 86 & 84 & \checkmark\\
+				\hline
+				\rowcolor{tree}
+				tree & 109 & 46 &\\
+				\hline
+				signboard & 1 & 25 &\\
+				\hline
+				\rowcolor{earth}
+				earth & 83 & 48 &\\
+				\hline
+				\rowcolor{sky}
+				sky & 109 & 47 &\\
+				\hline
+				rock & 33 & 17 &\\
+				\hline
+				\rowcolor{house}
+				house & - & 100 & \checkmark\\
+				\hline
+				wall & 21 & 30 &\\
+				\hline
+				fence & 2 & 100 & \checkmark\\
 				\hline
 			\end{tabular}
 			\caption{Fold 4 (109 traversable images)}
 			\label{table:trav.f4}
 		\end{subtable}
-		\\\\\\
+		\caption{(continued) Traversable images for testing - Labels, number of their instances 
+			and their traversability percentage as emerged from training. The last column shows 
+			all classes with traversability percentage $>$ 50\%. (continuing in next page)}
+	\end{table}
+	
+	\begin{table}[h!]
+		\ContinuedFloat % continue from previous page
 		\begin{subtable}[h!]{\textwidth}
 			\centering
-			\begin{tabular}{|c|c|c|}
+			\begin{tabular}{|c|c|c|c|}
 				\hline
-				\multicolumn{3}{|c|}{Fold 5}\\
+				\multicolumn{4}{|c|}{Fold 5}\\
 				\hline
-				Class label & Instances & Traversability (\%)\\
+				Class label & Instances & Traversability (\%) & Traversable\\
 				\hline\hline
-				person & 14 & 62\\
+				person & 14 & 62 & \checkmark\\
+				\hline		
+				plant & 182 & 84 & \checkmark\\
 				\hline
-				plant & 182 & 84\\
+				\rowcolor{tree}
+				tree & 183 & 43 &\\
 				\hline
-				tree & 183 & 43\\
+				flower & 9 & 100 & \checkmark\\
 				\hline
-				flower & 9 & 100\\
+				signboard & 17 & 13 &\\
 				\hline
-				signboard & 17 & 13\\
+				path & 1 & 100 & \checkmark\\
 				\hline
-				path & 1 & 100\\
+				\rowcolor{earth}
+				earth & 183 & 43 &\\
 				\hline
-				earth & 183 & 43\\
+				\rowcolor{sky}
+				sky & 183 & 43 &\\
 				\hline
-				sky & 183 & 43\\
+				car & 117 & 100 & \checkmark\\
 				\hline
-				car & 117 & 100\\
+				rock & 99 & 10 &\\
 				\hline
-				rock & 99 & 10\\
+				pole & 11 & - & -\\
 				\hline
-				pole & 11 & -\\
+				\rowcolor{house}
+				house & - & 100 & \checkmark\\
 				\hline
-				wall & 100 & 23\\
+				wall & 100 & 23 &\\
 				\hline
-				fence & 94 & 100\\
+				fence & 94 & 100 & \checkmark\\
 				\hline
 			\end{tabular}
 			\caption{Fold 5 (183 traversable images)}
 			\label{table:trav.f5}
 		\end{subtable}
-		\caption{(continued) Traversable images - Labels, number of their instances and 
-			their traversability percentage.}
+		\caption{(continued) Traversable images for testing - Labels, number of their instances 
+			and their traversability percentage as emerged from training. The last column shows 
+			all classes with traversability percentage $>$ 50\%.}
 	\end{table}
 	
-	In Tables~\ref{table:trav.folds} we have gathered all class labels appearing in each 
-	one of the traversable	images for evaluation. Each subtable contains the information 
-	for each fold. For every label mentioned we keep track of two numbers. The number of 
-	its appearances in the current fold (in how many images is the color participating?). 
-	And its traversability percentage, given the training images of the remaining rosbags 
-	(after training, how likely is that this color is traversable?). 
-	(after training, how likely is for this color to be traversable?). 
+	In Tables~\bl{\ref{table:trav.folds}} we have gathered all class labels appearing in each 
+	one of the traversable	images for validation. And in Tables~\bl{\ref{table:obst.folds}} 
+	same thing for the images perceived as obstacles. Each subtable contains the information 
+	for each fold. For every label mentioned (column 1) we keep track of two numbers. The 
+	number of its appearances in the current fold (in how many images is the color participating?) 
+	(column 2). And its traversability percentage, after training with the images of the 
+	remaining bag files (after training, how likely is for this color to be traversable?) 
+	(column 3). (after training, how likely is that this color is traversable?) The last column in Tables~\bl{\ref{table:trav.folds}} shows all classes with traversability percentage $>$ 50\% and in Tables~\bl{\ref{table:obst.folds}} those with $\le$ 50\% chance of being traversable.
 	\\
 	
 	Have in mind that in this work we do not care about the annotations representing each 
-	color within the image. These labels are available to facilitate reading. They do not 
-	always represent what is depicted in the image. But this thesis is not about judging 
-	the proper functioning of the neural network. It is about estimating the traversability 
-	of images resulting from the nervous network. (But we are not here to judge the proper 
-	functioning of the neural network.)
+	color within the image. These labels are available to facilitate reading. We do not 
+	stick to the fact that they do not always represent what is depicted in the image. This 
+	thesis is not about judging the proper functioning of the neural network. It is about 
+	estimating the traversability of images resulting from the neural network. (But we are not here to judge the proper functioning of the neural network.)
 	\\
 	
-	As mentioned before fold 1 seems to have/be having worse results than the other folds. 
+	As mentioned in the beginning of the section, we can see in Table~\bl{\ref{table:psp:1st}} 
+	that the predictions for non-traversable images are much better than those for 
+	traversable images. Let's try and find out why. Let's take for example class labels 
+	\class{sky}, \class{earth} and \class{tree}. These two classes appear in most, if not in 
+	all, of the testing images. In Tables~\bl{\ref{table:trav.f1}, \ref{table:trav.f2}, 
+	\ref{table:trav.f3}, \ref{table:trav.f5}} (folds 1, 2, 3 and 5 respectively) the instances 
+	of these classes are equal to the number of the traversable images. And in 
+	Table~\bl{\ref{table:trav.f4}} are only slightly fewer. The probability of each of them 
+	being traversable is between 43 and 48\%. So \class{sky}, \class{earth} and \class{tree} 
+	are treated as impenetrable. And therefore contribute to seeing the image in which they 
+	belong as non-traversable. Same thing happens for the non-traversable images. Class 
+	\class{tree} appears in all images in Tables~\bl{\ref{table:obst.f1}, \ref{table:obst.f2}, 
+	\ref{table:obst.f3}, \ref{table:obst.f4}, \ref{table:obst.f5}} and \class{sky} and 
+	\class{earth} in most of them.
 	\\
+	
+	To visualize it, we give a traversable and a non-traversable image in which these 
+	classes appear. The ground in Figure~\bl{\ref{fig:trav:28_57}} is translated as 
+	\class{earth}. Similarly, the short wall that makes Figure~\bl{\ref{fig:obst:32-49}} 
+	impenetrable is recognized from \acronym{psp} as a mix of \class{earth} and wall.	
+	In both cases we can see that the class \class{tree} is on the background. Both 
+	images are found to be non-traversable. The difference is that this prediction is 
+	correct for the second image but wrong for the first one.
+	\\
+	
+	\begin{figure}[h!]
+		\caption{Class labels \class{tree}, \class{sky}, \class{earth}, \class{plant}, 
+			\class{wall} (in red circle) in a traversable image that was incorrectly 
+			predicted.}
+		\centering
+		\begin{subfigure}[b]{0.45\textwidth}
+			\includegraphics[width=\textwidth]{28_57_0000t}
+			\caption{Original traversable image}
+		\end{subfigure}
+		\begin{subfigure}[b]{0.45\textwidth}
+			\begin{tikzpicture}
+				\node[anchor=south west,inner sep=0] at (0,0) 
+				{\includegraphics[width=\textwidth]{28_57_0000t_psp}};
+				\draw[red,thick] (6.1,1.3) circle (0.3) ;
+			\end{tikzpicture}
+			\caption{Image resulting from \acronym{psp}}
+		\end{subfigure}
+		\label{fig:trav:28_57}
+	\end{figure}
+	
+	\begin{figure}[h!]
+		\caption{Class labels \class{tree}, \class{sky}, \class{earth}, \class{wall} in 
+			a non-traversable image that was correctly predicted.}
+		\centering
+		\begin{subfigure}[b]{0.45\textwidth}
+			\includegraphics[width=\textwidth]{32-49_0000w}
+			\caption{Original non-traversable image}
+		\end{subfigure}
+		\begin{subfigure}[b]{0.45\textwidth}
+			\includegraphics[width=\textwidth]{32-49_0000w_psp}
+			\caption{Image resulting from \acronym{psp}}
+		\end{subfigure}
+		\label{fig:obst:32-49}
+	\end{figure}
+	
+	
+	As humans, we are able to identify earth as traversable and tree as an obstacle. The 
+	sky does not belong to either of the two categories. On the contrary, our model judges 
+	traversability depending on the occurrence of objects in traversable and non-traversable 
+	images. But the traversable images of the training sets are much fewer than the 
+	non-traversable, by at least 100 images on each fold (Figure~\bl{\ref{table:folds_images}}). 
+	Therefore, since these classes exist in almost all of the images (penetrable or not), they 
+	end up being perceived as impenetrable (traversability percent $\le$ 50\%).	And thus 
+	this leads to a greater likelihood for traversable images to be found as non-traversable.
+	\\
+	
+	The more the non-traversable classes, the fewer the chances for an image to be found as 
+	traversable. Tables~\bl{\ref{table:trav.classes}} and \bl{\ref{table:obst.classes}} show 
+	the numbers. In these tables we count the traversable classes in the traversable images 
+	and the non-traversable classes in the non-traversable images for each fold. And we present 
+	which percentage of the total classes is penetrable in the former case and impenetrable 
+	in the latter. The best case scenario for traversable images is fold 5 in which only 50\% 
+	of the classes included are correctly identified. Having that in mind one can understand 
+	why traversable images have a much lower percentage of success in being identified than 
+	the non-traversable.
+	\\
+	
 	
 	\begin{table}[h!]
-		\begin{subtable}[h]{\textwidth}
+		\centering
+		\begin{tabular}{|c|c|c|c|}
+			\hline
+			\multicolumn{4}{|c|}{Traversable testing images}\\
+			\hline
+			Fold & Traversable classes & All classes & Success (\%)\\
+			\hline
+			1 & 4 & 13 & 30.77\\
+			\hline
+			2 & 4 & 9 & 44.44\\
+			\hline
+			3 & 4 & 10 & 40\\
+			\hline
+			4 & 3 & 9 & 33.33\\
+			\hline
+			5 & 6 & 12 & 50\\
+			\hline
+		\end{tabular}
+		\caption{Percentage of classes in traversable testing images found to be traversable, 
+			for each fold.}
+		\label{table:trav.classes}
+	\end{table}
+	
+	\begin{table}[h!]
+		\centering
+		\begin{tabular}{|c|c|c|c|}
+			\hline
+			\multicolumn{4}{|c|}{Non-traversable testing images}\\
+			\hline
+			Fold & Non-traversable classes & All classes & Success (\%)\\
+			\hline
+			1 & 9 & 10 & 90\\
+			\hline
+			2 & 11 & 15 & 73.33\\
+			\hline
+			3 & 12 & 14 & 85.71\\
+			\hline
+			4 & 10 & 12 & 83.33\\
+			\hline
+			5 & 9 & 11 & 81.82\\
+			\hline
+		\end{tabular}
+		\caption{Percentage of classes in non-traversable testing images found to be 
+			non-traversable, for each fold.}
+		\label{table:obst.classes}
+	\end{table}
+	
+	
+	Let's take Figure~\bl{\ref{fig:trav:28_57}} for example. This image belongs to the 
+	testing set of fold 1. It contains the classes \class{plant}, \class{tree}, \class{sky}, 
+	\class{earth} and \class{wall}. According to the first calculating method, its 
+	traversability results from the average of the sum of the traversability rates of its 
+	classes. Specifically, by adding the traversability rates of the above classes from 
+	Table~\bl{\ref{table:trav.f1}} and dividing the result with the number of these classes: 
+	\[\frac{73\% + 45\% + 46\% + 46\% + 24\%}{5} = 46.8\%\]
+	So Figure~\bl{\ref{fig:trav:28_57}} has a 46.8\% positivity to be traversable. Which is 
+	lower than 50\% and therefore is declared as non-traversable.
+	\\
+	
+	
+	\begin{table}[h!]
+		\begin{subtable}[h!]{\textwidth}
 			\centering
-			\begin{tabular}{|c|c|c|}
+			\begin{tabular}{|c|c|c|c|}
 				\hline
-				\multicolumn{3}{|c|}{Fold 1}\\
+				\multicolumn{4}{|c|}{Fold 1}\\
 				\hline
-				Class label & Instances & Traversability (\%)\\
+				Class label & Instances & Traversability (\%) & Non-traversable\\
 				\hline\hline
-				plant & 1 & 73\\
+				plant & 1 & 73 &\\
 				\hline
-				tree & 184 & 45\\
+				\rowcolor{tree}
+				tree & 184 & 45 & \checkmark\\
 				\hline
-				water & 1 & 0\\
+				water & 1 & 0 & \checkmark\\
 				\hline
-				rock & 74 & 20\\
+				rock & 74 & 20 & \checkmark\\
 				\hline
-				building & 184 & 8\\
+				building & 184 & 8 & \checkmark\\
 				\hline
-				earth & 184 & 46\\
+				\rowcolor{earth}
+				earth & 184 & 46 & \checkmark\\
 				\hline
-				sky & 183 & 46\\
+				\rowcolor{sky}
+				sky & 183 & 46 & \checkmark\\
 				\hline
-				mountain & 42 & 0\\
+				mountain & 42 & 0 & \checkmark\\
 				\hline
-				wall & 146 & 24\\
+				wall & 146 & 24 & \checkmark\\
 				\hline
-				floor & 32 & 0\\
+				floor & 32 & 0 & \checkmark\\
 				\hline
 			\end{tabular}
 			\caption{Fold 1 (184 non-traversable images)}
 			\label{table:obst.f1}
 		\end{subtable}
 		\\\\\\
-		\begin{subtable}[h]{\textwidth}
+		\begin{subtable}[h!]{\textwidth}
 			\centering
-			\begin{tabular}{|c|c|c|}
+			\begin{tabular}{|c|c|c|c|}
 				\hline
-				\multicolumn{3}{|c|}{Fold 2}\\
+				\multicolumn{4}{|c|}{Fold 2}\\
 				\hline
-				Class label & Instances & Traversability (\%)\\
+				Class label & Instances & Traversability (\%) & Non-traversable\\
 				\hline\hline
-				person & 2 & 58\\
+				person & 2 & 58 &\\
 				\hline
-				plant & 1 & 72\\
+				plant & 1 & 72 &\\
 				\hline
-				tree & 221 & 46\\
+				\rowcolor{tree}
+				tree & 221 & 46 & \checkmark\\
 				\hline
-				rock & 219 & 22\\
+				rock & 219 & 22 & \checkmark\\
 				\hline
-				building & 221 & 19\\
+				building & 221 & 19 & \checkmark\\
 				\hline
-				windowpane & 168 & 0\\
+				windowpane & 168 & 0 & \checkmark\\
 				\hline
-				earth & 195 & 46\\
+				\rowcolor{earth}
+				earth & 195 & 46 & \checkmark\\
 				\hline
-				sky & 221 & 47\\
+				\rowcolor{sky}
+				sky & 221 & 47 & \checkmark\\
 				\hline
-				mountain & 47 & 0\\
+				mountain & 47 & 0 & \checkmark\\
 				\hline
-				wall & 137 & 30\\
+				wall & 137 & 30 & \checkmark\\
 				\hline
-				floor & 192 & 7\\
+				floor & 192 & 7 & \checkmark\\
 				\hline
-				sidewalk & 37 & 59\\
+				sidewalk & 37 & 59 &\\
 				\hline
-				skyscraper & 43 & 0\\
+				skyscraper & 43 & 0 & \checkmark\\
 				\hline
-				monitor & 1 & -\\
+				monitor & 1 & - & -\\
 				\hline
-				crt screen & 48 & 102\\
+				crt screen & 48 & 0 & \checkmark\\
 				\hline
-				signboard & 82 & 0\\
+				signboard & 82 & 100 &\\
 				\hline
 			\end{tabular}
 			\caption{Fold 2 (221 non-traversable images)}
 			\label{table:obst.f2}
 		\end{subtable}
-		\caption{Non-traversable images - Labels, number of their instances and their 
-			traversability percentage. (continuing in next page)}
+		\caption{Non-traversable images for testing - Labels, number of their instances and their 
+			traversability percentage as emerged from training. The last column shows all classes 
+			with traversability percentage $\le$ 50\%. (continuing in next page)}
 		\label{table:obst.folds}
 	\end{table}
 	
@@ -1796,136 +2006,165 @@
 		\ContinuedFloat % continue from previous page
 		\begin{subtable}[h!]{\textwidth}
 			\centering
-			\begin{tabular}{|c|c|c|}
+			\begin{tabular}{|c|c|c|c|}
 				\hline
-				\multicolumn{3}{|c|}{Fold 3}\\
+				\multicolumn{4}{|c|}{Fold 3}\\
 				\hline
-				Class label & Instances & Traversability (\%)\\
+				Class label & Instances & Traversability (\%) & Non-traversable\\
 				\hline\hline
-				plant & 7 & 73\\
+				plant & 7 & 73 &\\
 				\hline
-				tree & 225 & 46\\
+				\rowcolor{tree}
+				tree & 225 & 46 & \checkmark\\
 				\hline
-				water & 1 & 0\\
+				water & 1 & 0 & \checkmark\\
 				\hline
-				rock & 218 & 20\\
+				rock & 218 & 20 & \checkmark\\
 				\hline
-				building & 202 & 12\\
+				building & 202 & 12 & \checkmark\\
 				\hline
-				windowpane & 93 & 0\\
+				windowpane & 93 & 0 & \checkmark\\
 				\hline
-				earth & 220 & 47\\
+				\rowcolor{earth}
+				earth & 220 & 47 & \checkmark\\
 				\hline
-				sky & 225 & 47\\
+				\rowcolor{sky}
+				sky & 225 & 47 & \checkmark\\
 				\hline
-				mountain & 8 & 0\\
+				mountain & 8 & 0 & \checkmark\\
 				\hline
-				wall & 225 & 28\\
+				wall & 225 & 28 & \checkmark\\
 				\hline
-				floor & 70 & 5\\
+				floor & 70 & 5 & \checkmark\\
 				\hline
-				ceiling & 1 & -\\
+				ceiling & 1 & - & -\\
 				\hline
-				sidewalk & 68 & 65\\
+				sidewalk & 68 & 65 &\\
 				\hline
-				hill & 51 & -\\
+				hill & 51 & - & -\\
 				\hline
-				skyscraper & 97 & 0\\
+				skyscraper & 97 & 0 & \checkmark\\
 				\hline
-				crt screen & 36 & 0\\
+				crt screen & 36 & 0 & \checkmark\\
 				\hline
-				television / microwave & 27 / 72 & -\\
+				television & 27 & - & -\\
+				\hline
+				microwave & 72 & - & -\\
 				\hline
 			\end{tabular}
 			\caption{Fold 3 (225 non-traversable images)}
 			\label{table:obst.f3}
 		\end{subtable}
-		\\\\\\
-		\begin{subtable}[h!]{\textwidth}
-			\centering
-			\begin{tabular}{|c|c|c|}
-				\hline
-				\multicolumn{3}{|c|}{Fold 4}\\
-				\hline
-				Class label & Instances & Traversability (\%)\\
-				\hline\hline
-				person & 30 & 81\\
-				\hline
-				plant & 98 & 84\\
-				\hline
-				tree & 165 & 46\\
-				\hline
-				rock & 122 & 17\\
-				\hline
-				building & 165 & 18\\
-				\hline
-				windowpane & 94 & 0\\
-				\hline
-				earth & 165 & 48\\
-				\hline
-				sky & 165 & 47\\
-				\hline
-				mountain & 43 & 0\\
-				\hline
-				wall & 162 & 30\\
-				\hline
-				floor & 69 & 5\\
-				\hline
-				computer & 8 & -\\
-				\hline
-				crt screen & 35 & 0\\
-				\hline
-			\end{tabular}
-			\caption{Fold 4 (165 non-traversable images)}
-			\label{table:obst.f4}
-		\end{subtable}
-		\caption{(continued) Non-traversable images - Labels, number of their instances 
-			and their traversability percentage. (continuing in next page)}
+		\caption{(continued) Non-traversable images for testing - Labels, number of their instances 
+			and their traversability percentage as emerged from training. The last column shows all 
+			classes with traversability percentage $\le$ 50\%. (continuing in next page)}
 	\end{table}
 	
 	\begin{table}[h!]
 		\ContinuedFloat % continue from previous page
 		\begin{subtable}[h!]{\textwidth}
 			\centering
-			\begin{tabular}{|c|c|c|}
+			\begin{tabular}{|c|c|c|c|}
 				\hline
-				\multicolumn{3}{|c|}{Fold 5}\\
+				\multicolumn{4}{|c|}{Fold 4}\\
 				\hline
-				Class label & Instances & Traversability (\%)\\
+				Class label & Instances & Traversability (\%) & Non-traversable\\
 				\hline\hline
-				person & 14 & 62\\
+				person & 30 & 81 &\\
 				\hline
-				plant & 119 & 84\\
+				plant & 98 & 84 &\\
 				\hline
-				tree & 150 & 43\\
+				\rowcolor{tree}
+				tree & 165 & 46 & \checkmark\\
 				\hline
-				rock & 150 & 10\\
+				rock & 122 & 17 & \checkmark\\
 				\hline
-				building & 150 & 18\\
+				building & 165 & 18 & \checkmark\\
 				\hline
-				windowpane & 68 & 0\\
+				windowpane & 94 & 0 & \checkmark\\
 				\hline
-				earth & 127 & 43\\
+				\rowcolor{earth}
+				earth & 165 & 48 & \checkmark\\
 				\hline
-				sky & 122 & 43\\
+				\rowcolor{sky}
+				sky & 165 & 47 & \checkmark\\
 				\hline
-				wall & 140 & 23\\
+				mountain & 43 & 0 & \checkmark\\
 				\hline
-				floor & 66 & 5\\
+				wall & 162 & 30 & \checkmark\\
 				\hline
-				streetlight & 20 & -\\
+				floor & 69 & 5 & \checkmark\\
 				\hline
-				crt screen & 31 & 0\\
+				computer & 8 & - & -\\
 				\hline
-				plate & 9 & -\\
+				crt screen & 35 & 0 & \checkmark\\
+				\hline
+			\end{tabular}
+			\caption{Fold 4 (165 non-traversable images)}
+			\label{table:obst.f4}
+		\end{subtable}
+		\\\\\\	
+		\begin{subtable}[h!]{\textwidth}
+			\centering
+			\begin{tabular}{|c|c|c|c|}
+				\hline
+				\multicolumn{4}{|c|}{Fold 5}\\
+				\hline
+				Class label & Instances & Traversability (\%) & Non-traversable\\
+				\hline\hline
+				person & 14 & 62 &\\
+				\hline
+				plant & 119 & 84 &\\
+				\hline
+				\rowcolor{tree}
+				tree & 150 & 43 & \checkmark\\
+				\hline
+				rock & 150 & 10 & \checkmark\\
+				\hline
+				building & 150 & 18 & \checkmark\\
+				\hline
+				windowpane & 68 & 0 & \checkmark\\
+				\hline
+				\rowcolor{earth}
+				earth & 127 & 43 & \checkmark\\
+				\hline
+				\rowcolor{sky}
+				sky & 122 & 43 & \checkmark\\
+				\hline
+				wall & 140 & 23 & \checkmark\\
+				\hline
+				floor & 66 & 5 & \checkmark\\
+				\hline
+				streetlight & 20 & - & -\\
+				\hline
+				crt screen & 31 & 0 & \checkmark\\
+				\hline
+				plate & 9 & - & -\\
 				\hline
 			\end{tabular}
 			\caption{Fold 5 (150 non-traversable images)}
 			\label{table:obst.f5}
 		\end{subtable}
-		\caption{(continued) Non-traversable images - Labels, number of their instances 
-			and their traversability percentage.}
+		\caption{(continued) Non-traversable images for testing - Labels, number of their instances 
+			and their traversability percentage as emerged from training. The last column shows all 
+			classes with traversability percentage $\le$ 50\%.}
 	\end{table}
+	
+	
+	Now that we have seen why non-traversable images are easier to predict than traversable 
+	ones, let's concentrate on why each fold have different success rate for the traversable 
+	images.
+	\\
+		
+	As established before, fold 1 has worse results than all the other folds (see 
+	Table~\bl{\ref{table:trav.f1}}). First of all notice that the class label \class{house} 
+	appears in 10 out of the 153 traversable images for testing in fold 1. This class is 
+	missing from all the images in the training set. If something like this happens our 
+	model does not count the specific class neither as traversable nor as non-traversable 
+	and completely ignores it. As can be inferred from the other Tables~\bl{\ref{table:trav.folds}} 
+	class \class{house} only appears in the images of the testing set of fold 1 and is 
+	found to be traversable 100\%.
+	\\
 	
 	
 	\chapter{Conclusions and Future Work}
@@ -1937,7 +2176,7 @@
 	\label{app:impl}
 	
 	Many writers published their code open-source so that other researchers may 
-	use their work. In Table~\bref{table:refs} we give some \acronym{url}s and 
+	use their work. In Table~\bl{\ref{table:refs}} we give some \acronym{url}s and 
 	comments about the work mentioned above in Section~\ref{sec:bg:trav}, 
 	Section~\ref{sec:bg:data} and Section~\ref{sec:fg:ef}. Some of them were 
 	actually used as our experimental basis.
@@ -1950,7 +2189,7 @@
 		\input{urls}	
 	\end{table}
 	
-	In Table~\bref{table:dataset} one can find some of the available datasets 
+	In Table~\bl{\ref{table:dataset}} one can find some of the available datasets 
 	used for neural network training and evaluation.
 	\\
 	
