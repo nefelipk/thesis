@@ -36,7 +36,8 @@
 \definecolor{tree}{HTML}{04C803}
 \definecolor{wall}{HTML}{787878}
 \definecolor{house}{HTML}{FF09E0}
-\definecolor{floor}{HTML}{503232}
+	%\definecolor{floor}{HTML}{503232}
+	\definecolor{floor}{HTML}{F7C438}
 \definecolor{building}{HTML}{B47878}
 \definecolor{plant}{HTML}{CCFF04}
 
@@ -1561,6 +1562,7 @@
 				\hline
 				car & 93 & 100 & \checkmark\\
 				\hline
+				\rowcolor{building}
 				building & 101 & 8 &\\
 				\hline
 				\rowcolor{house}
@@ -1569,6 +1571,7 @@
 				\rowcolor{wall}
 				wall & 97 & 24 &\\
 				\hline
+				\rowcolor{floor}
 				floor & 19 & 0 &\\
 				\hline
 			\end{tabular}
@@ -1842,12 +1845,13 @@
 	The more the non-traversable classes, the fewer the chances for an image to be found as 
 	traversable. Tables~\bl{\ref{table:trav.classes}} and \bl{\ref{table:obst.classes}} show 
 	the numbers. In these tables we count the traversable classes in the traversable images 
-	and the non-traversable classes in the non-traversable images for each fold. And we present 
-	which percentage of the total classes is penetrable in the former case and impenetrable 
-	in the latter. The best case scenario for traversable images is fold 5 in which only 50\% 
-	of the classes included are correctly identified. Having that in mind one can understand 
-	why traversable images have a much lower percentage of success in being identified than 
-	the non-traversable.
+	(from Tables~\bl{\ref{table:trav.folds}}) and the non-traversable classes in the 
+	non-traversable images (from Tables~\bl{\ref{table:obst.folds}}) for each fold. And we 
+	present which percentage of the total classes is penetrable in the former case and 
+	impenetrable in the latter. The best case scenario for traversable images is fold 5 in 
+	which only 50\% of the classes included are correctly identified. Having that in mind 
+	one can understand why traversable images have a much lower percentage of success in 
+	being identified than the non-traversable.
 	\\
 	
 	
@@ -1906,10 +1910,50 @@
 	traversability results from the average of the sum of the traversability rates of its 
 	classes. Specifically, by adding the traversability rates of the above classes from 
 	Table~\bl{\ref{table:trav.f1}} and dividing the result with the number of these classes: 
-	\[\frac{73\% + 45\% + 46\% + 46\% + 24\%}{5} = 46.8\%\]
+	\begin{equation} \label{eq:trav_5}
+	\frac{73\% + 45\% + 46\% + 46\% + 24\%}{5} = 46.8\%
+	\end{equation}
 	So Figure~\bl{\ref{fig:trav:28_57}} has a 46.8\% positivity to be traversable. Which is 
 	lower than 50\% and therefore is declared as non-traversable.
 	\\
+	
+	Now that we have seen why non-traversable images are easier to predict than traversable 
+	ones, let's concentrate on why each fold have different success rate for the traversable 
+	images.
+	\\
+	
+	As established before, fold 1 has worse results than all the other folds (see 
+	Table~\bl{\ref{table:trav.f1}}). First of all notice that the class label \class{house} 
+	appears in 10 out of the 153 traversable images for testing in fold 1. This class is 
+	missing from all the images in the training set. In this case our model does not count 
+	the specific class neither as traversable nor as non-traversable and completely ignores 
+	it. As can be inferred from the other Tables~\bl{\ref{table:trav.folds}} class 
+	\class{house} only appears in the images of the testing set of fold 1 and is found to 
+	be 100\% traversable. But it is ignored when calculating the traversability of the 
+	images containing it. And therefore this class does not contribute to the final result.
+	\\
+	
+	As can be seen in Table~\bl{\ref{table:trav.classes}} fold 1 has the fewer traversable 
+	classes in proportion to the rest folds, followed by fold 4 and fold 3. And many validation 
+	images in fold 1 contain classes with very low traversability rate. For example, class 
+	label \class{floor} exists in 19 images and has 0\% traversability rate. Class \class{building} 
+	has 101 instances with only 8\% traversability rate and \class{wall} has 97 with 24\%. 
+	And these are not the only three classes with many instances in the testing images and 
+	low traversability percentage (Table~\bl{\ref{table:trav.f1}}).
+	\\
+	
+	Figure~\bl{\ref{fig:trav:28_57}} belongs to the testing set of fold 1. Even though 
+	this image basically contains the classes \class{tree}, \class{sky}, \class{earth} 
+	and \class{plant}, \acronym{psp} detected a small area of \class{wall}. Trees, sky 
+	and earth have all been decided to be impermeable. Nevertheless having only the first 
+	four classes, the image would be presumed as permeable, with 52.5\% traversability 
+	percent (equation~\bl{\ref{eq:trav_4}}). But adding the extra class \class{wall} the 
+	rate reaches only 46.8\% (equation~\bl{\ref{eq:trav_5}}), resulting to name the image 
+	non-traversable.
+	\begin{equation} \label{eq:trav_4}
+	\frac{73\% + 45\% + 46\% + 46\%}{4} = 52.5\%
+	\end{equation}
+	
 	
 	
 	\begin{table}[h!]
@@ -1985,8 +2029,8 @@
 				sidewalk & 37 & 59 &\\
 				\hline
 				skyscraper & 43 & 0 & \checkmark\\
-				\hline
-				monitor & 1 & - & -\\
+			%	\hline
+			%	monitor & 1 & - & -\\
 				\hline
 				crt screen & 48 & 0 & \checkmark\\
 				\hline
@@ -2103,7 +2147,7 @@
 			\caption{Fold 4 (165 non-traversable images)}
 			\label{table:obst.f4}
 		\end{subtable}
-		\\\\\\	
+		\\\\\\
 		\begin{subtable}[h!]{\textwidth}
 			\centering
 			\begin{tabular}{|c|c|c|c|}
@@ -2151,20 +2195,7 @@
 	\end{table}
 	
 	
-	Now that we have seen why non-traversable images are easier to predict than traversable 
-	ones, let's concentrate on why each fold have different success rate for the traversable 
-	images.
-	\\
-		
-	As established before, fold 1 has worse results than all the other folds (see 
-	Table~\bl{\ref{table:trav.f1}}). First of all notice that the class label \class{house} 
-	appears in 10 out of the 153 traversable images for testing in fold 1. This class is 
-	missing from all the images in the training set. If something like this happens our 
-	model does not count the specific class neither as traversable nor as non-traversable 
-	and completely ignores it. As can be inferred from the other Tables~\bl{\ref{table:trav.folds}} 
-	class \class{house} only appears in the images of the testing set of fold 1 and is 
-	found to be traversable 100\%.
-	\\
+
 	
 	
 	\chapter{Conclusions and Future Work}
