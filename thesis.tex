@@ -37,9 +37,10 @@
 \definecolor{wall}{HTML}{787878}
 \definecolor{house}{HTML}{FF09E0}
 	%\definecolor{floor}{HTML}{503232}
-	\definecolor{floor}{HTML}{F7C438}
+\definecolor{floor}{HTML}{FF7142}
 \definecolor{building}{HTML}{B47878}
-\definecolor{plant}{HTML}{CCFF04}
+	%\definecolor{plant}{HTML}{CCFF04}
+\definecolor{plant}{HTML}{C4C415}
 
 \newcommand{\defn}[1]{\enquote{\textit{#1}}}
 \newcommand{\alleg}{\enquote}
@@ -50,6 +51,7 @@
 \newcommand{\bl}[1]{{\hypersetup{linkcolor=blue}#1}}
 \newcommand{\boldcolor}[2]{\textbf{\textcolor{#1}{#2}}}
 \newcommand{\class}[1]{\textbf{\textcolor{#1}{#1}}} % or \colorbox
+\newcommand{\white}[1]{\textbf{\textcolor{white}{#1}}} % or \colorbox
 
 \begin{document}
 	{
@@ -1225,46 +1227,67 @@
 	\section{Our approach}
 	\label{sec:fg:app}
 	
-	We implemented a program that given an image predicts whether it the illustrated scene 
-	is traversable or not. It trains itself and then evaluates its effectiveness. All 
-	the input values of the program are images extracted from a neural network for whole 
+	We implemented a program that when given an image predicts whether the illustrated 
+	scene is traversable or not. The program trains itself and then evaluates its 
+	effectiveness. All the input values are images extracted from a neural network for whole 
 	image semantic segmentation. These images, as shown in Figure~\bl{\ref{fig:segm}}, consist 
 	of colors depicting objects and parts of the scene. Each color is recognized by the 
 	computer as a triad of numbers representing the amount of red, green and blue present 
-	to produce the original color. For humans to be able to observe the program's 
-	functionality we keep a default correspondence/matching between colors and class labels. 
-	Also for ease of comprehension/reading, all operations are rounded to the second decimal place/number.
+	to produce the original color. 
 	\\
 	
-	During training the program reads images previously annotated as penetrable region or 
-	obstacles. It keeps track of how many times 
+	For humans to be able to observe the program's functionality we keep a default 
+	correspondence between colors and class labels. Also, to ease comprehension, all 
+	operations are rounded to the second decimal place.
+	\\
+	
+	During the program training period, it reads previously annotated images. These 
+	annotations are penetrable region or obstacle. The program keeps track of how many times 
 	each color is found in traversable and how many in non-traversable images. So, it can 
-	compute the traversability percentage of each color. For example, let's suppose \alleg{red} corresponds to \alleg{sidewalk}. It is read 70 times from which the 
-	56 is in traversable images and the other 14 in non-traversable. Then the traversability 
-	percentage of the sidewalk is 56 $\times$ 100 $\div$ 70 = 80. Therefore, the sidewalk 
-	(and, as matter of fact, the color red)	has a 80\% chance of being traversable.
+	compute the traversability percentage of each color. For example, let's suppose that 
+	red corresponds to \alleg{sidewalk} in Figure~\bl{\ref{fig:meth}}. Red color 
+	exists in 70 images from which 56 are traversable and the other 14 non-traversable. 
+	So the traversability percentage of the sidewalk is 
+	\[ 56 \times 100 \div 70 = 80 \]
+	Therefore, the sidewalk (and, as matter of fact, the color red) has 80\% chance of 
+	being traversable.
 	\\
 	
-	During evaluation we implement two different calculating methods. Both of them are in 
-	charge of deciding whether the given images are traversable or not. Every image with 
-	chance of being traversable greater than or equal to 50\% is considered to be traversable.
+	During evaluation we implement two different calculating methods. Both of them are 
+	responsible for deciding whether the given images are traversable or not. Every image 
+	with chance of being traversable greater or equal to 50\% is considered to be traversable. 
+	Let's take Figure~\bl{\ref{fig:meth}} and try to explain the two methods. For the purpose
+	of this example, we suppose that red has 80\% chance of being traversable, as is found to be 
+	penetrable 8 times out of the total of 10. Purple 9 out of 30 (30\%) and green 9 out 
+	of 20 (45\%). To ease our understanding let's say that red corresponds to \alleg{sidewalk}, 
+	purple to \alleg{building} and green to \alleg{tree}.
 	
 	\begin{enumerate}
-		\item The first method assumes that the probability/likelihood of an image being penetrable is the average probability of all the colors contained therein. Let's say that red (from the example above) has a 80\% chance of being traversable, purple 30\% and yellow 45\%. An image containing red, purple and yellow has a probability of (80\% + 30\% + 45\%) $\div$ 3 = 51.67\% being traversable.
-		\item The second one specifies/determines that the traversability percentage of an image is the traversability percentage of all the colors within it. Continuing with the previous example, we specify that red is found to be penetrable 8 times at/of the total of 10 (80\%). Purple 9 at 30 (30\%) and yellow 9 at 20 (45\%). Let's assume again that the input image contains red, purple and yellow. The probability of this image being traversable is (8 + 9 + 9) $\times$ 100\% $\div$ (10 + 30 + 20) = 43.33\%.
+		\item The first method determines the probability of an image to be penetrable, as the average of the traversability percentages for each color contained within. (The first method determines that the probability of an image to be penetrable is the average of the traversability percentages for each color contained therein.)
+		Figure~\bl{\ref{fig:meth}}, which contains red, purple and yellow, has a probability of 51.67\% being traversable.
+		\[ (80\% + 30\% + 45\%) \div 3 = 51.67\% \]
+		\item The second method uses the number of times each color was found in traversable and in non-traversable images. It assumes that the likelihood of an image being traversable is in direct dependence of the number of times each color found within, is penetrable. In other words, it specifies that the traversability percentage of an image, is the weighted average of the traversability percentage of all the colors within it. 
+		This time, the probability of Figure~\bl{\ref{fig:meth}} being traversable is 43.33\%.
+		\[ (8 + 9 + 9) \times 100\% \div (10 + 30 + 20) = 43.33\% \]
 	\end{enumerate}
 	
+	\begin{figure}[h!]
+		\caption{Example for explaining the differences between the two calculating methods - 
+			\boldcolor{red}{sidewalk} (80\% chance of being traversable, found to be 
+			penetrable 8 times out of the total of 10), \class{building} (30\%, 9 out of 30), 
+			\class{tree} (45\%, 9 out of 20)}
+		\centering
+		\includegraphics[width=0.4\textwidth]{47-05_0065}
+		\label{fig:meth}
+	\end{figure}
+	
+	
 	It is known in advance whether the testing images are penetrable. So after their 
-	evaluation by the previously described methods it is trivial to discover whether the 
-	judgments are right or wrong. In the example above the first method decides that the 
-	image is non-traversable, while the second method determined the opposite. Note that 
-	in other cases the results may coincide.
+	evaluation by the previously described methods it is trivial to discover whether their 
+	judgments/judged decisions are right or wrong. In the example above the first method decides that the 
+	image is non-traversable, while the second method determines the opposite. Note that 
+	in other cases the results may concur.
 	\\\\ 
-	
-	The second one uses the number of times each color was found in traversable and in non-traversable images. It specifies/determines that the likelihood of an image being traversable is in direct dependence on the number of times each color within is found to be penetrable or not.
-	
-	The second one specifies/determines that the likelihood of an image being traversable is proportional to the number of times each color within is found to be penetrable. It does not deal with probabilities. It deals with ratios/proportions.
-	
 	
 	
 	\chapter{Experimental Validation and Comparison}
@@ -1384,7 +1407,8 @@
 	bag files mentioned in Section~\ref{sec:exp:eval}. And then fed our program with their 
 	outputs. The results of the first calculating method, described in Section~\ref{sec:fg:app} 
 	are shown in Table~\bl{\ref{table:1st}}. And the results of the second method in 
-	Table~\bl{\ref{table:2nd}}. In both tables it is quite clear that the PSP has clearly/without doubt/undoubtedly/patently better results than the other two models, both individually and globally.
+	Table~\bl{\ref{table:2nd}}. In both tables it is quite obvious that the PSP has clearly 
+	better results than the other two models, for both individual and global trials.
 	\\
 	
 	\begin{table}[h!]
@@ -1529,240 +1553,25 @@
 	success rate? These are some questions we will try to answer in this section.
 	\\
 	
-	\begin{table}[h!]
-		\begin{subtable}[h!]{\textwidth}
-			\centering
-			\begin{tabular}{|c|c|c|c|}
-				\hline
-				\multicolumn{4}{|c|}{Fold 1}\\
-				\hline
-				Class label & Instances & Traversability (\%) & Traversable\\
-				\hline\hline
-				grass & 52 & 100 & \checkmark\\
-				\hline
-				person & 47 & 30 &\\
-				\hline
-				\rowcolor{plant}
-				plant & 153 & 73 & \checkmark\\
-				\hline
-				\rowcolor{tree}
-				tree & 153 & 45 &\\
-				\hline
-				signboard & 11 & 18 &\\
-				\hline
-				sidewalk & 68 & 22 &\\
-				\hline
-				path & 60 & 100 & \checkmark\\
-				\hline
-				\rowcolor{earth}
-				earth & 153 & 46 &\\
-				\hline
-				\rowcolor{sky}
-				sky & 153 & 46 &\\
-				\hline
-				car & 93 & 100 & \checkmark\\
-				\hline
-				\rowcolor{building}
-				building & 101 & 8 &\\
-				\hline
-				\rowcolor{house}
-				house & 10 & - & -\\
-				\hline
-				\rowcolor{wall}
-				wall & 97 & 24 &\\
-				\hline
-				\rowcolor{floor}
-				floor & 19 & 0 &\\
-				\hline
-			\end{tabular}
-			\caption{Fold 1 (153 traversable images)}
-			\label{table:trav.f1}
-		\end{subtable}
-		\\\\\\
-		\begin{subtable}[h!]{\textwidth}
-			\centering
-			\begin{tabular}{|c|c|c|c|}
-				\hline
-				\multicolumn{4}{|c|}{Fold 2}\\
-				\hline
-				Class label & Instances & Traversability (\%) & Traversable\\
-				\hline\hline
-				grass & 1 & 100 & \checkmark\\
-				\hline
-				person & 6 & 58 & \checkmark\\
-				\hline
-				plant & 169 & 72 & \checkmark\\
-				\hline
-				\rowcolor{tree}
-				tree & 169 & 46 &\\
-				\hline
-				flower & 17 & 100 & \checkmark\\
-				\hline
-				\rowcolor{earth}
-				earth & 169 & 46 &\\
-				\hline
-				\rowcolor{sky}
-				sky & 169 & 47 &\\
-				\hline
-				rock & 13 & 22 &\\
-				\hline
-				\rowcolor{house}
-				house & - & 100 & \checkmark\\
-				\hline
-				wall & 13 & 30 &\\
-				\hline
-			\end{tabular}
-			\caption{Fold 2 (169 traversable images)}
-			\label{table:trav.f2}
-		\end{subtable}
-		\caption{Traversable images for testing - Labels, number of their instances and their 
-			traversability percentage as emerged from training. The last column shows all 
-			classes with traversability percentage $>$ 50\%. (continuing in next page)}
-		\label{table:trav.folds}
-	\end{table}
-	
-	\begin{table}[h!]
-		\ContinuedFloat % continue from previous page
-		\begin{subtable}[h!]{\textwidth}
-			\centering
-			\begin{tabular}{|c|c|c|c|}
-				\hline
-				\multicolumn{4}{|c|}{Fold 3}\\
-				\hline
-				Class label & Instances & Traversability (\%) & Traversable\\
-				\hline\hline
-				grass & 18 & 100 & \checkmark\\
-				\hline
-				plant & 161 & 73 & \checkmark\\
-				\hline
-				\rowcolor{tree}
-				tree & 164 & 46 &\\
-				\hline
-				sidewalk & 29 & 65 & \checkmark\\
-				\hline
-				path & 22 & 100 & \checkmark\\
-				\hline
-				\rowcolor{earth}
-				earth & 164 & 47 &\\
-				\hline
-				\rowcolor{sky}
-				sky & 164 & 47 &\\
-				\hline
-				rock & 27 & 20 &\\
-				\hline
-				building & 68 & 12 &\\
-				\hline
-				\rowcolor{house}
-				house & - & 100 & \checkmark\\
-				\hline
-				wall & 72 & 28 &\\
-				\hline
-			\end{tabular}
-			\caption{Fold 3 (164 traversable images)}
-			\label{table:trav.f3}
-		\end{subtable}
-		\\\\\\
-		\begin{subtable}[h!]{\textwidth}
-			\centering
-			\begin{tabular}{|c|c|c|c|}
-				\hline
-				\multicolumn{4}{|c|}{Fold 4}\\
-				\hline
-				Class label & Instances & Traversability (\%) & Traversable\\
-				\hline\hline
-				grass & 49 & 100 & \checkmark\\
-				\hline
-				plant & 86 & 84 & \checkmark\\
-				\hline
-				\rowcolor{tree}
-				tree & 109 & 46 &\\
-				\hline
-				signboard & 1 & 25 &\\
-				\hline
-				\rowcolor{earth}
-				earth & 83 & 48 &\\
-				\hline
-				\rowcolor{sky}
-				sky & 109 & 47 &\\
-				\hline
-				rock & 33 & 17 &\\
-				\hline
-				\rowcolor{house}
-				house & - & 100 & \checkmark\\
-				\hline
-				wall & 21 & 30 &\\
-				\hline
-				fence & 2 & 100 & \checkmark\\
-				\hline
-			\end{tabular}
-			\caption{Fold 4 (109 traversable images)}
-			\label{table:trav.f4}
-		\end{subtable}
-		\caption{(continued) Traversable images for testing - Labels, number of their instances 
-			and their traversability percentage as emerged from training. The last column shows 
-			all classes with traversability percentage $>$ 50\%. (continuing in next page)}
-	\end{table}
-	
-	\begin{table}[h!]
-		\ContinuedFloat % continue from previous page
-		\begin{subtable}[h!]{\textwidth}
-			\centering
-			\begin{tabular}{|c|c|c|c|}
-				\hline
-				\multicolumn{4}{|c|}{Fold 5}\\
-				\hline
-				Class label & Instances & Traversability (\%) & Traversable\\
-				\hline\hline
-				person & 14 & 62 & \checkmark\\
-				\hline		
-				plant & 182 & 84 & \checkmark\\
-				\hline
-				\rowcolor{tree}
-				tree & 183 & 43 &\\
-				\hline
-				flower & 9 & 100 & \checkmark\\
-				\hline
-				signboard & 17 & 13 &\\
-				\hline
-				path & 1 & 100 & \checkmark\\
-				\hline
-				\rowcolor{earth}
-				earth & 183 & 43 &\\
-				\hline
-				\rowcolor{sky}
-				sky & 183 & 43 &\\
-				\hline
-				car & 117 & 100 & \checkmark\\
-				\hline
-				rock & 99 & 10 &\\
-				\hline
-				pole & 11 & - & -\\
-				\hline
-				\rowcolor{house}
-				house & - & 100 & \checkmark\\
-				\hline
-				wall & 100 & 23 &\\
-				\hline
-				fence & 94 & 100 & \checkmark\\
-				\hline
-			\end{tabular}
-			\caption{Fold 5 (183 traversable images)}
-			\label{table:trav.f5}
-		\end{subtable}
-		\caption{(continued) Traversable images for testing - Labels, number of their instances 
-			and their traversability percentage as emerged from training. The last column shows 
-			all classes with traversability percentage $>$ 50\%.}
-	\end{table}
-	
 	In Tables~\bl{\ref{table:trav.folds}} we have gathered all class labels appearing in each 
-	one of the traversable	images for validation. And in Tables~\bl{\ref{table:obst.folds}} 
+	one of the traversable images for validation. And in Tables~\bl{\ref{table:obst.folds}} 
 	same thing for the images perceived as obstacles. Each subtable contains the information 
-	for each fold. For every label mentioned (column 1) we keep track of two numbers. The 
-	number of its appearances in the current fold (in how many images is the color participating?) 
-	(column 2). And its traversability percentage, after training with the images of the 
-	remaining bag files (after training, how likely is for this color to be traversable?) 
-	(column 3). (after training, how likely is that this color is traversable?) The last column in Tables~\bl{\ref{table:trav.folds}} shows all classes with traversability percentage $>$ 50\% and in Tables~\bl{\ref{table:obst.folds}} those with $\le$ 50\% chance of being traversable.
-	\\
+	for each fold. 
+	\begin{itemize}
+		\item Column 1 mentions all class labels appearing in the current fold.
+		\item Column 2 keeps track of the number of each labels appearances in the current fold 
+		(in how many images is the color participating?).
+		\item In column 3 is the traversability percentage of each label, after the system is 
+		trained with the images in the remaining bag files (after training, how likely is for 
+		this color to be traversable?).
+		\item Finally, column 4 
+		\begin{itemize}
+			\item shows all classes with traversability percentage $>$ 50\%, in 
+			Tables~\bl{\ref{table:trav.folds}}, and
+			\item those with $\le$ 50\% chance of being traversable, in 
+			Tables~\bl{\ref{table:obst.folds}}.
+		\end{itemize}
+	\end{itemize}
 	
 	Have in mind that in this work we do not care about the annotations representing each 
 	color within the image. These labels are available to facilitate reading. We do not 
@@ -1787,6 +1596,7 @@
 	\class{earth} in most of them.
 	\\
 	
+	
 	To visualize it, we give a traversable and a non-traversable image in which these 
 	classes appear. The ground in Figure~\bl{\ref{fig:trav:28_57}} is translated as 
 	\class{earth}. Similarly, the short wall that makes Figure~\bl{\ref{fig:obst:32-49}} 
@@ -1807,9 +1617,9 @@
 		\end{subfigure}
 		\begin{subfigure}[b]{0.45\textwidth}
 			\begin{tikzpicture}
-				\node[anchor=south west,inner sep=0] at (0,0) 
-				{\includegraphics[width=\textwidth]{28_57_0000t_psp}};
-				\draw[red,thick] (6.1,1.3) circle (0.3) ;
+			\node[anchor=south west,inner sep=0] at (0,0) 
+			{\includegraphics[width=\textwidth]{28_57_0000t_psp}};
+			\draw[red,thick] (6.1,1.3) circle (0.3) ;
 			\end{tikzpicture}
 			\caption{Image resulting from \acronym{psp}}
 		\end{subfigure}
@@ -1953,6 +1763,241 @@
 	\begin{equation} \label{eq:trav_4}
 	\frac{73\% + 45\% + 46\% + 46\%}{4} = 52.5\%
 	\end{equation}
+	\\\\
+	
+	So what can be done in order to improve the success rate of recognizing the traversable 
+	images? We can not limit the number of the training images in a way so that traversable 
+	and non-traversable images are equal in number. In the real life, the environment is 
+	not evenly distributed in penetrable and impenetrable areas, so why to be here? Some 
+	ideas in how to achieve better results are discussed in the next chapter. 
+	\\
+	
+	
+	\begin{table}[h!]
+		\begin{subtable}[h!]{\textwidth}
+			\centering
+			\begin{tabular}{|c|c|c|c|}
+				\hline
+				\multicolumn{4}{|c|}{Fold 1}\\
+				\hline
+				Class label & Instances & Traversability (\%) & Traversable\\
+				\hline\hline
+				grass & 52 & 100 & \checkmark\\
+				\hline
+				person & 47 & 30 &\\
+				\hline
+				\rowcolor{plant}
+				plant & 153 & 73 & \checkmark\\
+				\hline
+				\rowcolor{tree}
+				tree & 153 & 45 &\\
+				\hline
+				signboard & 11 & 18 &\\
+				\hline
+				sidewalk & 68 & 22 &\\
+				\hline
+				path & 60 & 100 & \checkmark\\
+				\hline
+				\rowcolor{earth}
+				\white{earth} & \white{153} & \white{46} &\\
+				\hline
+				\rowcolor{sky}
+				sky & 153 & 46 &\\
+				\hline
+				car & 93 & 100 & \checkmark\\
+				\hline
+				\rowcolor{building}
+				building & 101 & 8 &\\
+				\hline
+				\rowcolor{house}
+				house & 10 & - & -\\
+				\hline
+				\rowcolor{wall}
+				\white{wall} & \white{97} & \white{24} &\\
+				\hline
+				\rowcolor{floor}
+				floor & 19 & 0 &\\
+				\hline
+			\end{tabular}
+			\caption{Fold 1 (153 traversable images)}
+			\label{table:trav.f1}
+		\end{subtable}
+		\\\\\\
+		\begin{subtable}[h!]{\textwidth}
+			\centering
+			\begin{tabular}{|c|c|c|c|}
+				\hline
+				\multicolumn{4}{|c|}{Fold 2}\\
+				\hline
+				Class label & Instances & Traversability (\%) & Traversable\\
+				\hline\hline
+				grass & 1 & 100 & \checkmark\\
+				\hline
+				person & 6 & 58 & \checkmark\\
+				\hline
+				plant & 169 & 72 & \checkmark\\
+				\hline
+				\rowcolor{tree}
+				tree & 169 & 46 &\\
+				\hline
+				flower & 17 & 100 & \checkmark\\
+				\hline
+				\rowcolor{earth}
+				\white{earth} & \white{169} & \white{46} &\\
+				\hline
+				\rowcolor{sky}
+				sky & 169 & 47 &\\
+				\hline
+				rock & 13 & 22 &\\
+				\hline
+				\rowcolor{house}
+				house & - & 100 & \checkmark\\
+				\hline
+				wall & 13 & 30 &\\
+				\hline
+			\end{tabular}
+			\caption{Fold 2 (169 traversable images)}
+			\label{table:trav.f2}
+		\end{subtable}
+		\caption{Traversable images for testing - Labels, number of their instances and their 
+			traversability percentage as emerged from training. The last column shows all 
+			classes with traversability percentage $>$ 50\%. (continuing in next page)}
+		\label{table:trav.folds}
+	\end{table}
+	
+	\begin{table}[h!]
+		\ContinuedFloat % continue from previous page
+		\begin{subtable}[h!]{\textwidth}
+			\centering
+			\begin{tabular}{|c|c|c|c|}
+				\hline
+				\multicolumn{4}{|c|}{Fold 3}\\
+				\hline
+				Class label & Instances & Traversability (\%) & Traversable\\
+				\hline\hline
+				grass & 18 & 100 & \checkmark\\
+				\hline
+				plant & 161 & 73 & \checkmark\\
+				\hline
+				\rowcolor{tree}
+				tree & 164 & 46 &\\
+				\hline
+				sidewalk & 29 & 65 & \checkmark\\
+				\hline
+				path & 22 & 100 & \checkmark\\
+				\hline
+				\rowcolor{earth}
+				\white{earth} & \white{164} & \white{47} &\\
+				\hline
+				\rowcolor{sky}
+				sky & 164 & 47 &\\
+				\hline
+				rock & 27 & 20 &\\
+				\hline
+				building & 68 & 12 &\\
+				\hline
+				\rowcolor{house}
+				house & - & 100 & \checkmark\\
+				\hline
+				wall & 72 & 28 &\\
+				\hline
+			\end{tabular}
+			\caption{Fold 3 (164 traversable images)}
+			\label{table:trav.f3}
+		\end{subtable}
+		\\\\\\
+		\begin{subtable}[h!]{\textwidth}
+			\centering
+			\begin{tabular}{|c|c|c|c|}
+				\hline
+				\multicolumn{4}{|c|}{Fold 4}\\
+				\hline
+				Class label & Instances & Traversability (\%) & Traversable\\
+				\hline\hline
+				grass & 49 & 100 & \checkmark\\
+				\hline
+				plant & 86 & 84 & \checkmark\\
+				\hline
+				\rowcolor{tree}
+				tree & 109 & 46 &\\
+				\hline
+				signboard & 1 & 25 &\\
+				\hline
+				\rowcolor{earth}
+				\white{earth} & \white{83} & \white{48} &\\
+				\hline
+				\rowcolor{sky}
+				sky & 109 & 47 &\\
+				\hline
+				rock & 33 & 17 &\\
+				\hline
+				\rowcolor{house}
+				house & - & 100 & \checkmark\\
+				\hline
+				wall & 21 & 30 &\\
+				\hline
+				fence & 2 & 100 & \checkmark\\
+				\hline
+			\end{tabular}
+			\caption{Fold 4 (109 traversable images)}
+			\label{table:trav.f4}
+		\end{subtable}
+		\caption{(continued) Traversable images for testing - Labels, number of their instances 
+			and their traversability percentage as emerged from training. The last column shows 
+			all classes with traversability percentage $>$ 50\%. (continuing in next page)}
+	\end{table}
+	
+	\begin{table}[h!]
+		\ContinuedFloat % continue from previous page
+		\begin{subtable}[h!]{\textwidth}
+			\centering
+			\begin{tabular}{|c|c|c|c|}
+				\hline
+				\multicolumn{4}{|c|}{Fold 5}\\
+				\hline
+				Class label & Instances & Traversability (\%) & Traversable\\
+				\hline\hline
+				person & 14 & 62 & \checkmark\\
+				\hline		
+				plant & 182 & 84 & \checkmark\\
+				\hline
+				\rowcolor{tree}
+				tree & 183 & 43 &\\
+				\hline
+				flower & 9 & 100 & \checkmark\\
+				\hline
+				signboard & 17 & 13 &\\
+				\hline
+				path & 1 & 100 & \checkmark\\
+				\hline
+				\rowcolor{earth}
+				\white{earth} & \white{183} & \white{43} &\\
+				\hline
+				\rowcolor{sky}
+				sky & 183 & 43 &\\
+				\hline
+				car & 117 & 100 & \checkmark\\
+				\hline
+				rock & 99 & 10 &\\
+				\hline
+				pole & 11 & - & -\\
+				\hline
+				\rowcolor{house}
+				house & - & 100 & \checkmark\\
+				\hline
+				wall & 100 & 23 &\\
+				\hline
+				fence & 94 & 100 & \checkmark\\
+				\hline
+			\end{tabular}
+			\caption{Fold 5 (183 traversable images)}
+			\label{table:trav.f5}
+		\end{subtable}
+		\caption{(continued) Traversable images for testing - Labels, number of their instances 
+			and their traversability percentage as emerged from training. The last column shows 
+			all classes with traversability percentage $>$ 50\%.}
+	\end{table}
+	
 	
 	
 	
@@ -1977,7 +2022,7 @@
 				building & 184 & 8 & \checkmark\\
 				\hline
 				\rowcolor{earth}
-				earth & 184 & 46 & \checkmark\\
+				\white{earth} & \white{184} & \white{46} & \white{\checkmark}\\
 				\hline
 				\rowcolor{sky}
 				sky & 183 & 46 & \checkmark\\
@@ -2015,7 +2060,7 @@
 				windowpane & 168 & 0 & \checkmark\\
 				\hline
 				\rowcolor{earth}
-				earth & 195 & 46 & \checkmark\\
+				\white{earth} & \white{195} & \white{46} & \white{\checkmark}\\
 				\hline
 				\rowcolor{sky}
 				sky & 221 & 47 & \checkmark\\
@@ -2070,7 +2115,7 @@
 				windowpane & 93 & 0 & \checkmark\\
 				\hline
 				\rowcolor{earth}
-				earth & 220 & 47 & \checkmark\\
+				\white{earth} & \white{220} & \white{47} & \white{\checkmark}\\
 				\hline
 				\rowcolor{sky}
 				sky & 225 & 47 & \checkmark\\
@@ -2128,7 +2173,7 @@
 				windowpane & 94 & 0 & \checkmark\\
 				\hline
 				\rowcolor{earth}
-				earth & 165 & 48 & \checkmark\\
+				\white{earth} & \white{165} & \white{48} & \white{\checkmark}\\
 				\hline
 				\rowcolor{sky}
 				sky & 165 & 47 & \checkmark\\
@@ -2170,7 +2215,7 @@
 				windowpane & 68 & 0 & \checkmark\\
 				\hline
 				\rowcolor{earth}
-				earth & 127 & 43 & \checkmark\\
+				\white{earth} & \white{127} & \white{43} & \white{\checkmark}\\
 				\hline
 				\rowcolor{sky}
 				sky & 122 & 43 & \checkmark\\
@@ -2194,8 +2239,6 @@
 			classes with traversability percentage $\le$ 50\%.}
 	\end{table}
 	
-	
-
 	
 	
 	\chapter{Conclusions and Future Work}
