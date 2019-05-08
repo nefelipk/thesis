@@ -172,13 +172,15 @@
 		with. We present already existing traversability estimation algorithms; the 
 		goals, the approaches, the methods used, the strengths and weaknesses. 
 		\item In Chapter~\ref{sec:fg} we present the logic behind the decisions made 
-		and the algorithms used.
+		and the algorithms used or developed.
 		\item In Chapter~\ref{sec:exp} we perform an evaluation of our implementation 
-		and compare it with previous ones.
+		and explain why its weaknesses occur.
 		\item In Chapter~\ref{sec:concl} we give our conclusions and ideas for future 
 		work.
 		\item In Appendix~\ref{app:impl} we share some \acronym{url}s of prototype 
-		implementations from researchers who kindly offered their work open-source.
+		implementations from researchers who kindly offered their work open-source. 
+		We also share the \acronym{url}s of some popular datasets used for training
+		neural networks.
 		\item In Appendix~\ref{app:conv} one can find a brief outline on how 
 		convolutional neural networks work.
 	\end{itemize}
@@ -886,7 +888,7 @@
 	\par
 	Semantic understanding of visual scenes is one of the holy grails of computer vision 
 	\citep{Zhou_sem}. The emergence of large-scale image datasets like ImageNet \citep{Deng} 
-	and \acronym{coco} \citep{Lin},	along with the rapid development of the deep convolutional 
+	and \acronym{coco} \citep{coco}, along with the rapid development of the deep convolutional 
 	neural network approaches, have brought great advancements to visual scene understanding.
 	\\
 	
@@ -970,7 +972,7 @@
 	It has become clear to researchers in robotics and adaptive behavior that 
 	current approaches are yielding systems with limited autonomy and capacity for 
 	self-improvement. To learn autonomously and in a cumulative fashion is one of 
-	the hallmarks of intelligence, so that is what we want to achieve in the current 
+	the hallmarks of intelligence. So that is what we want to achieve in the current 
 	thesis. The traversability estimation can become a goal of action based on 
 	intrinsic motivations.
 	\\
@@ -1249,7 +1251,7 @@
 	exists in 70 images from which 56 are traversable and the other 14 non-traversable. 
 	So the traversability percentage of the sidewalk is 
 	\[ 56 \times 100 \div 70 = 80 \]
-	Therefore, the sidewalk (and, as matter of fact, the color red) has 80\% chance of 
+	Therefore, the sidewalk (and, consequently, the color red) has 80\% chance of 
 	being traversable.
 	\\
 	
@@ -1263,10 +1265,17 @@
 	purple to \alleg{building} and green to \alleg{tree}.
 	
 	\begin{enumerate}
-		\item The first method determines the probability of an image to be penetrable, as the average of the traversability percentages for each color contained within. (The first method determines that the probability of an image to be penetrable is the average of the traversability percentages for each color contained therein.)
-		Figure~\bl{\ref{fig:meth}}, which contains red, purple and yellow, has a probability of 51.67\% being traversable.
+		\item The first method determines the probability of an image to be penetrable, 
+		as the average of the traversability percentages for each color contained within.
+		Figure~\bl{\ref{fig:meth}}, which contains red, purple and yellow, has a probability 
+		of 51.67\% being traversable.
 		\[ (80\% + 30\% + 45\%) \div 3 = 51.67\% \]
-		\item The second method uses the number of times each color was found in traversable and in non-traversable images. It assumes that the likelihood of an image being traversable is in direct dependence of the number of times each color found within, is penetrable. In other words, it specifies that the traversability percentage of an image, is the weighted average of the traversability percentage of all the colors within it. 
+		\item The second method uses the number of times each color was found in traversable 
+		and in non-traversable images. It assumes that the likelihood of an image being 
+		traversable is in direct dependence of the number of times each color found within, 
+		is penetrable. In other words, it specifies that the traversability percentage of 
+		an image, is the weighted average of the traversability percentage of all the colors 
+		within it. 
 		This time, the probability of Figure~\bl{\ref{fig:meth}} being traversable is 43.33\%.
 		\[ (8 + 9 + 9) \times 100\% \div (10 + 30 + 20) = 43.33\% \]
 	\end{enumerate}
@@ -1286,7 +1295,7 @@
 	evaluation by the previously described methods it is trivial to discover whether their 
 	judgments/judged decisions are right or wrong. In the example above the first method decides that the 
 	image is non-traversable, while the second method determines the opposite. Note that 
-	in other cases the results may concur.
+	in other cases the results of the two methods may concur.
 	\\\\ 
 	
 	
@@ -1561,8 +1570,8 @@
 		\item Column 1 mentions all class labels appearing in the current fold.
 		\item Column 2 keeps track of the number of each labels appearances in the current fold 
 		(in how many images is the color participating?).
-		\item In column 3 is the traversability percentage of each label, after the system is 
-		trained with the images in the remaining bag files (after training, how likely is for 
+		\item In column 3 appears the traversability percentage of each label, after the system 
+		is trained with the images in the remaining bag files (after training, how likely is for 
 		this color to be traversable?).
 		\item Finally, column 4 
 		\begin{itemize}
@@ -1614,6 +1623,7 @@
 		\begin{subfigure}[b]{0.45\textwidth}
 			\includegraphics[width=\textwidth]{28_57_0000t}
 			\caption{Original traversable image}
+			\label{fig:trav:28_57:orig}
 		\end{subfigure}
 		\begin{subfigure}[b]{0.45\textwidth}
 			\begin{tikzpicture}
@@ -1622,6 +1632,7 @@
 			\draw[red,thick] (6.1,1.3) circle (0.3) ;
 			\end{tikzpicture}
 			\caption{Image resulting from \acronym{psp}}
+			\label{fig:trav:28_57:psp}
 		\end{subfigure}
 		\label{fig:trav:28_57}
 	\end{figure}
@@ -1633,10 +1644,12 @@
 		\begin{subfigure}[b]{0.45\textwidth}
 			\includegraphics[width=\textwidth]{32-49_0000w}
 			\caption{Original non-traversable image}
+			\label{fig:obst:32-49:orig}
 		\end{subfigure}
 		\begin{subfigure}[b]{0.45\textwidth}
 			\includegraphics[width=\textwidth]{32-49_0000w_psp}
 			\caption{Image resulting from \acronym{psp}}
+			\label{fig:obst:32-49:psp}
 		\end{subfigure}
 		\label{fig:obst:32-49}
 	\end{figure}
@@ -1766,9 +1779,9 @@
 	\\\\
 	
 	So what can be done in order to improve the success rate of recognizing the traversable 
-	images? We can not limit the number of the training images in a way so that traversable 
-	and non-traversable images are equal in number. In the real life, the environment is 
-	not evenly distributed in penetrable and impenetrable areas, so why to be here? Some 
+	images? In real life, the environment is not evenly distributed in penetrable and 
+	impenetrable areas. So, we cannot limit the number of the training images in a way 
+	so that traversable and non-traversable images are equal in number. Nonetheless, some 
 	ideas in how to achieve better results are discussed in the next chapter. 
 	\\
 	
@@ -2244,6 +2257,96 @@
 	\chapter{Conclusions and Future Work}
 	\label{sec:concl}
 	
+	In this thesis we concentrated on traversability estimation methods. In 
+	Chapter~\ref{sec:bg} we explored many ways for a robot to autonomously decide 
+	the traversability of the terrain in front of it. We also found ways for it to 
+	be able to learn from the past and improve its estimation. We investigated 
+	approaches to autonomously acquire labeled data and the sensors needed for it. 
+	Finally we discussed about the most common strategies for the robotic platform 
+	to decide where to go next.
+	\\
+	
+	In Chapter~\ref{sec:fg} we implemented a program that when given images predicts 
+	whether they are traversable or not. These images are extracted from a convolutional 
+	neural network for total scene semantic segmentation. We chose Pyramid Scene 
+	Parsing Network (\acronym{psp}) for this purpose, as it seemed to have the best 
+	results. We fed \acronym{psp} with images from natural outdoor environments, 
+	containing vegetation. It resulted with images consist of colors depicting objects 
+	and parts of the scene.
+	\\
+	
+	Lastly, in Chapter~\ref{sec:exp} we evaluated our implementation and explained how 
+	the traversable images are more difficult to predict than the non-traversable. The 
+	main reason for this is that the data sample used for training, consists of many 
+	more non-traversable than traversable images. That is something we are not able 
+	to control because we want our system to be autonomous. So what can be done to 
+	improve the results?
+	\\
+	
+	The program can be modified to ignore specific classes. Possibly the classes that 
+	appear in a large amount of both traversable and non-traversable training images. 
+	For example, class labels earth, sky, tree seem to appear in almost all of the 
+	images used for training and validating the system (as can be seen in 
+	Tables~\bl{\ref{table:trav.folds}, \ref{table:obst.folds}}). All of them are 
+	predicted as non-traversable, because of the large number of non-traversable 
+	training images. However, as we know, earth is traversable, sky is inconclusive (???) 
+	and only trees are non-traversable. 
+	\\
+	
+	Another way would be to concentrate on the part of the image that is more likely 
+	to be on the foreground. For example, see Figures~\bl{\ref{fig:trav:28_57:orig}, 
+	\ref{fig:obst:32-49:orig}}. Both of them contain the classes tree and sky. And in 
+	both cases these classes appear only on the background. We could calculate the area 
+	of the image accessible by the robot in its next move, according to its height and 
+	width. And then check whether this smaller area is traversable or not. A rough (proxeiro???) 
+	example of the minimized Figures~\bl{\ref{fig:trav:28_57:psp}, \ref{fig:obst:32-49:psp}} 
+	is in Figure~\bl{\ref{fig:mini}}. In other words, we propose a way to (exoume aisthisi tou vathous) 
+	without the use of geometric data.
+	\\
+	
+	\begin{figure}[h!]
+		\caption{A traversable and a non-traversable figure minimized so that the robotic 
+			platform just fits through their borders (sinora).}
+		\centering
+		\begin{subfigure}[b]{0.45\textwidth}
+			\begin{tikzpicture}
+			\node[anchor=south west,inner sep=0] at (0,0) 
+			{\includegraphics[width=\textwidth]{28_57_0000t_psp}};
+			\draw[red,thick] (5.0,1.5) rectangle (1.0,0.0) ;
+			\end{tikzpicture}
+			\caption{Minimized Figure~\bl{\ref{fig:trav:28_57:psp}}}
+		\end{subfigure}
+		\begin{subfigure}[b]{0.45\textwidth}
+			\begin{tikzpicture}
+			\node[anchor=south west,inner sep=0] at (0,0) 
+			{\includegraphics[width=\textwidth]{32-49_0000w_psp}};
+			\draw[red,thick] (5.0,1.5) rectangle (1.0,0.0) ;
+			\end{tikzpicture}
+			\caption{Minimized Figure~\bl{\ref{fig:obst:32-49:psp}}}
+		\end{subfigure}
+		\label{fig:mini}
+	\end{figure}
+	
+	
+	For future work, we could combine appearance with geometric data. We believe 
+	that with a combination like this, the results would be simantika improved. 
+	But this was beyond the limits of this thesis. 
+	\\
+	
+	However, we believe that our contribution was significant. It said before, it 
+	has become clear to researchers in robotics that current approaches are yielding 
+	systems with limited autonomy and capacity for self-improvement. We managed to 
+	create a system that not only autonomously learns the traversability of its 
+	environment, but also has the capacity for self-improvement. With only a few 
+	modifications it would be good to go and used on an actual robotic platform 
+	to explore its surroundings and improve its knowledge of traversability.
+	\\
+	
+	( It has become clear to researchers in robotics and adaptive behavior that
+	current approaches are yielding systems with limited autonomy and capacity
+	for self-improvement. To learn autonomously and in a cumulative fashion is
+	one of the hallmarks of intelligence. )
+	
 	
 	\appendix
 	\chapter{Prototype / Reference Implementations}
@@ -2251,7 +2354,7 @@
 	
 	Many writers published their code open-source so that other researchers may 
 	use their work. In Table~\bl{\ref{table:refs}} we give some \acronym{url}s and 
-	comments about the work mentioned above in Section~\ref{sec:bg:trav}, 
+	comments about the work mentioned above, in Section~\ref{sec:bg:trav}, 
 	Section~\ref{sec:bg:data} and Section~\ref{sec:fg:ef}. Some of them were 
 	actually used as our experimental basis.
 	\\
@@ -2263,8 +2366,32 @@
 		\input{urls}	
 	\end{table}
 	
+	The first three links are the available source code of some researchers dealing with 
+	traversability estimation. Their work is described in Chapter~\ref{sec:bg}.
+	\\
+	
+	The next seven give the source code of the most popular convolutional neural networks 
+	for object classification and object localization, participated in \acronym{ilsvrc}. 
+	They are described in Section~\ref{sec:bg:data:neural}.
+	\\
+	
+	The next five give the source code of other very popular convolutional neural networks 
+	trained for object detection and semantic segmentation. They are also described in 
+	Section~\ref{sec:bg:data:neural}.
+	\\
+	
+	The next two give the available code for semantic segmentation in street scenes. They 
+	are mentioned in Section~\ref{sec:fg:ef}.
+	\\
+	
+	The last four are pre-trained convolutional neural networks for semantic segmentation. 
+	They are also mentioned extensively in Section~\ref{sec:fg:ef}. The last one, from 
+	\citet{Zhao} was actually used for the purposes of this thesis (see Section~\ref{sec:fg:app}).
+	\\\\
+	
 	In Table~\bl{\ref{table:dataset}} one can find some of the available datasets 
-	used for neural network training and evaluation.
+	used for neural network training and evaluation. For our system we used \acronym{ade20k} 
+	dataset to perform total scene semantic segmentation (see Chapter~\ref{sec:fg}).
 	\\
 	
 	\begin{table}[h!]
