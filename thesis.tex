@@ -2261,12 +2261,12 @@
 	Chapter~\ref{sec:bg} we explored many ways for a robot to autonomously decide 
 	the traversability of the terrain in front of it. We also found ways for it to 
 	be able to learn from the past and improve its estimation. We investigated 
-	approaches to autonomously acquire labeled data and the sensors needed for it. 
+	approaches to autonomously acquire labeled data and the sensors needed to do so. 
 	Finally we discussed about the most common strategies for the robotic platform 
 	to decide where to go next.
 	\\
 	
-	In Chapter~\ref{sec:fg} we implemented a program that when given images predicts 
+	In Chapter~\ref{sec:fg} we implemented a program that when given images, predicts 
 	whether they are traversable or not. These images are extracted from a convolutional 
 	neural network for total scene semantic segmentation. We chose Pyramid Scene 
 	Parsing Network (\acronym{psp}) for this purpose, as it seemed to have the best 
@@ -2279,34 +2279,34 @@
 	the traversable images are more difficult to predict than the non-traversable. The 
 	main reason for this is that the data sample used for training, consists of many 
 	more non-traversable than traversable images. That is something we are not able 
-	to control because we want our system to be autonomous. So what can be done to 
-	improve the results?
+	to control because we want our system to be autonomous. So what can be done in the 
+	future to improve the results?
 	\\
 	
 	The program can be modified to ignore specific classes. Possibly the classes that 
 	appear in a large amount of both traversable and non-traversable training images. 
-	For example, class labels earth, sky, tree seem to appear in almost all of the 
+	For example, class labels earth, sky and tree seem to appear in almost all of the 
 	images used for training and validating the system (as can be seen in 
 	Tables~\bl{\ref{table:trav.folds}, \ref{table:obst.folds}}). All of them are 
 	predicted as non-traversable, because of the large number of non-traversable 
-	training images. However, as we know, earth is traversable, sky is inconclusive (???) 
-	and only trees are non-traversable. 
+	training images. However, as we know, earth is traversable, sky is neither of the 
+	two, and only trees are non-traversable. 
 	\\
 	
 	Another way would be to concentrate on the part of the image that is more likely 
 	to be on the foreground. For example, see Figures~\bl{\ref{fig:trav:28_57:orig}, 
 	\ref{fig:obst:32-49:orig}}. Both of them contain the classes tree and sky. And in 
-	both cases these classes appear only on the background. We could calculate the area 
-	of the image accessible by the robot in its next move, according to its height and 
-	width. And then check whether this smaller area is traversable or not. A rough (proxeiro???) 
-	example of the minimized Figures~\bl{\ref{fig:trav:28_57:psp}, \ref{fig:obst:32-49:psp}} 
-	is in Figure~\bl{\ref{fig:mini}}. In other words, we propose a way to (exoume aisthisi tou vathous) 
-	without the use of geometric data.
+	both cases these classes appear only on the background. An approach could be to 
+	calculate the image area that is accessible by the robot in its next move, according 
+	to its height and width. And then check whether this smaller area is traversable 
+	or not. A rough example of the minimized Figures~\bl{\ref{fig:trav:28_57:psp}, 
+	\ref{fig:obst:32-49:psp}} is shown in Figure~\bl{\ref{fig:mini}}. In other words, 
+	we suggest a way to perceive depth without the use of geometric data.
 	\\
 	
 	\begin{figure}[h!]
-		\caption{A traversable and a non-traversable figure minimized so that the robotic 
-			platform just fits through their borders (sinora).}
+		\caption{Two minimized images (one traversable and one not) so that the robotic 
+			platform fits marginally within their frame.}
 		\centering
 		\begin{subfigure}[b]{0.45\textwidth}
 			\begin{tikzpicture}
@@ -2328,24 +2328,21 @@
 	\end{figure}
 	
 	
-	For future work, we could combine appearance with geometric data. We believe 
-	that with a combination like this, the results would be simantika improved. 
-	But this was beyond the limits of this thesis. 
+	A further step, though, could be to actually combine appearance with geometric 
+	data. That way the robot would be able to visually recognize the environment 
+	around it, while at the same time gather geometric information, like height or 
+	depth about it. We believe that with a combination like this, the results would 
+	be significantly improved.
 	\\
 	
-	However, we believe that our contribution was significant. It said before, it 
+	However, we believe that our contribution has been noteworthy. As said before, it 
 	has become clear to researchers in robotics that current approaches are yielding 
-	systems with limited autonomy and capacity for self-improvement. We managed to 
+	systems with limited autonomy and ability for self-improvement. We managed to 
 	create a system that not only autonomously learns the traversability of its 
-	environment, but also has the capacity for self-improvement. With only a few 
-	modifications it would be good to go and used on an actual robotic platform 
-	to explore its surroundings and improve its knowledge of traversability.
-	\\
+	environment, but also has the capacity to self improve. With only a few modifications 
+	could be ready to be used on an actual robotic platform to explore its surroundings 
+	and improve its knowledge of traversability.
 	
-	( It has become clear to researchers in robotics and adaptive behavior that
-	current approaches are yielding systems with limited autonomy and capacity
-	for self-improvement. To learn autonomously and in a cumulative fashion is
-	one of the hallmarks of intelligence. )
 	
 	
 	\appendix
@@ -2359,34 +2356,33 @@
 	actually used as our experimental basis.
 	\\
 	
-	\todo[size={{\scriptsize}}]{A few words about the links mentioned below}
-	
 	\begin{table}[h]
 		\centering	
 		\input{urls}	
 	\end{table}
 	
-	The first three links are the available source code of some researchers dealing with 
-	traversability estimation. Their work is described in Chapter~\ref{sec:bg}.
+	In the first three links appear the available source code of some researchers dealing 
+	with traversability estimation methods. Their work is described in Chapter~\ref{sec:bg}.
 	\\
 	
-	The next seven give the source code of the most popular convolutional neural networks 
-	for object classification and object localization, participated in \acronym{ilsvrc}. 
-	They are described in Section~\ref{sec:bg:data:neural}.
+	The next seven \acronym{url}s give the source code of the most popular convolutional 
+	neural networks for object classification and object localization, participated in 
+	\acronym{ilsvrc}. They are described in Section~\ref{sec:bg:data:neural}.
 	\\
 	
-	The next five give the source code of other very popular convolutional neural networks 
-	trained for object detection and semantic segmentation. They are also described in 
+	The next five link to the available code of other very popular convolutional neural 
+	networks for object detection and semantic segmentation. They are also described in 
 	Section~\ref{sec:bg:data:neural}.
 	\\
 	
-	The next two give the available code for semantic segmentation in street scenes. They 
-	are mentioned in Section~\ref{sec:fg:ef}.
+	The next two are used for semantic segmentation in street scenes. They are mentioned 
+	in Section~\ref{sec:fg:ef}.
 	\\
 	
-	The last four are pre-trained convolutional neural networks for semantic segmentation. 
-	They are also mentioned extensively in Section~\ref{sec:fg:ef}. The last one, from 
-	\citet{Zhao} was actually used for the purposes of this thesis (see Section~\ref{sec:fg:app}).
+	The last four \acronym{url}s are pre-trained convolutional neural networks for semantic 
+	segmentation. They are described in Section~\ref{sec:fg:ef} and used in this work for 
+	experimentation. The last one, from \citet{Zhao} was actually used for the purposes of 
+	this thesis (see Section~\ref{sec:fg:app}).
 	\\\\
 	
 	In Table~\bl{\ref{table:dataset}} one can find some of the available datasets 
