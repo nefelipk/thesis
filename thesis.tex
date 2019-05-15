@@ -1,6 +1,7 @@
 \documentclass[12pt,a4paper,table,dvipsnames,tikz]{report}
-\usepackage[english]{babel}
 \usepackage[utf8]{inputenc}
+\usepackage[english, greek]{babel}
+\usepackage[T1, LGR]{fontenc}
 
 \usepackage[colorlinks]{hyperref}
 \hypersetup{
@@ -54,12 +55,42 @@
 \newcommand{\white}[1]{\textbf{\textcolor{white}{#1}}} % or \colorbox
 
 \begin{document}
+	\input{title}
+	
+	\selectlanguage{english}
+	\chapter*{Abstract}
+	Obstacle avoidance ensures the integrity of both the robotic platform and the 
+	people and objects present in the same space. The goal of this thesis is to 
+	develop a method for a robotic outdoor platform to discover by itself, based 
+	on its sensors, how to approach the obstacle in front of it, whether is capable 
+	of driving over it or should avoid it.
+	
+	\selectlanguage{greek}
+	\chapter*{Περίληψη}
+	Η αποφυγή εμποδίων εξασφαλίζει την ακεραιότητα τόσο της ρομποτικής πλατφόρμας 
+	όσο και των ανθρώπων και υλικού που δρουν στον ίδιο χώρο. Σκοπός της διπλωματικής 
+	είναι η ανάπτυξη μεθόδου ώστε μια ρομποτική πλατφόρμα εξωτερικού χώρου να 
+	ανακαλύπτει μόνη της, με βάση τους αισθητήρες της, πώς πρέπει να προσεγγίζει 
+	το εκάστοτε εμπόδιο που βρίσκεται μπροστά της, αν μπορεί να το υπερπηδήσει ή 
+	χρειάζεται να το παρακάμψει.
+	
+	\selectlanguage{english}
 	{
 		\hypersetup{linkcolor=black}
 		\tableofcontents
 		\listoftables
 		\listoffigures
 	}
+	
+	\chapter*{Preface}
+	This project has been developed since October 2018 in the University of Athens at 
+	the department of Informatics and Telecommunications as my postgraduate thesis. It 
+	has been implemented in cooperation with the National Centre for Scientific Research 
+	\enquote{Demokritos} at the Institute of Informatics and Telecommunications.\\
+	\begin{flushright}
+		Athens, May 2019
+	\end{flushright}
+	
 	
 	\chapter{Introduction}
 	\label{sec:intro}
