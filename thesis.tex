@@ -32,6 +32,9 @@
 \usepackage{multirow}
 \graphicspath{ {./images/} }
 
+\setcounter{tocdepth}{3}
+\setcounter{secnumdepth}{3}
+
 \definecolor{earth}{HTML}{787846}
 \definecolor{sky}{HTML}{06E6E6}
 \definecolor{tree}{HTML}{04C803}
@@ -273,15 +276,14 @@
 	known as a \term{2\(\itfrac{1}{2}\)-dimensional representation} of the environment 
 	\citep{Pfaff}. It is a two-dimensional (\acronym{2d}) array of terrain elevation 
 	measurements. More concrete, it is a grid that stores in each cell the vertical 
-	distance above or below the corresponding surface, the height of the territory. 
+	distance above or below the surface, the height of the territory. 
 	\par 
 	The representation of the environment with elevation maps, however, can 
 	be problematic when a robot has to utilize these maps for navigation. For 
 	example, when a mobile robot is located in front of a bridge, the underpass will 
-	completely disappeared and the elevation map will show a non-traversable 
+	completely disappear and the elevation map will show a non-traversable 
 	object.
 	\par
-	\todo[size={{\scriptsize}}]{Explanation of representation and traversability of the area under the bridge}
 	\citet{Pfaff} classify the cells of elevation maps into four classes: 
 	parts of terrain seen from above, vertical structures, vertical gaps and 
 	traversable areas. They also maintain a set of intervals per grid cell, which 
@@ -323,10 +325,10 @@
 	terrain in order for the robot to learn from its own experience.
 	\\
 	
-	Another hybrid approach is this of \citet{Kim}. They 
-	developed a method that is based on autonomous training data collection which 
+	\citet{Kim} developed a hybrid method that is based on autonomous training data 
+	collection. Their method
 	exploits the robot’s experience in navigating its environment to train 
-	classifiers without human intervention. The main idea is that image-
+	classifiers without human intervention. The main idea is that image 
 	data obtained in the past is associated with traversability labels 
 	obtained in the present, the so called \term{on-line machine learning}. The 
 	learning process produces a classifier which makes traversability 
@@ -358,7 +360,7 @@
 	\end{enumerate}
 	help to distinguish concrete and vegetation types.
 	\par
-	In contrast with \citet{Kim}, they collect partially and only positive labeled 
+	In contrast with \citet{Kim}, \citet{Suger} collect partially and only positive labeled 
 	training data. And then they use existing strategies \citep{Denis, Elkan} to 
 	learn a classifier from this kind of training data.
 	\\
@@ -377,7 +379,6 @@
 	Bayesian classification to label the incoming data.
 	\\
 	
-	\todo[size={{\scriptsize}}]{MLS maps and Droeschel et al.}
 	Several authors have considered the problem of \term{simultaneous localization 
 	and mapping (\acronym{slam})} in an outdoor environment. Some tried to solve it 
 	with elevation maps generated from \acronym{3d} range data acquired with a mobile 
@@ -439,7 +440,6 @@
 	that dynamic objects are detected and removed in advance.
 	\\
 	
-	\todo[size={{\scriptsize}}]{Hirose et al. presenting  (we have the code for this)}
 	\citet{HiroseGonet} introduced a semi-supervised approach for traversability 
 	estimation, called GONet. The core of the proposed approach are \term{Generative 
 	Adversarial Networks (\acronym{gan}s)} \citep{Goodfellow}. \acronym{gan}s are a 
@@ -473,16 +473,13 @@
 	examples. The GONet compares the input with the generated image to decide whether 
 	the area seen through the input image is traversable. The main assumption of 
 	the approach is that when the input indeed shows a traversable area, the 
-	generated image would look very similar to it. But when the input depicts a non-
-	traversable scenario, then the generated image would look different.
-	\par
+	generated image would look very similar to it. But when the input depicts a 
+	non-traversable scenario, then the generated image would look different.
 	The generated images not only look like	traversable areas, but also resemble the 
-	input query. To the best of the authors knowledge, they were the first that used 
-	this image manipulation technique for traversability estimation.
+	input query.
 	\\\\
 	
 	
-	\todo[size={{\scriptsize}}]{Corrected from notes}
 	We have presented recent methods on how to conduct traversability estimation 
 	models from data; noting that data needs to be labeled. We will now proceed to 
 	present how this labeled data can be autonomously acquired and which sensors are 
@@ -544,13 +541,11 @@
 	ambiguous and therefore introduce uncertainty and avail information that is 
 	redundant.
 	\par
-	\todo[size={{\scriptsize}}]{Comparison of LIDAR and stereo camera sensory input}
 	In environments where the ground is not flat or contains obstacles that are 
 	not purely vertical, the basic approach of classifying based on the observed 
 	obstacles from \acronym{2d} laser scanners can not be safely used anymore. 
 	In these cases, \acronym{3d} range data, by i.e. stereo-cameras, radar or 
 	\acronym{3d}-laser scanners, is necessary. A popular approach to collect data, 
-	\todo[size={{\scriptsize}}]{All sensors are used to collect data. So how come LIDAR and stereo camera are more "estimation" than "data collection"?}
 	either for the initial training or to use them for traversability estimation, is to use 
 	\term{light detection and ranging (\acronym{lidar})} \citep{Suger, Lalonde} (also 
 	called \term{ladar} \citep{Lalonde, Shneier}). \acronym{lidar} is a surveying 
@@ -599,7 +594,6 @@
 	as \term{inertial measurement unit (\acronym{imu})}, motor current, and bumper 
 	switch \citep{Kim} or even wheel encoder data \citep{Lee} (like wheel odometry 
 	measurements \citep{Droeschel}). \acronym{imu} is an electronic device using 
-	\todo[size={{\scriptsize}}]{Fixed IMU definition}
 	a combination of accelerometers and gyroscopes, sometimes also magnetometers. 
 	It measures and reports a robot's specific force, angular rate, and the 
 	\acronym{6d} robot pose (i.e. \acronym{3d} location and orientation).
@@ -626,7 +620,6 @@
 	stereo vision cameras which collect visual and geometric data from the 
 	environment, but also with a bumper switch at the front of the vehicle that can 
 	be used along with motor current sensors to recognize situations like getting 
-	\todo[size={{\scriptsize}}]{a bumper switch can recognize an obstacle}
 	stuck because of an obstacle or slipping, respectively \citep{Kim}.
 	\par
 	The reason why proprioceptive sensory may not be sufficient on their own is that 
@@ -673,7 +666,8 @@
 	perform different kinds of transformations on their inputs. The neurons work 
 	entwine in a distributed fashion to collectively learn from the input in order 
 	to optimize the final output.
-	\par
+	\\
+	
 	\term{Deep learning} is commonly introduced as a means of making sense of data 
 	with the use of multiple abstraction layers \citep{Shabbir}. The difference 
 	between deep learning and machine learning is that the former place emphasis on 
@@ -702,6 +696,7 @@
 	computer vision (i.e. robot navigation), so below we are going to concentrate 
 	mainly on them. For more basic information on how convolutional neural networks work, 
 	see Appendix~\ref{app:conv}.
+	\label{eg:cat_dog}
 	\par
 	But when we come to adversarial examples, these are basically the images that fool 
 	convolutional networks \citep{Deshpande}. Let’s take an example image and apply 
@@ -730,7 +725,127 @@
 	to the solution, carrying the older input over and serving it freshly to a later 
 	layer. This essentially drives the new layer to learn something different from what 
 	the input has already encoded. 
+	\\\\
+	
+	The section below provides a brief outline on how convolutional neural networks 
+	work. If you are already familiar with basic information about convolutional neural 
+	networks, proceed to Section~\ref{sec:bg:data:neural:models} where some of the 
+	most popular convolutional neural networks are described.
 	\\
+	
+	\subsubsection{Outline on Convolutional Neural Networks}
+	\label{sec:bg:data:neural:conv}
+	
+	Based mainly on \citet{Deshpande_guide} beginner's guide, we give a brief 
+	description on convolutional neural networks.
+	\\
+	
+	When a computer takes an image as input, it sees an array of pixel values. This 
+	array is sized depending on the resolution and size of the image. Let's say we 
+	have a color image in \acronym{jpg} form and its size is 32 $\times$ 32. The 
+	representative array will be 32 $\times$ 32 $\times$ 3 (the 3 refers to \acronym{rgb} 
+	values). Each of these numbers is given a value from 0 to 255 which describes the 
+	pixel intensity at that point. These numbers, while meaningless to us when we 
+	perform image classification, are the only inputs available to the computer. The 
+	idea of neural networks is that we give the computer this array of numbers and 
+	it outputs numbers that describe the probability of the image being a certain 
+	class (e.g. 80\% for cat, 15\% for dog, 5\% for bird etc).
+	\\
+	
+	So what we want the computer to do is to be able to differentiate between the 
+	images it is given and figure out the unique features that make a dog a dog or 
+	that make a cat a cat. This is what human minds do subconsciously as well. Roughly,
+	we can classify a dog in a picture if it has identifiable features such as paws or 
+	snout or four legs. In a similar way, the computer is able perform image 
+	classification by looking for low level features such as edges and curves, and 
+	then building up to more abstract concepts like paws and beaks, through a series 
+	of convolutional layers. This is a general overview of what a convolutional neural 
+	network does.
+	\\
+	
+	The first layer in a convolutional neural network is always a \term{convolutional layer}. 
+	The best way to explain a convolutional layer is to imagine a flashlight 
+	that is shining over the top left of the image. Let’s say that the light this 
+	flashlight shines covers a 5 $\times$ 5 area. And now, let’s imagine this flashlight 
+	sliding across all the areas of the input image. In machine learning terms, this 
+	flashlight is called a \term{filter} (also referred to as a \term{neuron} or a 
+	\term{kernel}) and the region that it is shining over is called \term{receptive field}. 
+	This filter is also an array of numbers called \term{weights} or 
+	\term{parameters}. A very important note is that the depth of this filter has to 
+	be the same as the depth of the input (in order for the math to work out), so the 
+	dimensions of this filter is 5 $\times$ 5 $\times$ 3. 
+	\par
+	As the filter is sliding, or \term{convolving}, around the input image, it is 
+	multiplying the values in the filter with the original pixel values of the image 
+	(aka computing \term{element wise multiplications}). Mathematically speaking, this 
+	would be 75 multiplications in total for the first position the filter is in. Then 
+	these multiplications are all summed up to a single number. The next step is to 
+	move the filter to the right by one unit and repeat. This process is repeated for 
+	every location on the input volume and produce a number.
+	\par
+	There are 784 different locations that a 5 $\times$ 5 filter can fit on a 
+	32 $\times$ 32 input image. So after sliding the filter over all the locations, 
+	the result is an 28 $\times$ 28 $\times$ 1 array of numbers, called an \term{activation map} 
+	or \term{feature map}. Using more filters makes possible to preserve the spatial 
+	dimensions. If there are two 5 $\times$ 5 $\times$ 3 filters used instead of one, 
+	the output volume would be 28 $\times$ 28 $\times$ 2. The more filters, the greater 
+	the depth of the activation map, and the more the information about the input image.
+	\par
+	Each of these filters can be thought of as \term{feature identifiers}, for features 
+	like straight edges, curves, simple colors. For example, let's assume one filter 
+	is a curve detector. If there is a shape in the input image that generally resembles 
+	the curve that this filter is representing, then all of the multiplications summed 
+	together will result in a large value. And if not, the value will be much lower. 
+	This will happen if there is nothing in the image section that responds to the 
+	curve detector filter. So the activation map will have large values in the areas 
+	where is most likely to have curves, and low values on the least likely.
+	\\
+	
+	Moving to the next layer, its input would be the output of the previous layer. 
+	In this case the input of the second layer will be the activation maps that result 
+	from the first layer. So the input is basically describing the locations in the 
+	original image where certain low level features appear. Applying a set of filters 
+	on top of that, as it passes through the second convolutional layer, the output 
+	will be activations that represent higher level features. Types of these features 
+	could be semicircles (i.e. combination of a curve and straight edge) or squares 
+	(i.e. combination of several straight edges).
+	\par
+	As going through the network and through more convolutional layers, the activation 
+	maps represent more and more complex features. By the end of the network, there 
+	might be some filters that activate when there is handwriting in the image, when 
+	they recognize green objects, etc. An interesting thing to note is that going deeper 
+	into the network, the filters begin to have a larger receptive field. That means 
+	they are able to consider information from a bigger region of the original input 
+	volume.
+	\\
+	
+	Finally, at the end of the network there is a \term{fully connected layer}. This 
+	layer takes as input the output from the layer preceding it, and outputs a vector 
+	with dimensions the number of classes that the program has to choose from. Each 
+	value of the vector represents the probability of a certain class.	For example, 
+	let's take a digit classification program. The output the a dimensional vector 
+	such as [0 0.1 0.1 0.75 0 0 0 0 0 0.05], since there are ten digits. This represents 
+	a 10\% probability that the original image is a 1, a 10\% that it is a 2, a 75\% 
+	that it is a 3, and a 5\% that it is a 9. Basically, a fully connected layer take 
+	the activation maps of the previous layer and determines which features most 
+	correlate to a particular class.
+	\\\\
+	
+	Now that we have seen how these things work roughly, let's come across some of 
+	the most well known and frequently used convolutional neural networks. In the 
+	next section many types of neural network models will be discussed. Models that 
+	recognize scenes or objects present in the input image, models that detect the 
+	location of different objects, even models that thy to understand and describe 
+	the whole scene within an image. Each type was thoroughly examined to find out 
+	which one is the most compatible with the purpose of this thesis. For those 
+	not already familiar with common models for object classification, localization 
+	and detection, as well as scene understanding and segmenting, the next chapter 
+	will introduce these concepts.
+	\\
+	
+	
+	\subsubsection{Convolutional Neural Network models}
+	\label{sec:bg:data:neural:models}
 	
 	One of the most remarkable feats of the human visual system is how rapidly, 
 	accurately and comprehensively it can recognize and understand the complex visual 
@@ -738,7 +853,8 @@
 	we see in a visual scene is called \term{visual recognition}. In computer vision, 
 	visual recognition has enjoyed some great success in recent years. Particularly 
 	in single object categorization (i.e., object classification, object localization) 
-	like in the example with the cat and the dog mentioned above. 
+	like in the example with the classification of the cat and the dog mentioned above, 
+	in page~\pageref{eg:cat_dog}. 
 	While recognizing isolated objects is a critical component of visual recognition, 
 	a lot more is needed to be done in order to recognize multiple objects (i.e., 
 	object detection, object segmentation), let alone reach a complete understanding 
@@ -834,7 +950,7 @@
 	spatial locations and aspect ratios. Hence, the number of regions would be huge leading 
 	to computationally blow up. Therefore, algorithms like \acronym{ssd}, \acronym{yolo} 
 	and \acronym{r-cnn} \citep{Girshick, Redmon, Liu} have been developed to find these 
-	occurrences in the fastest way possible. The aforementioned models are also released 
+	occurrences in the fastest way possible. The models mentioned above are also released 
 	to the open-source community.
 	\par
 	To bypass the problem of selecting a huge number of regions, \citet{Girshick} proposed 
@@ -976,7 +1092,6 @@
 	the environment with action.
 	\\
 	
-	\todo[size={{\scriptsize}}]{Something that is missing from the strategies deciding where to go next}
 	In our knowledge, most approaches concentrate on robot navigation in order to 
 	make sure they do not collide with other objects and they follow a route to 
 	reach a specific goal. There is not much work done on curiosity-driven 
@@ -1023,7 +1138,7 @@
 	\\
 	
 	
-	\chapter{Core Foreground}
+	\chapter{Autonomous Navigation}
 	\label{sec:fg}
 	
 	Our goal is for the robot to be able to autonomously navigate in natural environments. 
@@ -1043,12 +1158,23 @@
 	these skills from scratch, something that will cost him much more energy and time.
 	\\
 	
-	In this chapter we describe our primary thoughts and our actual strategy on how to 
-	reach the aforementioned goal.
+	In this chapter we describe the primary thoughts and the actual strategy on how to 
+	reach the goal mentioned above.
 	\\
 	
-	\section{Initial efforts}
-	\label{sec:fg:ef}
+	\section{Selecting a convolutional neural network}
+	\label{sec:fg:nn}
+	
+	Primarily, a neural network is needed in order to convert images that depict the 
+	environment seen by the robot to a form more recognizable by it. Ideally, after 
+	the conversion, all objects would be distinguished from all traversable areas. But 
+	the idea of finding such a neural network is probably not realistic. Thus, the goal 
+	for this section is to find a neural network that distinguishes all objects from 
+	one another.
+	\\
+	
+	\subsection{Object classification, localization, detection}
+	\label{sec:fg:nn:obj}
 	
 	The first attempt was to use one of the most-well known models from \acronym{ilsvrc}. 
 	With a little help from the code of \citet{Rosebrocke} we experimented on 
@@ -1056,29 +1182,37 @@
 	as expected, they returned classification predictions about them. With the 
 	contribution of ImageNet a list of human-readable labels and the probability 
 	associated with them was printed.
-	\par
+	\\
+	
 	Images containing just one object (e.g. soccer ball, couch) led to predictions 
 	that were satisfactory in their entirety. But being fed with images containing 
 	multiple objects (e.g. book and glasses) the networks got confused. They gave 
 	some decent predictions (like envelope or book jacket, in the previous example) 
 	but also some that were a little bit off (like lighter or birdhouse), within 
 	their top-5 list.
-	\par
+	\\
+	
 	Images that contain vegetation, which are of particular interest to us in this work, 
 	were the worst case scenario. For example, the networks above, after being fed with 
 	an image of a tree, gave as most likely predictions kinds of seeds like lemons. This 
 	probably happened because the networks concentrated on the one part of the whole image 
 	that was most recognizable by them. Finding out what the predictions with smaller 
 	probabilities were, did not help. As the networks kept predicting, they got desperate 
-	and started giving all sorts of provisions. 
-	\par
+	and started giving all sorts of predictions. 
+	\\
+	
 	Even though these networks are proven to be great on object classification, when 
 	it comes to scene recognition there is no trivial way to make them work correctly.
-	\par
+	\\
+	
 	Similarly, models specialized in object detection like \acronym{ssd} or \acronym{yolo}, 
 	do not seem to be able to generalize on scene segmentation issues. As dictated by their 
 	name, they detect all objects within an image, but ignore the rest of the scene.
 	\\
+	
+	
+	\subsection{Related work}
+	\label{sec:fg:nn:rel}
 	
 	Many papers have been published regarding robot navigation approaches that use 
 	already existing deep neural networks, or modify them in order to meet their needs.
@@ -1086,29 +1220,33 @@
 	in order for us to rely on part of their work and extend it with our own ideas. And 
 	while others kindly released their code online, their networks were not trained 
 	compatible to the needs of this thesis.
-	\par
+	\\
+	
 	Some papers considering traversability estimation concentrate on go or no-go situations, 
 	\citep{HiroseGonet, HiroseVunet}. They use generative adversarial networks and train 
 	them to estimate whether the space seen through the given image is traversable or not. 
 	They are trained in indoor environments, which means that we would have to train them 
 	from scratch to work in natural outdoor environments.
-	\par
+	\\
+	
 	Likewise, \citet{Tai} further extended the concept of deep neural networks to not only 
 	perception but also decision-making. Basically, they used a structure that fuses several 
 	convolutional neural network layers with decision-making process, in order to explore 
-	an unknown environment. According to the writers, in traditional computer vision 
+	an unknown environment. According to the authors, in traditional computer vision 
 	applications each label of the output represents either an object or scene categories. 
 	The outputs of their model are control commands that show the platform which route to 
 	follow.
-	\par
+	\\
+	
 	Other researchers use neural networks to classify the area in front of the robot 
 	according to traversability and level of confidence \citep{Sermanet, Hadsell}. These 
 	neural networks assign class labels to parts of the input image. Classes which show 
-	that \defn{only ground or only obstacle is seen in window}, are of high confidence. 
+	that \defn{only ground or only obstacle is seen in the area}, are of high confidence. 
 	While the rest inspire lower confidence. These classes are separated to 
-	\defn{ground and obstacle may be seen}, \defn{obstacle is seen but does not fill window}, 
+	\defn{ground and obstacle may be seen}, \defn{obstacle is seen but does not fill the area}, 
 	\defn{location where an obstacle meets the ground}.
-	\par
+	\\
+	
 	Some approaches identify only a few class labels to classify the whole image 
 	\citep{Holder, Bosch, Farabet}. While others have as their main goal to find and follow 
 	a path \citep{Yang, Orsic}. The first category usually includes scene labels that can 
@@ -1116,6 +1254,10 @@
 	title declares. The second one, while also being able to recognize such class labels, 
 	identifies them as obstacles.
 	\\
+	
+	
+	\subsection{Scene segmentation}
+	\label{sec:fg:nn:segm}
 	
 	So, the aim is on total scene segmentation rather than single or even multiple object 
 	categorization. Semantically meaningful image understanding is a relatively recent topic 
@@ -1126,30 +1268,39 @@
 	network like VGGNet or ResNet that outputs a feature map. The task of the decoder is 
 	to semantically project the lower resolution features learned by the encoder, onto the 
 	higher resolution (pixel space) to get the best closest match to the original input.
-	\par
-	In our time, given a visual scene of, let us say, a living room, a robot equipped with 
+	\\
+	
+	Given a visual scene of, let us say, a living room, a robot equipped with 
 	a trained convolutional network can accurately predict the scene category. However, to 
 	freely navigate in the scene and manipulate the objects inside, the robot has far more 
 	information to digest \citep{Zhou_sem}. It needs to recognize and localize not only the 
-	objects like sofa, table, and television but as well to segment the stuff like floor, 
+	objects like sofa, table, and television but also to segment the stuff like floor, 
 	wall and ceiling for spatial navigation. It probably needs to recognize also object parts, 
 	e.g. a seat of a chair or a handle of a cup, to allow proper interaction.
-	\par
-	Following the instructions of \citet{Le} we attempted to implement the most popular 
+	\\
+	
+	Following the instructions of \citet{Le}, on his guide on how to do semantic segmentation 
+	using deep learning, we attempted to implement the most popular 
 	architecture for semantic segmentation, fully convolutional networks. We had in mind 
 	that the encoder, VGGNet in this case, would be pre-trained, but we would have to 
 	train the decoder from the beginning on \acronym{kitti} \citep{kitti}. But fully 
 	convolutional networks, at least those trained on \acronym{kitti} dataset, do semantic 
-	segmentation only on foreground and ignore the background (Figure~\bl{\ref{fig:fcn}}). In 
+	segmentation only on foreground and ignore the background (Figure~\bl{\ref{fig:fcn}}), 
+	in page~\bl{\pageref{fig:fcn}}. In 
 	order for us to be able to decide terrain traversability, whole scene segmentation is 
 	necessary.
 	\\
 	
-	Scene parsing, or recognizing and segmenting objects and stuff in an image, remains one 
+	
+	\subsection{Datasets}
+	\label{sec:fg:nn:sets}
+	
+	Scene parsing, or recognizing and segmenting objects in an image, remains one 
 	of the key problems in scene understanding \citep{Zhou_sem}. Going beyond the image-level 
 	recognition, scene parsing requires a much denser annotation of scenes with a large set 
 	of objects. 
-	\par
+	\\
+	
 	However, the current datasets have limited number of objects, e.g. \acronym{coco} 
 	\citep{coco}, \acronym{pascal voc} \citep{pascal}. In many cases those objects are not 
 	the most common objects one encounters in the world like frisbees or baseball bats. 
@@ -1160,30 +1311,37 @@
 	classes, but contains relatively simple scenes. Compared to the largest annotated datasets 
 	\acronym{coco} and ImageNet, \acronym{ade20k} \citep{Zhou_pars} comprises of much more 
 	diverse scenes. 
-	\par
+	\\
+	
 	Finally, existing datasets with pixel-level labels typically provide annotations only 
 	for a subset of foreground objects, and no background, e.g. \acronym{pascal voc} and 
 	\acronym{coco}. That is probably why fully convolutional networks trained on \acronym{kitti}, 
 	as mentioned before, do not give class labels to the background pixels. But, generally, 
 	pixel appearance features allow to perform well on classifying (amorphous) background 
-	classes. \acronym{ade20k} categorizes semantic classes of the scenes into stuff (sky, 
+	classes. \acronym{ade20k} categorizes semantic classes of present in the scene into three 
+	super classes: stuff (sky, 
 	road, building, etc), foreground objects (car, tree, sofa, etc), and object parts (car 
 	wheels and door, people head and torso, etc).
 	\\
 	
-	After finding some pre-trained models (\url{https://gluon-cv.mxnet.io/model_zoo/segmentation.html}) 
+	
+	\subsection{Pre-trained models on scene segmentation}
+	\label{sec:fg:nn:pre}
+	
+	After finding some pre-trained models \footnote{ \url{https://gluon-cv.mxnet.io/model_zoo/segmentation.html}}
 	we experimented on different algorithms and training datasets. The backbone network in 
-	all those cases was ResNet. Let us remind that successful deep neural network architectures 
+	all those cases was ResNet. Be reminded that successful deep neural network architectures 
 	for image level classification like AlexNet, VGGNet and ResNet are a natural precursor 
-	to, and often a direct part of semantic segmentation architectures. 
-	\par
-	The aforementioned algorithms are the fully convolutional network \citep{Long}, 
+	to, and often a direct part, of semantic segmentation architectures. 
+	\\
+	
+	The algorithms mentioned previously are the fully convolutional network \citep{Long}, 
 	\term{Pyramid Scene Parsing Network (\acronym{psp})} \citep{Zhao} and DeepLab \citep{Chen}. 
 	All three of them when trained on \acronym{coco} or \acronym{pascal voc} do not perform 
 	complete scene semantic segmentation. When they are fed with indoor images they recognize 
 	only foreground objects. No class labels are given to the background pixels. Our 
-	hypothesis that the part of the image they ignore is the background is even more 
-	verified by the way they deal with outdoor images. Their result on outdoor input is 
+	hypothesis that the part of the image they ignore is the background is further
+	intensified by the way outdoor images are handled. Their result on outdoor input is 
 	a black image. On the contrary, when trained on \acronym{ade20k} all tree networks 
 	transact semantic segmentation on the whole scene. The outputs from all tree algorithms 
 	trained on each of the three datasets are depicted in Figure~\bl{\ref{fig:in}} for indoor 
@@ -1257,13 +1415,14 @@
 	from non-traversable terrain?
 	\\
 		
-	\section{Our approach}
-	\label{sec:fg:app}
+	\section{Estimating traversability}
+	\label{sec:fg:impl}
 	
 	We implemented a program that when given an image predicts whether the illustrated 
 	scene is traversable or not. The program trains itself and then evaluates its 
 	effectiveness. All the input values are images extracted from a neural network for whole 
-	image semantic segmentation. These images, as shown in Figure~\bl{\ref{fig:segm}}, consist 
+	image semantic segmentation. These images, as shown in Figure~\bl{\ref{fig:segm}}, 
+	in page~\bl{\pageref{fig:segm}}, consist 
 	of colors depicting objects and parts of the scene. Each color is recognized by the 
 	computer as a triad of numbers representing the amount of red, green and blue present 
 	to produce the original color. 
@@ -1275,14 +1434,15 @@
 	\\
 	
 	During the program training period, it reads previously annotated images. These 
-	annotations are penetrable region or obstacle. The program keeps track of how many times 
+	annotations are penetrable region or obstacle. In this thesis, the term \term{penetrable} 
+	will be used interchangeably with the term traversable. The program keeps track of how many times 
 	each color is found in traversable and how many in non-traversable images. So, it can 
 	compute the traversability percentage of each color. For example, let's suppose that 
-	red corresponds to \alleg{sidewalk} in Figure~\bl{\ref{fig:meth}}. Red color 
+	brown corresponds to \alleg{earth} in Figure~\bl{\ref{fig:meth}}. Brown color 
 	exists in 70 images from which 56 are traversable and the other 14 non-traversable. 
-	So the traversability percentage of the sidewalk is 
+	So the traversability percentage of the earth is 
 	\[ 56 \times 100 \div 70 = 80 \]
-	Therefore, the sidewalk (and, consequently, the color red) has 80\% chance of 
+	Therefore, the earth (and, consequently, the color brown) has 80\% chance of 
 	being traversable.
 	\\
 	
@@ -1290,18 +1450,43 @@
 	responsible for deciding whether the given images are traversable or not. Every image 
 	with chance of being traversable greater or equal to 50\% is considered to be traversable. 
 	Let's take Figure~\bl{\ref{fig:meth}} and try to explain the two methods. For the purpose
-	of this example, we suppose that red has 80\% chance of being traversable, as is found to be 
-	penetrable 8 times out of the total of 10. Purple 9 out of 30 (30\%) and green 9 out 
-	of 20 (45\%). To ease our understanding let's say that red corresponds to \alleg{sidewalk}, 
-	purple to \alleg{building} and green to \alleg{tree}.
+	of this example, we suppose that brown has 80\% chance of being traversable, as is found to be 
+	penetrable 8 times out of the total of 10. Green 9 out of 30 (30\%) and blue 9 out 
+	of 20 (45\%). To ease our understanding let's say that brown corresponds to \alleg{earth}, 
+	green to \alleg{tree} and blue to \alleg{sky}. 
+	\\
+	
+	\begin{figure}[h!]
+		\caption{Example for explaining the differences between the two calculating methods - 
+			\class{earth} (80\% chance of being traversable, found to be 
+			penetrable 8 times out of the total of 10), \class{tree} (30\%, 9 out of 30), 
+			\class{sky} (45\%, 9 out of 20)}
+		\centering
+		\begin{subfigure}[b]{0.45\textwidth}
+			\includegraphics[width=\textwidth]{44_40_0050or}
+			\caption{Original image}
+			\label{fig:meth:or}
+		\end{subfigure}
+		\begin{subfigure}[b]{0.45\textwidth}
+			\includegraphics[width=\textwidth]{44_40_0050nn}
+			\caption{Image resulting from \acronym{psp}}
+			\label{fig:meth:nn}
+		\end{subfigure}
+		\label{fig:meth}
+	\end{figure}
+	
+	
+	Intuitively, the difference between the two methods is that the former considers all 
+	classes as equal, while the latter pays attention to how often a class has been seen. 
+	More technically: 
 	
 	\begin{enumerate}
-		\item The first method determines the probability of an image to be penetrable, 
+		\item the first method determines the probability of an image to be penetrable, 
 		as the average of the traversability percentages for each color contained within.
-		Figure~\bl{\ref{fig:meth}}, which contains red, purple and yellow, has a probability 
+		Figure~\bl{\ref{fig:meth}}, which contains brown, green and blue, has a probability 
 		of 51.67\% being traversable.
 		\[ (80\% + 30\% + 45\%) \div 3 = 51.67\% \]
-		\item The second method uses the number of times each color was found in traversable 
+		\item the second method uses the number of times each color was found in traversable 
 		and in non-traversable images. It assumes that the likelihood of an image being 
 		traversable is in direct dependence of the number of times each color found within, 
 		is penetrable. In other words, it specifies that the traversability percentage of 
@@ -1311,16 +1496,15 @@
 		\[ (8 + 9 + 9) \times 100\% \div (10 + 30 + 20) = 43.33\% \]
 	\end{enumerate}
 	
-	\begin{figure}[h!]
-		\caption{Example for explaining the differences between the two calculating methods - 
-			\boldcolor{red}{sidewalk} (80\% chance of being traversable, found to be 
-			penetrable 8 times out of the total of 10), \class{building} (30\%, 9 out of 30), 
-			\class{tree} (45\%, 9 out of 20)}
-		\centering
-		\includegraphics[width=0.4\textwidth]{47-05_0065}
-		\label{fig:meth}
-	\end{figure}
-	
+	The first method is an obvious way to find the probability of an image being penetrable. 
+	The second one, however, emphasizes on statistics, in the sense that a one-time event  
+	may be a coincidence, but the more often it happens the more secure it is to consider it 
+	a rule / to conclude to a rule. In the previous example class earth was found to be 
+	traversable 8 times out of the total of 10. This means that 2 out of 10 times, it was 
+	found to be non-traversable. Let's suppose the first given image containing earth was 
+	non-traversable. Given this data sample, the traversability percentage of earth would 
+	be 0\%. The second one would use this fact with a low confidence index.
+	\\
 	
 	It is known in advance whether the testing images are penetrable. So after their 
 	evaluation by the previously described methods it is trivial to discover whether their 
@@ -1351,52 +1535,26 @@
 	set} or \term{testing set}). The goal of cross validation is to test the model's ability 
 	to predict data not used during the training of the model.
 	\par
-	The procedure has a single parameter N that refers to the number of groups that a given 
+	The procedure has a single parameter N that refers to the number of folds that a given 
 	data sample is to be split into. As such, the procedure is often called \term{N-fold 
-	cross validation}. When a specific value for N is chosen, it may be used in place of N 
-	in the reference to the model. 
+	cross validation}.
 	\\
 	
 	In this thesis our data sample consists of twenty \term{bag} files. A bag is a file 
 	format in \term{\acronym{ros}} for storing \acronym{ros} message data. \acronym{ros} 
 	(\url{http://www.ros.org}), short for \term{robot operating system} is an open source, 
 	meta-operating system for robots. It is a set of software libraries and tools that 
-	help in building robot applications. Using a 
-	\href{http://wiki.ros.org/rosbag/Tutorials/Exporting%20image%20and%20video%20data}
-	{tutorial on how to export image and video data from a bag file} we extract 778 
+	help in building robot applications. Using a tutorial \footnote[2]{ \url{http://wiki.ros.org/rosbag/Tutorials/Exporting\%20image\%20and\%20video\%20data}}
+	on how to export image and video data from a bag file, we extract 778 
 	traversable and 945 non-traversable images. Ten of these bag files contain the 
 	traversable images and the other ten include the non-traversable.
 	\par
-	So in order to evaluate our model we split our data sample in five groups and perform 
-	5-fold cross validation. Because we have twenty bag files, each group has an equal 
+	So in order to evaluate our model we split our data sample in five folds and perform 
+	5-fold cross validation. Because we have twenty bag files, each fold has an equal 
 	number of four bags. During each fold we use two traversable and two non-traversable 
-	bag files for testing and the rest for training. In Table~\bl{\ref{table:folds_bags}} one 
-	can see how the bag files split for each fold. And in Table~\bl{\ref{table:folds_images}} 
-	are shown the numbers of images used for training and testing for each fold.
+	bag files for testing and the rest for training. In Table~\bl{\ref{table:folds_images}} 
+	one can see the numbers of images used for training and testing for each fold.
 	\\
-	
-	\begin{table}[h!]
-		\centering
-		\begin{tabular}{|c|c|c|c|c|}
-			\hline
-			\multirow{2}{*}{Fold} & \multicolumn{2}{c|}{Traversable bags} & 
-			\multicolumn{2}{c|}{Non-traversable bags}\\
-			& Testing set & Training set & Testing set & Training set\\
-			\hline\hline
-			1 & 1-2 & 3-4-5-6-7-8-9-10 & 1-2 & 3-4-5-6-7-8-9-10\\
-			\hline
-			2 & 3-4 & 1-2-5-6-7-8-9-10 & 3-4 & 1-2-5-6-7-8-9-10\\
-			\hline
-			3 & 5-6 & 1-2-3-4-7-8-9-10 & 5-6 & 1-2-3-4-7-8-9-10\\
-			\hline
-			4 & 7-8 & 1-2-3-4-5-6-9-10 & 7-8 & 1-2-3-4-5-6-9-10\\
-			\hline
-			5 & 9-10 & 1-2-3-4-5-6-7-8 & 9-10 & 1-2-3-4-5-6-7-8\\
-			\hline
-		\end{tabular}
-		\caption{Bag files chosen for each testing and training set in 5-fold cross validation.}
-		\label{table:folds_bags}
-	\end{table}
 	
 	\begin{table}[h!]
 		\centering
@@ -1429,11 +1587,11 @@
 	\section{Results}
 	\label{sec:exp:res}
 	
-	As mentioned in Section~\ref{sec:fg:app} we implemented a program that predicts whether 
+	As mentioned in Section~\ref{sec:fg:impl} we implemented a program that predicts whether 
 	a scene is traversable or not. It accepts as input images outputted by a neural network 
-	for semantic segmentation. In Section~\ref{sec:fg:ef} we established that the 
+	for semantic segmentation. In Section~\ref{sec:fg:nn} we established that the 
 	\acronym{ade20k} dataset is the best fit for whole scene semantic segmentation. And that, 
-	in theory, whichever of the
+	in theory, any of the
 	\begin{enumerate}
 		\item fully convolutional network (\acronym{fcn}), 
 		\item pyramid scene parsing network (\acronym{psp}) and 
@@ -1445,7 +1603,7 @@
 	
 	We gave as input to each of the three neural network models the images extracted from the 
 	bag files mentioned in Section~\ref{sec:exp:eval}. And then fed our program with their 
-	outputs. The results of the first calculating method, described in Section~\ref{sec:fg:app} 
+	outputs. The results of the first calculating method, described in Section~\ref{sec:fg:impl} 
 	are shown in Table~\bl{\ref{table:1st}}. And the results of the second method in 
 	Table~\bl{\ref{table:2nd}}. In both tables it is quite obvious that the PSP has clearly 
 	better results than the other two models, for both individual and global trials.
@@ -1617,22 +1775,23 @@
 	color within the image. These labels are available to facilitate reading. We do not 
 	stick to the fact that they do not always represent what is depicted in the image. This 
 	thesis is not about judging the proper functioning of the neural network. It is about 
-	estimating the traversability of images resulting from the neural network. (But we are not here to judge the proper functioning of the neural network.)
+	estimating the traversability of images resulting from the neural network. More technically, 
+	similar and often confused objects tend to be similarly traversable or non-traversable. 
+	So, any mis prediction of the neural network does not affect the proper operation of 
+	our program.
 	\\
 	
-	As mentioned in the beginning of the section, we can see in Table~\bl{\ref{table:psp:1st}} 
+	As mentioned in the beginning of this section, we can see in Table~\bl{\ref{table:psp:1st}} 
 	that the predictions for non-traversable images are much better than those for 
 	traversable images. Let's try and find out why. Let's take for example class labels 
 	\class{sky}, \class{earth} and \class{tree}. These two classes appear in most, if not in 
-	all, of the testing images. In Tables~\bl{\ref{table:trav.f1}, \ref{table:trav.f2}, 
-	\ref{table:trav.f3}, \ref{table:trav.f5}} (folds 1, 2, 3 and 5 respectively) the instances 
-	of these classes are equal to the number of the traversable images. And in 
+	all, of the testing images. In Tables~\bl{\ref{table:trav.folds}} (folds 1, 2, 3 and 5 ) the 
+	instances of these classes are equal to the number of the traversable images. And in 
 	Table~\bl{\ref{table:trav.f4}} are only slightly fewer. The probability of each of them 
 	being traversable is between 43 and 48\%. So \class{sky}, \class{earth} and \class{tree} 
 	are treated as impenetrable. And therefore contribute to seeing the image in which they 
 	belong as non-traversable. Same thing happens for the non-traversable images. Class 
-	\class{tree} appears in all images in Tables~\bl{\ref{table:obst.f1}, \ref{table:obst.f2}, 
-	\ref{table:obst.f3}, \ref{table:obst.f4}, \ref{table:obst.f5}} and \class{sky} and 
+	\class{tree} appears in all images in Tables~\bl{\ref{table:obst.folds}} and \class{sky} and 
 	\class{earth} in most of them.
 	\\
 	
@@ -2380,10 +2539,10 @@
 	\chapter{Prototype / Reference Implementations}
 	\label{app:impl}
 	
-	Many writers published their code open-source so that other researchers may 
+	Many authors published their code open-source so that other researchers may 
 	use their work. In Table~\bl{\ref{table:refs}} we give some \acronym{url}s and 
 	comments about the work mentioned above, in Section~\ref{sec:bg:trav}, 
-	Section~\ref{sec:bg:data} and Section~\ref{sec:fg:ef}. Some of them were 
+	Section~\ref{sec:bg:data} and Section~\ref{sec:fg:nn}. Some of them were 
 	actually used as our experimental basis.
 	\\
 	
@@ -2407,13 +2566,13 @@
 	\\
 	
 	The next two are used for semantic segmentation in street scenes. They are mentioned 
-	in Section~\ref{sec:fg:ef}.
+	in Section~\ref{sec:fg:nn}.
 	\\
 	
 	The last four \acronym{url}s are pre-trained convolutional neural networks for semantic 
-	segmentation. They are described in Section~\ref{sec:fg:ef} and used in this work for 
+	segmentation. They are described in Section~\ref{sec:fg:nn} and used in this work for 
 	experimentation. The last one, from \citet{Zhao} was actually used for the purposes of 
-	this thesis (see Section~\ref{sec:fg:app}).
+	this thesis (see Section~\ref{sec:fg:impl}).
 	\\\\
 	
 	In Table~\bl{\ref{table:dataset}} one can find some of the available datasets 
@@ -2444,99 +2603,7 @@
 	\chapter{Basic information on Convolutional Neural Networks}
 	\label{app:conv}
 	
-	Based mainly on \citet{Deshpande_guide} beginner's guide, we give a brief 
-	description on convolutional neural networks.
-	\\
-	
-	When a computer takes an image as input, it sees an array of pixel values. This 
-	array is sized depending on the resolution and size of the image. Let's say we 
-	have a color image in \acronym{jpg} form and its size is 32 $\times$ 32. The 
-	representative array will be 32 $\times$ 32 $\times$ 3 (the 3 refers to \acronym{rgb} 
-	values). Each of these numbers is given a value from 0 to 255 which describes the 
-	pixel intensity at that point. These numbers, while meaningless to us when we 
-	perform image classification, are the only inputs available to the computer. The 
-	idea of neural networks is that we give the computer this array of numbers and 
-	it outputs numbers that describe the probability of the image being a certain 
-	class (e.g. 80\% for cat, 15\% for dog, 5\% for bird etc).
-	\\
-	
-	So what we want the computer to do is to be able to differentiate between the 
-	images it is given and figure out the unique features that make a dog a dog or 
-	that make a cat a cat. This is what human minds do subconsciously as well. Roughly,
-	we can classify a dog in a picture if it has identifiable features such as paws or 
-	snout or four legs. In a similar way, the computer is able perform image 
-	classification by looking for low level features such as edges and curves, and 
-	then building up to more abstract concepts like paws and beaks, through a series 
-	of convolutional layers. This is a general overview of what a convolutional neural 
-	network does.
-	\\
-	
-	The first layer in a convolutional neural network is always a \term{convolutional 
-	layer}. The best way to explain a convolutional layer is to imagine a flashlight 
-	that is shining over the top left of the image. Let’s say that the light this 
-	flashlight shines covers a 5 $\times$ 5 area. And now, let’s imagine this flashlight 
-	sliding across all the areas of the input image. In machine learning terms, this 
-	flashlight is called a \term{filter} (also referred to as a \term{neuron} or a 
-	\term{kernel}) and the region that it is shining over is called \term{receptive 
-	field}. This filter is also an array of numbers called \term{weights} or 
-	\term{parameters}. A very important note is that the depth of this filter has to 
-	be the same as the depth of the input (in order for the math to work out), so the 
-	dimensions of this filter is 5 $\times$ 5 $\times$ 3. 
-	\par
-	As the filter is sliding, or \term{convolving}, around the input image, it is 
-	multiplying the values in the filter with the original pixel values of the image 
-	(aka computing \term{element wise multiplications}). Mathematically speaking, this 
-	would be 75 multiplications in total for the first position the filter is in. Then 
-	these multiplications are all summed up to a single number. The next step is to 
-	move the filter to the right by one unit and repeat. This process is repeated for 
-	every location on the input volume and produce a number.
-	\par
-	There are 784 different locations that a 5 $\times$ 5 filter can fit on a 
-	32 $\times$ 32 input image. So after sliding the filter over all the locations, 
-	the result is an 28 $\times$ 28 $\times$ 1 array of numbers, called an \term{activation 
-	map} or \term{feature map}. Using more filters makes possible to preserve the spatial 
-	dimensions. If there are two 5 $\times$ 5 $\times$ 3 filters used instead of one, 
-	the output volume would be 28 $\times$ 28 $\times$ 2. The more filters, the greater 
-	the depth of the activation map, and the more the information about the input image.
-	\par
-	Each of these filters can be thought of as \term{feature identifiers}, for features 
-	like straight edges, curves, simple colors. For example, let's assume one filter 
-	is a curve detector. If there is a shape in the input image that generally resembles 
-	the curve that this filter is representing, then all of the multiplications summed 
-	together will result in a large value. And if not, the value will be much lower. 
-	This will happen if there is nothing in the image section that responds to the 
-	curve detector filter. So the activation map will have large values in the areas 
-	where is most likely to have curves, and low values on the least likely.
-	\\
-	
-	Moving to the next layer, its input would be the output of the previous layer. 
-	In this case the input of the second layer will be the activation maps that result 
-	from the first layer. So the input is basically describing the locations in the 
-	original image where certain low level features appear. Applying a set of filters 
-	on top of that, as it passes through the second convolutional layer, the output 
-	will be activations that represent higher level features. Types of these features 
-	could be semicircles (i.e. combination of a curve and straight edge) or squares 
-	(i.e. combination of several straight edges).
-	\par
-	As going through the network and through more convolutional layers, the activation 
-	maps represent more and more complex features. By the end of the network, there 
-	might be some filters that activate when there is handwriting in the image, when 
-	they recognize green objects, etc. An interesting thing to note is that going deeper 
-	into the network, the filters begin to have a larger receptive field. That means 
-	they are able to consider information from a bigger region of the original input 
-	volume.
-	\\
-	
-	Finally, at the end of the network there is a \term{fully connected layer}. This 
-	layer takes as input the output from the layer preceding it, and outputs a vector 
-	with dimensions the number of classes that the program has to choose from. Each 
-	value of the vector represents the probability of a certain class.	For example, 
-	let's take a digit classification program. The output the a dimensional vector 
-	such as [0 0.1 0.1 0.75 0 0 0 0 0 0.05], since there are ten digits. This represents 
-	a 10\% probability that the original image is a 1, a 10\% that it is a 2, a 75\% 
-	that it is a 3, and a 5\% that it is a 9. Basically, a fully connected layer take 
-	the activation maps of the previous layer and determines which features most 
-	correlate to a particular class.
+	mpla
 	\\
 	
 	
