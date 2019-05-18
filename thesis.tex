@@ -205,18 +205,18 @@
 		\item In Chapter~\ref{sec:bg} we give a background on the topic we are dealing 
 		with. We present already existing traversability estimation algorithms; the 
 		goals, the approaches, the methods used, the strengths and weaknesses. 
-		\item In Chapter~\ref{sec:fg} we present the logic behind the decisions made 
+		\item In Chapter~\ref{sec:fg} we present the rationale behind the decisions made 
 		and the algorithms used or developed.
 		\item In Chapter~\ref{sec:exp} we perform an evaluation of our implementation 
 		and explain why its weaknesses occur.
 		\item In Chapter~\ref{sec:concl} we give our conclusions and ideas for future 
 		work.
-		\item In Appendix~\ref{app:impl} we share some \acronym{url}s of prototype 
+		\item In Appendix~\ref{app:urls} we share some \acronym{url}s of prototype 
 		implementations from researchers who kindly offered their work open-source. 
 		We also share the \acronym{url}s of some popular datasets used for training
 		neural networks.
-		\item In Appendix~\ref{app:conv} one can find a brief outline on how 
-		convolutional neural networks work.
+		\item In Appendix~\ref{app:data} one can find a brief outline on how 
+		we collected the sample data we used for our evaluation.
 	\end{itemize}
 	
 	\chapter{Background}
@@ -694,8 +694,7 @@
 	networks have much fewer connections and parameters and so they are easier to train 
 	\citep{Krizhevsky_alexnet}. Convolutional neural networks are perfectly suitable for 
 	computer vision (i.e. robot navigation), so below we are going to concentrate 
-	mainly on them. For more basic information on how convolutional neural networks work, 
-	see Appendix~\ref{app:conv}.
+	mainly on them.
 	\label{eg:cat_dog}
 	\par
 	But when we come to adversarial examples, these are basically the images that fool 
@@ -1534,25 +1533,23 @@
 	of unknown data (or first seen data) against which the model is tested (\term{validation 
 	set} or \term{testing set}). The goal of cross validation is to test the model's ability 
 	to predict data not used during the training of the model.
-	\par
+	\\
+	
 	The procedure has a single parameter N that refers to the number of folds that a given 
 	data sample is to be split into. As such, the procedure is often called \term{N-fold 
 	cross validation}.
 	\\
 	
-	In this thesis our data sample consists of twenty \term{bag} files. A bag is a file 
-	format in \term{\acronym{ros}} for storing \acronym{ros} message data. \acronym{ros} 
-	(\url{http://www.ros.org}), short for \term{robot operating system} is an open source, 
-	meta-operating system for robots. It is a set of software libraries and tools that 
-	help in building robot applications. Using a tutorial \footnote[2]{ \url{http://wiki.ros.org/rosbag/Tutorials/Exporting\%20image\%20and\%20video\%20data}}
-	on how to export image and video data from a bag file, we extract 778 
-	traversable and 945 non-traversable images. Ten of these bag files contain the 
-	traversable images and the other ten include the non-traversable.
-	\par
-	So in order to evaluate our model we split our data sample in five folds and perform 
-	5-fold cross validation. Because we have twenty bag files, each fold has an equal 
-	number of four bags. During each fold we use two traversable and two non-traversable 
-	bag files for testing and the rest for training. In Table~\bl{\ref{table:folds_images}} 
+	In this thesis our data sample consists of twenty directories containing images. 
+	Ten of these directories contain 778 traversable images and the other ten include 
+	945 non-traversable. For more information about how we gathered these datasets, see 
+	Appendix~\ref{app:data}.
+	\\
+	
+	In order to evaluate our model we split our data sample in five folds and perform 
+	5-fold cross validation. Because we have twenty directories, each fold has an equal 
+	number of four directories. During each fold we use two traversable and two non-traversable 
+	directories for testing and the rest for training. In Table~\bl{\ref{table:folds_images}} 
 	one can see the numbers of images used for training and testing for each fold.
 	\\
 	
@@ -1601,8 +1598,8 @@
 	each one of them to check which has the best results.
 	\\
 	
-	We gave as input to each of the three neural network models the images extracted from the 
-	bag files mentioned in Section~\ref{sec:exp:eval}. And then fed our program with their 
+	We gave as input to each of the three neural network models the images contained in the 
+	directories mentioned in Section~\ref{sec:exp:eval}. And then fed our program with their 
 	outputs. The results of the first calculating method, described in Section~\ref{sec:fg:impl} 
 	are shown in Table~\bl{\ref{table:1st}}. And the results of the second method in 
 	Table~\bl{\ref{table:2nd}}. In both tables it is quite obvious that the PSP has clearly 
@@ -1760,7 +1757,7 @@
 		\item Column 2 keeps track of the number of each labels appearances in the current fold 
 		(in how many images is the color participating?).
 		\item In column 3 appears the traversability percentage of each label, after the system 
-		is trained with the images in the remaining bag files (after training, how likely is for 
+		is trained with the images in the remaining directories (after training, how likely is for 
 		this color to be traversable?).
 		\item Finally, column 4 
 		\begin{itemize}
@@ -2537,7 +2534,7 @@
 	
 	\appendix
 	\chapter{Prototype / Reference Implementations}
-	\label{app:impl}
+	\label{app:urls}
 	
 	Many authors published their code open-source so that other researchers may 
 	use their work. In Table~\bl{\ref{table:refs}} we give some \acronym{url}s and 
@@ -2600,11 +2597,69 @@
 	\end{table}
 	
 	
-	\chapter{Basic information on Convolutional Neural Networks}
-	\label{app:conv}
+	\chapter{Collecting Data}
+	\label{app:data}
 	
-	mpla
+	In order to have the robot autonomously fine-tune its traversability estimation, 
+	it is essential to be able to measure the traversability of a path after traversing it 
+	or having failed to traverse it \citep{Katerina}. One key concept put forward is 
+	that traversability can be measured as the \defn{error in proprioceptive localization}. 
+	That is, in localization that relies on the wheel encoder and \acronym{imu} signals.
 	\\
+	
+	The rationale is that along an easily traversable path, encoder drift is small and 
+	when fused with \acronym{imu} becomes negligible. The more difficult a path is, the 
+	more the wheels drift and this error increases. In order to calculate this error, 
+	proprioceptive localization is compared against the full \acronym{3d} localization that
+	fuses the encoders, \acronym{imu}, and stereoscopic camera signals.
+	\\
+	
+	\begin{figure}[h!]
+		\caption{Indicative scenes for the localization error experiments.}
+		\centering
+		\begin{subfigure}[b]{0.3\textwidth}
+			\includegraphics[width=\textwidth]{road}
+			\caption{Paved path}
+		\end{subfigure}
+		\begin{subfigure}[b]{0.3\textwidth}
+			\includegraphics[width=\textwidth]{grass}
+			\caption{Vegetation}
+		\end{subfigure}
+		\begin{subfigure}[b]{0.3\textwidth}
+			\includegraphics[width=\textwidth]{wall}
+			\caption{Wall}
+		\end{subfigure}
+		\label{fig:scenes}
+	\end{figure}
+	
+	In order to prove this concept, several locations were selected with varying degrees 
+	of traversability ranging from paved path, to vegetation, to a wall. The vegetation 
+	appears as an obstacle in the \acronym{3d} point cloud created by the stereo camera 
+	but can be pushed back and traversed. Figure~\bl{\ref{fig:scenes}} shows some 
+	indicative examples. 
+	\\
+	
+	The following experiment was executed using a DrRobot Jaguar rover fitted with a 
+	Zed stereoscopic camera. After using standard \acronym{ros} 
+	\footnote{ \term{Robot Operating System \acronym{ros}} (\url{http://www.ros.org}) 
+		is an open source, meta-operating system for robots. It is a set of software 
+		libraries and tools that help in building robot applications.}
+	navigation to approach an obstacle, the robot synchronizes 
+	a secondary proprioceptive localization module with the main localization it uses
+	to navigate. Then it circumvents normal obstacle avoidance to push against the 
+	obstacle. The velocity is the minimum velocity that the robot can obtain, 
+	guaranteeing the safety of the platform even when pushing against a wall.
+	\\
+	
+	The experiments have been carried out were at varying locations and approaching the 
+	obstacle from different angles. There was empirically found that for this specific 
+	platform and these specific sensors a localization error of 21cm or less signifies 
+	that the path is traversable. This simple rule achieved an accuracy of 9/10 in both 
+	the traversable and the non-traversable tests. The specific threshold is likely 
+	to be different for different sensors. It would probably need to be empirically 
+	identified for each robotic platform and mix of sensors.
+	\\
+	
 	
 	
 	\renewcommand{\bibname}{References}
