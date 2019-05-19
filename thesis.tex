@@ -1,7 +1,7 @@
 \documentclass[12pt,a4paper,table,dvipsnames,tikz]{report}
 \usepackage[utf8]{inputenc}
-\usepackage[english, greek]{babel}
-\usepackage[T1, LGR]{fontenc}
+%\usepackage[english, greek]{babel}	% (with PdfLaTex)
+%\usepackage[T1, LGR]{fontenc}
 
 \usepackage[colorlinks]{hyperref}
 \hypersetup{
@@ -57,27 +57,166 @@
 \newcommand{\class}[1]{\textbf{\textcolor{#1}{#1}}} % or \colorbox
 \newcommand{\white}[1]{\textbf{\textcolor{white}{#1}}} % or \colorbox
 
+%
+% Add Greek support (with LuaLaTex)
+%
+\usepackage{fontspec}
+\usepackage{xunicode}
+\usepackage{xltxtra}
+
+
 \begin{document}
-	\input{title}
+	%
+	% Set font Arial (build with LuaLaTex)
+	%
+	\setmainfont[Ligatures={Common,TeX}]{Arial} % the passed option was needed for 
+												% correctly rendering double quotes 
+	\defaultfontfeatures{Mapping=tex-text,Scale=MatchLowercase}
+	\setsansfont[Mapping=tex-text,Scale=MatchLowercase]{Arial}
 	
-	\selectlanguage{english}
+	
+	%
+	% Configure header and footer
+	%
+	%\pagestyle{fancy}
+	\fancyhf{}
+	\fancyhead[LEO]{{\footnotesize \@titleEn{}}}
+	\fancyfoot[C]{{\footnotesize \thepage}}
+	\fancyfoot[LE,RO]{{\footnotesize \@authorFirstAbrEn{} \@authorLastEn{}}}
+	
+	% needed redefinition, because commands like \chapter call 
+	% \thispagestyle{plain} automatically
+	\fancypagestyle{plain} {
+		\fancyhf{}
+		\fancyhead[LO]{{\footnotesize \@titleEn{}}}
+		\fancyfoot[C]{{\footnotesize \thepage}}   
+		\fancyfoot[LE,RO]{{\footnotesize \@authorFirstAbrEn{} \@authorLastEn{}}}
+	}
+	\renewcommand{\headrulewidth}{0pt}
+	
+	
+%	\begin{titlepage}
+		\input{title}
+%	\end{titlepage}
+		
+%	\selectlanguage{english}
 	\chapter*{Abstract}
-	Obstacle avoidance ensures the integrity of both the robotic platform and the 
-	people and objects present in the same space. The goal of this thesis is to 
-	develop a method for a robotic outdoor platform to discover by itself, based 
-	on its sensors, how to approach the obstacle in front of it, whether is capable 
-	of driving over it or should avoid it.
+	\thispagestyle{empty}
 	
-	\selectlanguage{greek}
+	The goal of the present thesis is to develop a method for a robotic outdoor platform. 
+	The robot should discover by itself, based on its sensors and its previous knowledge, 
+	how to approach an obstacle that stands in front of it, whether it is capable of 
+	driving over the obstacle or should avoid it.	
+	Obstacle avoidance ensures the safety and integrity of both the robotic platform and the 
+	people and objects present in the same space. That is one of the reasons why 
+	current approaches mainly concentrate on maneuver to avoid obstacles rather 
+	than yield autonomous systems with the ability to self improve.
+	There is not much work done on curiosity-driven exploration, in which there is no 
+	explicit goal, but the abstract need for the robot to learn a new environment.
+	\par
+	In the current thesis we introduce a system that not only autonomously classifies 
+	its environment to areas that can or cannot be driven over, but also has the capacity 
+	for self-improvement.
+	To do so, we use a pre-trained neural network for whole scene semantic segmentation.
+	We implement a program that accepts as input images extracted from the neural network
+	mentioned above and	predicts whether the illustrated scenes can be traversed or not. 
+	The program trains itself and then evaluates its effectiveness.
+	Our results are quite satisfactory and the error rate can be explained by the fact 
+	that the environment is not evenly distributed in obstacles and paths, while at the 
+	same time it is not always clear which one is dominant.
+	Furthermore, we show that our model can be easily optimized with just a few 
+	modifications. 
+	
+	\vfill
+	\noindent
+	\MakeUppercase{\textbf{Subject Area: }} Traversability estimation
+	\\
+	\MakeUppercase{\textbf{Keywords: }} traversability, data collection, navigation, 
+	neural networks 
+	
+	
+%	\selectlanguage{greek}
 	\chapter*{Περίληψη}
-	Η αποφυγή εμποδίων εξασφαλίζει την ακεραιότητα τόσο της ρομποτικής πλατφόρμας 
-	όσο και των ανθρώπων και υλικού που δρουν στον ίδιο χώρο. Σκοπός της διπλωματικής 
-	είναι η ανάπτυξη μεθόδου ώστε μια ρομποτική πλατφόρμα εξωτερικού χώρου να 
-	ανακαλύπτει μόνη της, με βάση τους αισθητήρες της, πώς πρέπει να προσεγγίζει 
-	το εκάστοτε εμπόδιο που βρίσκεται μπροστά της, αν μπορεί να το υπερπηδήσει ή 
-	χρειάζεται να το παρακάμψει.
+	\thispagestyle{empty}
 	
-	\selectlanguage{english}
+	Σκοπός της παρούσας διπλωματικής είναι η ανάπτυξη μεθόδου ώστε μια ρομποτική 
+	πλατφόρμα εξωτερικού χώρου να ανακαλύπτει μόνη της, με βάση τους αισθητήρες της 
+	και τη γνώση που έχει αποκτήσει, πώς πρέπει να προσεγγίζει το εκάστοτε εμπόδιο 
+	που βρίσκεται μπροστά της, αν μπορεί να το υπερπηδήσει ή αν χρειάζεται να το 
+	παρακάμψει. Η αποφυγή εμποδίων εξασφαλίζει την ασφάλεια και ακεραιότητα τόσο της 
+	ρομποτικής πλατφόρ-μας όσο και των ανθρώπων και αντικειμένων που υπάρχουν στον 
+	ίδιο χώρο. Αυτός είναι ένας από τους λόγους που οι περισσότερες προσεγγίσεις 
+	τέτοιων θεμάτων επικεντρώνονται κυρίως στους ελιγμούς για την αποφυγή εμποδίων 
+	αντί για την παραγωγή αυτόνομων συστημάτων με ικανότητα αυτοβελτίωσης.
+	Δεν υπάρχει μεγάλη βιβλιογραφία για ρομπότ που έχουν την περιέργεια να εξερευνήσουν 
+	το περιβάλλον τους, για περιπτώσεις δηλα-δή που δεν υπάρχει συγκεκριμένος στόχος, 
+	αλλά μόνο η αφηρημένη ανάγκη του ρομπότ να εξερευνήσει ένα καινούριο περιβάλλον.
+	\par
+	Στην παρούσα διατριβή παρουσιάζουμε ένα σύστημα που όχι μόνο κα-τατάσσει αυτόνομα 
+	το περιβάλλον του σε προσπελάσιμες και μη προσπε-λάσιμες περιοχές, αλλά επίσης έχει 
+	την ικανότητα να αυτοβελτιώνεται.
+	Για να το επιτύχουμε, χρησιμοποιούμε ένα προ-εκπαιδευμένο νευρωνικό δίκτυο που 
+	αναπαριστά χρωματικά τα αντικείμενα της σκηνής. Αναπτύσουμε ένα πρόγραμμα, το οποίο 
+	δέχεται ως είσοδο εικόνες που εξάγονται από το προαναφερθέν νευρωνικό δίκτυο και 
+	προβλέπει αν το ρομπότ μπορεί να προσπελάσει τα απεικονιζόμενα αντικείμενα. 
+	Το πρόγραμμα αυτό εκπαι-δεύεται και στη συνέχεια αξιολογείται η αποτελεσματικότητά του. 
+	Τα αποτε-λέσματά μας κρίνουμε ότι είναι αρκετά ικανοποιητικά. Το ποσοστό σφά-λματός 
+	μπορεί να εξηγηθεί από το γεγονός ότι το περιβάλλον δεν είναι ομοιόμορφα κατανεμημένο 
+	σε εμπόδια και προσπελάσιμες περιοχές ενώ παράλληλα δεν είναι πάντοτε σαφές τι από 
+	τα δύο υπερισχύει. Τέλος, δείχνουμε ότι είναι εύκολο να μειωθεί το ποσοστό σφάλματος  
+	με λίγες μόνο τροποποιήσεις.
+	
+	\vfill
+	\noindent
+	\MakeUppercase{\textbf{Θεματικη Περιοχη: }} Εκτίμηση προσπελασιμότητας
+	\\
+	\MakeUppercase{\textbf{Λεξεις Κλειδια: }} προσπελασιμότητα, συλλογή δεδομένων, 
+	πλοήγηση, νευρωνικά δίκτυα
+	
+	
+%	\selectlanguage{english}
+	\chapter*{}
+	\thispagestyle{empty}
+	\begin{flushright}
+	\itshape
+	To those who are always and forever\\
+	with me\\
+	D.K. \& K.P.\\
+	\vspace{4cm}
+	
+%	\selectlanguage{greek}
+	Σε μια από τις καλύτερές μου φίλες,\\
+	που με στηρίζει πάντα\\
+	Λ.Π.\\
+	\vspace{0.5cm}
+	και σε έναν φίλο που μου λείπει\\
+	Ν.Π.\\
+	\vspace{4cm}
+	
+%	\selectlanguage{english}
+	To the one whose thought alone\\
+	still makes me smile\\
+	S.T.
+	\end{flushright}
+	
+	\chapter*{Acknowledgements}
+	\thispagestyle{empty}
+	I would like to thank my supervisor, Prof. Takis Stamatopoulos for providing his 
+	expertise, support and guidance throughout all my undergraduate and postgraduate 
+	studies, as well as for giving me the chance to work on such an interesting topic.
+	\par
+	I am also grateful to my other supervisor, Researcher Stasinos Konstantopoulos 
+	for his support and patience for the whole time that I have been working 
+	on this project. His insights and guidance were crucial throughout the research 
+	and writing of this thesis.
+	\par
+	I would like to thank Katerina Maria Oikonomou and Christos Sevastopoulos for 
+	their help and advices. Also, thanks to my friend Spyros for his support. 
+	\par
+	Lastly, I would like to thank my parents and my grandparents for supporting me and 
+	believing in me. Without them nothing that I have accomplished would be possible.
+	
+	
 	{
 		\hypersetup{linkcolor=black}
 		\tableofcontents
@@ -102,7 +241,7 @@
 	from well structured indoor environments to unstructured outdoor environments. 
 	With this expansion of interest, it is a crucial prerequisite to reliably 
 	classify traversable ground in the environment, especially when it comes to 
-	truly autonomous/self-supervised systems. This topic is typically referred to as 
+	truly autonomous (or else self-supervised) systems. This topic is typically referred to as 
 	\term{traversability analysis} or \term{obstacle detection} \citep{Suger}. The 
 	verb traverse is defined as \defn{to pass or move over, along, or through}. 
 	Hence \term{traversability} refers to the affordance of being able to traverse 
@@ -141,7 +280,8 @@
 	terrain types. For example, if a system is trained with terrain samples in a 
 	specific season, the systems might not detect traversable regions in other 
 	seasons \citep{Lee}.
-	\par
+	\\
+	
 	Unsupervised, or else self-supervised, learning approaches may be the solution 
 	to this problem. They use on-line learning methods in order to exploit newly-
 	acquired training data in making traversability predictions about unknown 
@@ -149,7 +289,8 @@
 	incrementally updated with new data only. That comes with the advantage that the 
 	updated classifier is immediately available for navigation and that the memory 
 	requirements for learning are reduced, compared to off-line methods.
-	\par
+	\\
+	
 	In the real world and its unstructured and dynamic surroundings such as vegetation 
 	landscape and terrain, the perception of a mobile robot needs to be capable of 
 	navigating this unknown environment by using sensor modalities \citep{Shabbir}.
@@ -174,7 +315,7 @@
 	(\term{geometry-based} and \term{appearance-based} analyses) will be unlikely to 
 	work reliably in unknown outdoor environments. That is why combining data 
 	collected a priori together with the vehicle’s navigation experience is more 
-	likely to work better for deciding terrain traversability (see more about 
+	likely to work better for deciding terrain traversability (more about 
 	\term{hybrid} approaches in \citet{Papadakis}).
 	\\
 	
@@ -222,15 +363,12 @@
 	\chapter{Background}
 	\label{sec:bg}
 	
-	\section{A few words}
-	\label{sec:bg:intro}
-	
 	In order to have an autonomous robot improve its traversability 
 	estimation we will need to address each sub-problem individually:
 	
 	\begin{enumerate}
 		\item Traversability estimation algorithms that can be improved from 
-		experience/examples.
+		experience and examples.
 		\item Methods for collecting the data needed by the algorithm above, from 
 		the sensory input that is available to the robot. (The input we have does not 
 		directly map to positive/negative decision).
@@ -531,8 +669,7 @@
 	its traversability is unknown. Then the robot attempts to drive over the 
 	terrain that it previously observed, thus discovering the traversability 
 	properties of the environment.
-	\\\\
-	
+	\\
 	
 	Autonomous driving in unstructured environments faces many challenges which do 
 	not exist in structured environments \citep{Shabbir}. In unstructured environments, 
@@ -1094,7 +1231,7 @@
 	In our knowledge, most approaches concentrate on robot navigation in order to 
 	make sure they do not collide with other objects and they follow a route to 
 	reach a specific goal. There is not much work done on curiosity-driven 
-	exploration, where there is no explicit goal, but the abstract need for the 
+	exploration, in which there is no explicit goal, but the abstract need for the 
 	robot to learn a new environment. The traversability estimation is most commonly 
 	performed in order for the robot to move safely rather than explore the 
 	environment and learn which areas are traversable and which are not.
@@ -1140,10 +1277,11 @@
 	\chapter{Autonomous Navigation}
 	\label{sec:fg}
 	
-	Our goal is for the robot to be able to autonomously navigate in natural environments. 
+	The goal is for the robot to be able to autonomously navigate in natural environments. 
 	To do so, we could use a pre-trained neural network in order to be able to distinguish 
 	traversable from non-traversable terrain.
-	\par
+	\\
+	
 	For the purposes of this thesis we will basically deal with pre-trained models. By
 	borrowing a little story from \citet{Gupta} we are going to explain why. Imagine two 
 	people, Mr. Potato and Mr. Athlete. They sign up for soccer training at the same time. 
@@ -1165,7 +1303,7 @@
 	\label{sec:fg:nn}
 	
 	Primarily, a neural network is needed in order to convert images that depict the 
-	environment seen by the robot to a form more recognizable by it. Ideally, after 
+	environment seen by the robot, to a form more recognizable by it. Ideally, after 
 	the conversion, all objects would be distinguished from all traversable areas. But 
 	the idea of finding such a neural network is probably not realistic. Thus, the goal 
 	for this section is to find a neural network that distinguishes all objects from 
@@ -1497,20 +1635,26 @@
 	
 	The first method is an obvious way to find the probability of an image being penetrable. 
 	The second one, however, emphasizes on statistics, in the sense that a one-time event  
-	may be a coincidence, but the more often it happens the more secure it is to consider it 
-	a rule / to conclude to a rule. In the previous example class earth was found to be 
-	traversable 8 times out of the total of 10. This means that 2 out of 10 times, it was 
-	found to be non-traversable. Let's suppose the first given image containing earth was 
-	non-traversable. Given this data sample, the traversability percentage of earth would 
-	be 0\%. The second one would use this fact with a low confidence index.
+	may be a coincidence, but the more often it happens the more secure it is to become 
+	a rule. In the previous example class earth was found to be traversable 8 times out 
+	of the total of 10. This means that 2 out of 10 times, it was found to be non-traversable. 
+	Let's suppose the first given image containing earth was non-traversable. So, the 
+	traversability percentage of earth would be 0\%. While the first method will use it 
+	as a certainty, the second one will have low confidence on it.
 	\\
 	
-	It is known in advance whether the testing images are penetrable. So after their 
-	evaluation by the previously described methods it is trivial to discover whether their 
-	judgments/judged decisions are right or wrong. In the example above the first method decides that the 
-	image is non-traversable, while the second method determines the opposite. Note that 
-	in other cases the results of the two methods may concur.
+	It is known in advance whether the testing images are penetrable. It is trivial to 
+	discover whether the previously described methods’ decisions are right or wrong.
+	In the example above the first method decides that the image is non-traversable, 
+	while the second method determines the opposite. Note that in other cases the 
+	results of the two methods may concur.
 	\\\\ 
+	
+	
+	As we have introduced a program that decides whether the input images are traversable 
+	or not, we will proceed in the next section to evaluate the effectiveness of our 
+	approach.
+	\\
 	
 	
 	\chapter{Experimental Validation and Comparison}
@@ -2533,7 +2677,7 @@
 	
 	
 	\appendix
-	\chapter{Prototype / Reference Implementations}
+	\chapter{Reference Implementations and Datasets}
 	\label{app:urls}
 	
 	Many authors published their code open-source so that other researchers may 
