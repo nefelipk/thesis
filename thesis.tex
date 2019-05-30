@@ -22,28 +22,18 @@
 
 \usepackage{amssymb}
 
-%\usepackage[dvipsnames]{xcolor}
-
-%\usepackage{wrapfig}
-%\usepackage{longtable}
-%\usepackage{graphicx}
-%\usepackage[table]{xcolor}
-\usepackage{subcaption}
+\usepackage[font=small,font=bf]{caption}
+\usepackage[font=small,font=bf]{subcaption}
 \usepackage{multirow}
 \graphicspath{ {./images/} }
-
-\setcounter{tocdepth}{3}
-\setcounter{secnumdepth}{3}
 
 \definecolor{earth}{HTML}{787846}
 \definecolor{sky}{HTML}{06E6E6}
 \definecolor{tree}{HTML}{04C803}
 \definecolor{wall}{HTML}{787878}
 \definecolor{house}{HTML}{FF09E0}
-	%\definecolor{floor}{HTML}{503232}
 \definecolor{floor}{HTML}{FF7142}
 \definecolor{building}{HTML}{B47878}
-	%\definecolor{plant}{HTML}{CCFF04}
 \definecolor{plant}{HTML}{C4C415}
 
 \newcommand{\defn}[1]{\enquote{\textit{#1}}}
@@ -57,12 +47,121 @@
 \newcommand{\class}[1]{\textbf{\textcolor{#1}{#1}}} % or \colorbox
 \newcommand{\white}[1]{\textbf{\textcolor{white}{#1}}} % or \colorbox
 
+%\usepackage[top=1in,bottom=1in,left=1.3in,right=.60in,a4paper]{geometry}
+\usepackage[a4paper,top=2cm,bottom=2cm,bindingoffset=0.5cm,left=2cm,right=2cm,
+headheight=15pt,headsep=1.25cm,footskip=1.25cm,includehead,includefoot]{geometry}
+
+\RequirePackage{fancyhdr}
+\RequirePackage{graphicx}
+\RequirePackage{sectsty}   % needed for formatting chapter headings
+\RequirePackage{textcase}  % needed for forcing capital letters (in chapters)
+\RequirePackage[resetlabels]{multibib}
+\RequirePackage{etoolbox}  % needed for patchcmd
+\RequirePackage{tabularx}  % needed for tabular* environment
+\RequirePackage{longtable} % needed for splitting big tables across pages 
+
 %
 % Add Greek support (with LuaLaTex)
 %
 \usepackage{fontspec}
 \usepackage{xunicode}
 \usepackage{xltxtra}
+
+%
+% Configure chapter/section/subsection etc printing and alignment
+%
+\usepackage{titlesec}
+
+\titleformat
+{\chapter} % command
+[block] % shape
+{\bfseries\large\centering} % format
+{\thechapter.} % label
+{14pt} % sep
+{\large}
+
+\titlespacing{\chapter}{12pc}{0cm}{1pc}
+
+\titleformat{\section}[block]
+{\normalfont\bfseries}
+{\thesection.}{12pt}{}
+
+\titleformat{\subsection}[block]
+{\normalfont\bfseries}
+{\thesubsection.}{12pt}{}
+
+\titleformat{\subsubsection}[block]
+{\normalfont\bfseries}
+{\thesubsubsection.}{12pt}{}
+
+\chaptertitlefont{\vspace*{-2.38cm} \large \centering \MakeTextUppercase}
+\sectionfont{\normalsize}
+\subsectionfont{\normalsize}
+\subsubsectionfont{\normalsize}
+\paragraphfont{\normalsize}
+\subparagraphfont{\normalsize}
+
+%
+% Set ToC depth
+%
+\setcounter{tocdepth}{3}
+\setcounter{secnumdepth}{3}
+
+%
+% No indentation for paragraphs
+%
+\setlength{\parindent}{0pt}
+
+%
+% Paragraph spacing should be 
+%
+\setlength{\parskip}{6pt}
+
+%
+% Line spacing should be one line
+%
+\linespread{1}
+
+%
+% Configure header and footer
+%
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\newcommand{\headerfont}{%
+	\fontsize{10}{12}\selectfont
+}
+\fancyhf{}
+\fancyhead[LE,LO]{\headerfont Autonomic tackling of unknown obstacles in navigation of robotic platform}
+\fancyfoot[LE,LO]{N. Prokopaki Kostopoulou}
+\fancyfoot[RE,RO]{\thepage}
+
+% needed redefinition, because commands like \chapter call 
+% \thispagestyle{plain} automatically
+\fancypagestyle{plain} {
+	\fancyhf{}
+	\fancyhead[LE,LO]{\headerfont Autonomic tackling of unknown obstacles in navigation of robotic platform}
+	\fancyfoot[LE,LO]{N. Prokopaki Kostopoulou}
+	\fancyfoot[RE,RO]{\thepage}
+}
+\renewcommand{\headrulewidth}{0pt}
+
+%
+% Configure list of contents printing and alignment
+%
+\usepackage[titles]{tocloft}
+
+\renewcommand{\cftsecfont}{\small\bfseries}
+\renewcommand{\cftsecpagefont}{\small\bfseries}
+\renewcommand{\cftsecleader}{\bfseries\cftdotfill{\cftsecdotsep}}
+\renewcommand{\cftsubsecfont}{\small}
+\renewcommand{\cftsubsecpagefont}{\small}
+\renewcommand{\cftsubsecleader}{\cftdotfill{\cftsecdotsep}}
+\renewcommand{\cftsubsubsecfont}{\small}
+\renewcommand{\cftsubsubsecpagefont}{\small}
+\renewcommand{\cftsubsubsecleader}{\cftdotfill{\cftsecdotsep}}
+\setlength{\cftsubsubsecindent}{\cftsubsecindent}
+\setlength{\cftsubsecindent}{\cftsecindent}
+\setlength{\cftsecindent}{\cftchapindent}
 
 
 \begin{document}
@@ -75,32 +174,12 @@
 	\setsansfont[Mapping=tex-text,Scale=MatchLowercase]{Arial}
 	
 	
-	%
-	% Configure header and footer
-	%
-	%\pagestyle{fancy}
-	\fancyhf{}
-	\fancyhead[LEO]{{\footnotesize \@titleEn{}}}
-	\fancyfoot[C]{{\footnotesize \thepage}}
-	\fancyfoot[LE,RO]{{\footnotesize \@authorFirstAbrEn{} \@authorLastEn{}}}
-	
-	% needed redefinition, because commands like \chapter call 
-	% \thispagestyle{plain} automatically
-	\fancypagestyle{plain} {
-		\fancyhf{}
-		\fancyhead[LO]{{\footnotesize \@titleEn{}}}
-		\fancyfoot[C]{{\footnotesize \thepage}}   
-		\fancyfoot[LE,RO]{{\footnotesize \@authorFirstAbrEn{} \@authorLastEn{}}}
-	}
-	\renewcommand{\headrulewidth}{0pt}
-	
-	
 %	\begin{titlepage}
 		\input{title}
 %	\end{titlepage}
 		
 %	\selectlanguage{english}
-	\chapter*{Abstract}
+	\chapter*{ABSTRACT}
 	\thispagestyle{empty}
 	
 	The goal of the present thesis is to develop a method for a robotic outdoor platform. 
@@ -136,31 +215,31 @@
 	
 	
 %	\selectlanguage{greek}
-	\chapter*{Περίληψη}
+	\chapter*{ΠΕΡΙΛΗΨΗ}
 	\thispagestyle{empty}
 	
 	Σκοπός της παρούσας διπλωματικής είναι η ανάπτυξη μεθόδου ώστε μια ρομποτική 
-	πλατφόρμα εξωτερικού χώρου να ανακαλύπτει μόνη της, με βάση τους αισθητήρες της 
+	πλατ-φόρμα εξωτερικού χώρου να ανακαλύπτει μόνη της, με βάση τους αισθητήρες της 
 	και τη γνώση που έχει αποκτήσει, πώς πρέπει να προσεγγίζει το εκάστοτε εμπόδιο 
 	που βρίσκεται μπροστά της, αν μπορεί να το υπερπηδήσει ή αν χρειάζεται να το 
 	παρακάμψει. Η αποφυγή εμποδίων εξασφαλίζει την ασφάλεια και ακεραιότητα τόσο της 
-	ρομποτικής πλατφόρ-μας όσο και των ανθρώπων και αντικειμένων που υπάρχουν στον 
+	ρομποτικής πλατφόρμας όσο και των ανθρώπων και αντικειμένων που υπάρχουν στον 
 	ίδιο χώρο. Αυτός είναι ένας από τους λόγους που οι περισσότερες προσεγγίσεις 
 	τέτοιων θεμάτων επικεντρώνονται κυρίως στους ελιγμούς για την αποφυγή εμποδίων 
 	αντί για την παραγωγή αυτόνομων συστημάτων με ικανότητα αυτοβελτίωσης.
 	Δεν υπάρχει μεγάλη βιβλιογραφία για ρομπότ που έχουν την περιέργεια να εξερευνήσουν 
-	το περιβάλλον τους, για περιπτώσεις δηλα-δή που δεν υπάρχει συγκεκριμένος στόχος, 
+	το περιβάλλον τους, για περιπτώσεις δηλαδή που δεν υπάρχει συγκεκριμένος στόχος, 
 	αλλά μόνο η αφηρημένη ανάγκη του ρομπότ να εξερευνήσει ένα καινούριο περιβάλλον.
 	\par
-	Στην παρούσα διατριβή παρουσιάζουμε ένα σύστημα που όχι μόνο κα-τατάσσει αυτόνομα 
-	το περιβάλλον του σε προσπελάσιμες και μη προσπε-λάσιμες περιοχές, αλλά επίσης έχει 
+	Στην παρούσα διατριβή παρουσιάζουμε ένα σύστημα που όχι μόνο κατατάσσει αυτόνομα 
+	το περιβάλλον του σε προσπελάσιμες και μη προσπελάσιμες περιοχές, αλλά επίσης έχει 
 	την ικανότητα να αυτοβελτιώνεται.
-	Για να το επιτύχουμε, χρησιμοποιούμε ένα προ-εκπαιδευμένο νευρωνικό δίκτυο που 
-	αναπαριστά χρωματικά τα αντικείμενα της σκηνής. Αναπτύσουμε ένα πρόγραμμα, το οποίο 
+	Για να το επιτύχουμε, χρησιμοποιούμε ένα προεκπαι-δευμένο νευρωνικό δίκτυο που 
+	αναπαριστά χρωματικά τα αντικείμενα της σκηνής. Ανα-πτύσσουμε ένα πρόγραμμα, το οποίο 
 	δέχεται ως είσοδο εικόνες που εξάγονται από το προαναφερθέν νευρωνικό δίκτυο και 
 	προβλέπει αν το ρομπότ μπορεί να προσπελάσει τα απεικονιζόμενα αντικείμενα. 
-	Το πρόγραμμα αυτό εκπαι-δεύεται και στη συνέχεια αξιολογείται η αποτελεσματικότητά του. 
-	Τα αποτε-λέσματά μας κρίνουμε ότι είναι αρκετά ικανοποιητικά. Το ποσοστό σφά-λματός 
+	Το πρόγραμμα αυτό εκπαιδεύεται και στη συνέχεια αξιολο-γείται η αποτελεσματικότητά του. 
+	Τα αποτελέσματά μας κρίνουμε ότι είναι αρκετά ικανοποι-ητικά. Το ποσοστό σφάλματος 
 	μπορεί να εξηγηθεί από το γεγονός ότι το περιβάλλον δεν είναι ομοιόμορφα κατανεμημένο 
 	σε εμπόδια και προσπελάσιμες περιοχές ενώ παράλληλα δεν είναι πάντοτε σαφές τι από 
 	τα δύο υπερισχύει. Τέλος, δείχνουμε ότι είναι εύκολο να μειωθεί το ποσοστό σφάλματος  
@@ -199,7 +278,7 @@
 	S.T.
 	\end{flushright}
 	
-	\chapter*{Acknowledgements}
+	\chapter*{ACKNOWLEDGEMENTS}
 	\thispagestyle{empty}
 	I would like to thank my supervisor, Prof. Takis Stamatopoulos for providing his 
 	expertise, support and guidance throughout all my undergraduate and postgraduate 
@@ -219,12 +298,29 @@
 	
 	{
 		\hypersetup{linkcolor=black}
-		\tableofcontents
-		\listoftables
-		\listoffigures
+		\renewcommand*\contentsname{CONTENTS}
+		\renewcommand{\listfigurename}{LIST OF FIGURES}
+		\renewcommand{\listtablename}{LIST OF TABLES}
+		
+		\clearpage                       % Otherwise \pagestyle affects the previous page.
+		{                                % Enclosed in braces so that re-definition is temporary.
+			\pagestyle{empty}              % Removes numbers from middle pages.
+			\fancypagestyle{plain}         % Re-definition removes numbers from first page.
+			{
+				\fancyhf{}%                       % Clear all header and footer fields.
+				\renewcommand{\headrulewidth}{0pt}% Clear rules (remove these two lines if not desired).
+				\renewcommand{\footrulewidth}{0pt}%
+			}
+			\tableofcontents
+			\listoftables
+			\listoffigures
+			\thispagestyle{empty}          % Removes numbers from last page.
+		}
+		% (thanks to https://tex.stackexchange.com/questions/5787/table-of-contents-with-page-style-empty)
 	}
 	
-	\chapter*{Preface}
+	\chapter*{PREFACE}
+	\thispagestyle{empty}
 	This project has been developed since October 2018 in the University of Athens at 
 	the department of Informatics and Telecommunications as my postgraduate thesis. It 
 	has been implemented in cooperation with the National Centre for Scientific Research 
@@ -234,7 +330,7 @@
 	\end{flushright}
 	
 	
-	\chapter{Introduction}
+	\chapter{INTRODUCTION}
 	\label{sec:intro}
 	
 	During the last years the focus of research for robotic applications evolved 
@@ -354,13 +450,13 @@
 		work.
 		\item In Appendix~\ref{app:urls} we share some \acronym{url}s of prototype 
 		implementations from researchers who kindly offered their work open-source. 
-		We also share the \acronym{url}s of some popular datasets used for training
-		neural networks.
+		\item In Appendix~\ref{app:dtsets} we share the \acronym{url}s of some popular 
+		datasets used for training neural networks.
 		\item In Appendix~\ref{app:data} one can find a brief outline on how 
 		we collected the sample data we used for our evaluation.
 	\end{itemize}
 	
-	\chapter{Background}
+	\chapter{BACKGROUND}
 	\label{sec:bg}
 	
 	In order to have an autonomous robot improve its traversability 
@@ -1011,11 +1107,11 @@
 	\\
 	
 	\begin{figure}[h!]
+		\centering
+		\includegraphics[width=\textwidth]{clas_loc}
 		\caption{Object Classification is identifying that picture is a dog (left). Object 
 			Localization involves as well a bounding box to show where the object is located, 
 			apart from the class label \alleg{dog} (right). Both are suitable for single object.}
-		\centering
-		\includegraphics[width=\textwidth]{clas_loc}
 		\label{fig:clas}
 	\end{figure}
 	
@@ -1062,11 +1158,11 @@
 	\\
 	
 	\begin{figure}[h!]
-		\caption{Object Detection locates and identifies multiple objects and all their 
-		instances (\boldcolor{red}{cat}, \boldcolor{Aquamarine}{dog}, \boldcolor{green}{duck}) 
-		within the image.}
 		\centering
 		\includegraphics[width=\textwidth]{detect}
+		\caption{Object Detection locates and identifies multiple objects and all their 
+			instances (\boldcolor{red}{cat}, \boldcolor{Aquamarine}{dog}, \boldcolor{green}{duck}) 
+			within the image.}
 		\label{fig:det}
 	\end{figure}
 	
@@ -1130,11 +1226,11 @@
 	\\
 	
 	\begin{figure}[h!]
-		\caption{Semantic Segmentation makes a prediction at every pixel within an image. 
-		That means there is a label for each pixel, instead of object (\boldcolor{ForestGreen}{grass}, \boldcolor{YellowOrange}{cat}, \boldcolor{VioletRed}{tree}, \boldcolor{RoyalBlue}{sky}). 
-		Original image (left), output of the semantic segmentation (right).}
 		\centering
 		\includegraphics[width=\textwidth]{segm}
+		\caption{Semantic Segmentation makes a prediction at every pixel within an image. 
+			That means there is a label for each pixel, instead of object (\boldcolor{ForestGreen}{grass}, \boldcolor{YellowOrange}{cat}, \boldcolor{VioletRed}{tree}, \boldcolor{RoyalBlue}{sky}). 
+			Original image (left), output of the semantic segmentation (right).}
 		\label{fig:segm}
 	\end{figure}
 	
@@ -1176,12 +1272,12 @@
 	\\
 	
 	\begin{figure}[h!]
-		\caption{Figure taken from Fully Convolutional Neural Networks for Semantic 
-		Segmentation, trained on \acronym{pascal voc}: Original image (left), predicted 
-		label map (right). Notice the predictions are only for the foreground, the entire 
-		background in the left image appears black on the right.}
 		\centering
 		\includegraphics[width=\textwidth]{fcn}
+		\caption{Figure taken from Fully Convolutional Neural Networks for Semantic 
+			Segmentation, trained on \acronym{pascal voc}: Original image (left), predicted 
+			label map (right). Notice the predictions are only for the foreground, the entire 
+			background in the left image appears black on the right.}
 		\label{fig:fcn}
 	\end{figure}
 	
@@ -1274,7 +1370,7 @@
 	\\
 	
 	
-	\chapter{Autonomous Navigation}
+	\chapter{AUTONOMOUS NAVIGATION}
 	\label{sec:fg}
 	
 	The goal is for the robot to be able to autonomously navigate in natural environments. 
@@ -1486,9 +1582,6 @@
 	\\
 	
 	\begin{figure}[h!]
-		\caption{Results given from indoor input. Fully convolutional network, Pyramid 
-		scene parsing network and DeepLab trained on \acronym{coco}, \acronym{pascal voc} 
-		and \acronym{ade20k} dataset.}
 		\centering
 		\begin{subfigure}[b]{0.3\textwidth}
 			\includegraphics[width=\textwidth]{in}
@@ -1511,14 +1604,14 @@
 			\includegraphics[width=\textwidth]{in_ade_deep}
 			\caption{DeepLab with \acronym{ade}}
 		\end{subfigure}
+		\caption{Results given from indoor input. Fully convolutional network, Pyramid 
+			scene parsing network and DeepLab trained on \acronym{coco}, \acronym{pascal voc} 
+			and \acronym{ade20k} dataset.}
 		\label{fig:in}
 	\end{figure}
 	
 	
 	\begin{figure}[h!]
-		\caption{Results given from outdoor input. Fully convolutional network, Pyramid 
-		scene parsing network and DeepLab trained on \acronym{coco}, \acronym{pascal voc} 
-		and \acronym{ade20k} dataset.}
 		\centering
 		\begin{subfigure}[b]{0.3\textwidth}
 			\includegraphics[width=\textwidth]{out}
@@ -1541,6 +1634,9 @@
 			\includegraphics[width=\textwidth]{out_ade_deep}
 			\caption{DeepLab with \acronym{ade}}
 		\end{subfigure}
+		\caption{Results given from outdoor input. Fully convolutional network, Pyramid 
+			scene parsing network and DeepLab trained on \acronym{coco}, \acronym{pascal voc} 
+			and \acronym{ade20k} dataset.}
 		\label{fig:out}
 	\end{figure}
 	
@@ -1594,10 +1690,6 @@
 	\\
 	
 	\begin{figure}[h!]
-		\caption{Example for explaining the differences between the two calculating methods - 
-			\class{earth} (80\% chance of being traversable, found to be 
-			penetrable 8 times out of the total of 10), \class{tree} (30\%, 9 out of 30), 
-			\class{sky} (45\%, 9 out of 20)}
 		\centering
 		\begin{subfigure}[b]{0.45\textwidth}
 			\includegraphics[width=\textwidth]{44_40_0050or}
@@ -1609,6 +1701,10 @@
 			\caption{Image resulting from \acronym{psp}}
 			\label{fig:meth:nn}
 		\end{subfigure}
+		\caption{Example for explaining the differences between the two calculating methods - 
+			\class{earth} (80\% chance of being traversable, found to be 
+			penetrable 8 times out of the total of 10), \class{tree} (30\%, 9 out of 30), 
+			\class{sky} (45\%, 9 out of 20)}
 		\label{fig:meth}
 	\end{figure}
 	
@@ -1657,7 +1753,7 @@
 	\\
 	
 	
-	\chapter{Experimental Validation and Comparison}
+	\chapter{EXPERIMENTAL VALIDATION AND COMPARISON}
 	\label{sec:exp}
 	
 	In this chapter we will evaluate our program. We will describe the model-validation 
@@ -1698,6 +1794,8 @@
 	\\
 	
 	\begin{table}[h!]
+		\caption{Number of images for each testing and training set in 5-fold cross validation. 
+			Total number of images: 778 traversable and 945 non-traversable.}
 		\centering
 		\begin{tabular}{|c|c|c|c|c|}
 			\hline
@@ -1716,8 +1814,6 @@
 			5 & 183 & 595 & 150 & 795\\
 			\hline
 		\end{tabular}
-		\caption{Number of images for each testing and training set in 5-fold cross validation. 
-			Total number of images: 778 traversable and 945 non-traversable.}
 		\label{table:folds_images}
 	\end{table}
 	
@@ -1751,6 +1847,10 @@
 	\\
 	
 	\begin{table}[h!]
+		\caption{1st calculating method - Percentage of evaluation images whose 
+			traversability was found correctly. In the first column are the results from 
+			images derived from the \acronym{fcn}, the second from \acronym{psp} and the 
+			third from DeepLab.}
 		\centering
 		\begin{tabular}{|c|c|c|c|}
 			\hline
@@ -1771,14 +1871,14 @@
 			Average & 69.3 & 88.33 & 63.26\\
 			\hline
 		\end{tabular}
-		\caption{1st calculating method - Percentage of evaluation images whose 
-		traversability was found correctly. In the first column are the results from 
-		images derived from the \acronym{fcn}, the second from \acronym{psp} and the 
-		third from DeepLab.}
 		\label{table:1st}
 	\end{table}
 	
 	\begin{table}[h!]
+		\caption{2nd calculating method - Percentage of evaluation images whose 
+			traversability was found correctly. In the first column are the results from 
+			images derived from the \acronym{fcn}, the second from \acronym{psp} and the 
+			third from DeepLab.}
 		\centering
 		\begin{tabular}{|c|c|c|c|}
 			\hline
@@ -1799,10 +1899,6 @@
 			Average & 55.6 & 72.84 & 55.02\\
 			\hline
 		\end{tabular}
-		\caption{2nd calculating method - Percentage of evaluation images whose 
-		traversability was found correctly. In the first column are the results from 
-		images derived from the \acronym{fcn}, the second from \acronym{psp} and the 
-		third from DeepLab.}
 		\label{table:2nd}
 	\end{table}
 	
@@ -1816,6 +1912,8 @@
 	\\
 	
 	\begin{table}[h!]
+		\caption{\acronym{psp} - Percentage of testing images whose	traversability 
+			was found correctly with the 1st and the 2nd calculating method.}
 		\centering
 		\begin{tabular}{|c|c|c|}
 			\hline
@@ -1836,9 +1934,6 @@
 			Average & 88.33 & 72.84\\
 			\hline
 		\end{tabular}
-		\caption{\acronym{psp} - Percentage of testing images whose	traversability 
-			was found correctly with the 1st and the 2nd calculating 
-		method.}
 		\label{table:psp}
 	\end{table}
 	
@@ -1852,6 +1947,10 @@
 	\\
 	
 	\begin{table}[h!]
+		\caption{\acronym{psp} 1st method - Number of traversable and non-traversable 
+			images for each testing set, with their success rate in finding traversability. 
+			Observe that the success rate for non-traversable images is always 100\%, 
+			while in traversable images is much lower.}
 		\centering
 		\begin{tabular}{|c|c|c|c|c||c|}
 			\hline
@@ -1874,10 +1973,6 @@
 			Average & 778 & 74.16 & 945 & 100 & 88.33\\
 			\hline
 		\end{tabular}
-		\caption{\acronym{psp} 1st method - Number of traversable and non-traversable 
-			images for each testing set, with their success rate in finding traversability. 
-			Observe that the success rate for non-traversable images is always 100\%, 
-			while in traversable images is much lower.}
 		\label{table:psp:1st}
 	\end{table}
 	
@@ -1947,9 +2042,6 @@
 	\\
 	
 	\begin{figure}[h!]
-		\caption{Class labels \class{tree}, \class{sky}, \class{earth}, \class{plant}, 
-			\class{wall} (in red circle) in a traversable image that was incorrectly 
-			predicted.}
 		\centering
 		\begin{subfigure}[b]{0.45\textwidth}
 			\includegraphics[width=\textwidth]{28_57_0000t}
@@ -1960,17 +2052,18 @@
 			\begin{tikzpicture}
 			\node[anchor=south west,inner sep=0] at (0,0) 
 			{\includegraphics[width=\textwidth]{28_57_0000t_psp}};
-			\draw[red,thick] (6.1,1.3) circle (0.3) ;
+			\draw[red,thick] (7.3,1.6) circle (0.3) ;
 			\end{tikzpicture}
 			\caption{Image resulting from \acronym{psp}}
 			\label{fig:trav:28_57:psp}
 		\end{subfigure}
+		\caption{Class labels \class{tree}, \class{sky}, \class{earth}, \class{plant}, 
+			\class{wall} (in red circle) in a traversable image that was incorrectly 
+			predicted.}
 		\label{fig:trav:28_57}
 	\end{figure}
 	
 	\begin{figure}[h!]
-		\caption{Class labels \class{tree}, \class{sky}, \class{earth}, \class{wall} in 
-			a non-traversable image that was correctly predicted.}
 		\centering
 		\begin{subfigure}[b]{0.45\textwidth}
 			\includegraphics[width=\textwidth]{32-49_0000w}
@@ -1982,6 +2075,8 @@
 			\caption{Image resulting from \acronym{psp}}
 			\label{fig:obst:32-49:psp}
 		\end{subfigure}
+		\caption{Class labels \class{tree}, \class{sky}, \class{earth}, \class{wall} in 
+			a non-traversable image that was correctly predicted.}
 		\label{fig:obst:32-49}
 	\end{figure}
 	
@@ -2010,6 +2105,8 @@
 	
 	
 	\begin{table}[h!]
+		\caption{Percentage of classes in traversable testing images found to be traversable, 
+			for each fold.}
 		\centering
 		\begin{tabular}{|c|c|c|c|}
 			\hline
@@ -2028,12 +2125,12 @@
 			5 & 6 & 12 & 50\\
 			\hline
 		\end{tabular}
-		\caption{Percentage of classes in traversable testing images found to be traversable, 
-			for each fold.}
 		\label{table:trav.classes}
 	\end{table}
 	
 	\begin{table}[h!]
+		\caption{Percentage of classes in non-traversable testing images found to be 
+			non-traversable, for each fold.}
 		\centering
 		\begin{tabular}{|c|c|c|c|}
 			\hline
@@ -2052,8 +2149,6 @@
 			5 & 9 & 11 & 81.82\\
 			\hline
 		\end{tabular}
-		\caption{Percentage of classes in non-traversable testing images found to be 
-			non-traversable, for each fold.}
 		\label{table:obst.classes}
 	\end{table}
 	
@@ -2118,7 +2213,11 @@
 	
 	
 	\begin{table}[h!]
+		\caption{Traversable images for testing - Labels, number of their instances and their 
+			traversability percentage as emerged from training. The last column shows all 
+			classes with traversability percentage $>$ 50\%. (continuing in next page)}
 		\begin{subtable}[h!]{\textwidth}
+			\caption{Fold 1 (153 traversable images)}
 			\centering
 			\begin{tabular}{|c|c|c|c|}
 				\hline
@@ -2163,11 +2262,11 @@
 				floor & 19 & 0 &\\
 				\hline
 			\end{tabular}
-			\caption{Fold 1 (153 traversable images)}
 			\label{table:trav.f1}
 		\end{subtable}
 		\\\\\\
 		\begin{subtable}[h!]{\textwidth}
+			\caption{Fold 2 (169 traversable images)}
 			\centering
 			\begin{tabular}{|c|c|c|c|}
 				\hline
@@ -2200,18 +2299,18 @@
 				wall & 13 & 30 &\\
 				\hline
 			\end{tabular}
-			\caption{Fold 2 (169 traversable images)}
 			\label{table:trav.f2}
 		\end{subtable}
-		\caption{Traversable images for testing - Labels, number of their instances and their 
-			traversability percentage as emerged from training. The last column shows all 
-			classes with traversability percentage $>$ 50\%. (continuing in next page)}
 		\label{table:trav.folds}
 	\end{table}
 	
 	\begin{table}[h!]
 		\ContinuedFloat % continue from previous page
+		\caption{(continued) Traversable images for testing - Labels, number of their instances 
+			and their traversability percentage as emerged from training. The last column shows 
+			all classes with traversability percentage $>$ 50\%. (continuing in next page)}
 		\begin{subtable}[h!]{\textwidth}
+			\caption{Fold 3 (164 traversable images)}
 			\centering
 			\begin{tabular}{|c|c|c|c|}
 				\hline
@@ -2246,11 +2345,11 @@
 				wall & 72 & 28 &\\
 				\hline
 			\end{tabular}
-			\caption{Fold 3 (164 traversable images)}
 			\label{table:trav.f3}
 		\end{subtable}
 		\\\\\\
 		\begin{subtable}[h!]{\textwidth}
+			\caption{Fold 4 (109 traversable images)}
 			\centering
 			\begin{tabular}{|c|c|c|c|}
 				\hline
@@ -2283,17 +2382,17 @@
 				fence & 2 & 100 & \checkmark\\
 				\hline
 			\end{tabular}
-			\caption{Fold 4 (109 traversable images)}
 			\label{table:trav.f4}
 		\end{subtable}
-		\caption{(continued) Traversable images for testing - Labels, number of their instances 
-			and their traversability percentage as emerged from training. The last column shows 
-			all classes with traversability percentage $>$ 50\%. (continuing in next page)}
 	\end{table}
 	
 	\begin{table}[h!]
 		\ContinuedFloat % continue from previous page
+		\caption{(continued) Traversable images for testing - Labels, number of their instances 
+			and their traversability percentage as emerged from training. The last column shows 
+			all classes with traversability percentage $>$ 50\%.}
 		\begin{subtable}[h!]{\textwidth}
+			\caption{Fold 5 (183 traversable images)}
 			\centering
 			\begin{tabular}{|c|c|c|c|}
 				\hline
@@ -2334,19 +2433,19 @@
 				fence & 94 & 100 & \checkmark\\
 				\hline
 			\end{tabular}
-			\caption{Fold 5 (183 traversable images)}
 			\label{table:trav.f5}
 		\end{subtable}
-		\caption{(continued) Traversable images for testing - Labels, number of their instances 
-			and their traversability percentage as emerged from training. The last column shows 
-			all classes with traversability percentage $>$ 50\%.}
 	\end{table}
 	
 	
 	
 	
 	\begin{table}[h!]
+		\caption{Non-traversable images for testing - Labels, number of their instances and their 
+			traversability percentage as emerged from training. The last column shows all classes 
+			with traversability percentage $\le$ 50\%. (continuing in next page)}
 		\begin{subtable}[h!]{\textwidth}
+			\caption{Fold 1 (184 non-traversable images)}
 			\centering
 			\begin{tabular}{|c|c|c|c|}
 				\hline
@@ -2378,11 +2477,11 @@
 				floor & 32 & 0 & \checkmark\\
 				\hline
 			\end{tabular}
-			\caption{Fold 1 (184 non-traversable images)}
 			\label{table:obst.f1}
 		\end{subtable}
 		\\\\\\
 		\begin{subtable}[h!]{\textwidth}
+			\caption{Fold 2 (221 non-traversable images)}
 			\centering
 			\begin{tabular}{|c|c|c|c|}
 				\hline
@@ -2426,18 +2525,18 @@
 				signboard & 82 & 100 &\\
 				\hline
 			\end{tabular}
-			\caption{Fold 2 (221 non-traversable images)}
 			\label{table:obst.f2}
 		\end{subtable}
-		\caption{Non-traversable images for testing - Labels, number of their instances and their 
-			traversability percentage as emerged from training. The last column shows all classes 
-			with traversability percentage $\le$ 50\%. (continuing in next page)}
 		\label{table:obst.folds}
 	\end{table}
 	
 	\begin{table}[h!]
 		\ContinuedFloat % continue from previous page
+		\caption{(continued) Non-traversable images for testing - Labels, number of their instances 
+			and their traversability percentage as emerged from training. The last column shows all 
+			classes with traversability percentage $\le$ 50\%. (continuing in next page)}
 		\begin{subtable}[h!]{\textwidth}
+			\caption{Fold 3 (225 non-traversable images)}
 			\centering
 			\begin{tabular}{|c|c|c|c|}
 				\hline
@@ -2485,17 +2584,17 @@
 				microwave & 72 & - & -\\
 				\hline
 			\end{tabular}
-			\caption{Fold 3 (225 non-traversable images)}
 			\label{table:obst.f3}
 		\end{subtable}
-		\caption{(continued) Non-traversable images for testing - Labels, number of their instances 
-			and their traversability percentage as emerged from training. The last column shows all 
-			classes with traversability percentage $\le$ 50\%. (continuing in next page)}
 	\end{table}
 	
 	\begin{table}[h!]
 		\ContinuedFloat % continue from previous page
+		\caption{(continued) Non-traversable images for testing - Labels, number of their instances 
+			and their traversability percentage as emerged from training. The last column shows all 
+			classes with traversability percentage $\le$ 50\%.}
 		\begin{subtable}[h!]{\textwidth}
+			\caption{Fold 4 (165 non-traversable images)}
 			\centering
 			\begin{tabular}{|c|c|c|c|}
 				\hline
@@ -2533,11 +2632,11 @@
 				crt screen & 35 & 0 & \checkmark\\
 				\hline
 			\end{tabular}
-			\caption{Fold 4 (165 non-traversable images)}
 			\label{table:obst.f4}
 		\end{subtable}
 		\\\\\\
 		\begin{subtable}[h!]{\textwidth}
+			\caption{Fold 5 (150 non-traversable images)}
 			\centering
 			\begin{tabular}{|c|c|c|c|}
 				\hline
@@ -2575,17 +2674,13 @@
 				plate & 9 & - & -\\
 				\hline
 			\end{tabular}
-			\caption{Fold 5 (150 non-traversable images)}
 			\label{table:obst.f5}
 		\end{subtable}
-		\caption{(continued) Non-traversable images for testing - Labels, number of their instances 
-			and their traversability percentage as emerged from training. The last column shows all 
-			classes with traversability percentage $\le$ 50\%.}
 	\end{table}
 	
 	
 	
-	\chapter{Conclusions and Future Work}
+	\chapter{CONCLUSIONS AND FUTURE WORK}
 	\label{sec:concl}
 	
 	In this thesis we concentrated on traversability estimation methods. In 
@@ -2636,14 +2731,12 @@
 	\\
 	
 	\begin{figure}[h!]
-		\caption{Two minimized images (one traversable and one not) so that the robotic 
-			platform fits marginally within their frame.}
 		\centering
 		\begin{subfigure}[b]{0.45\textwidth}
 			\begin{tikzpicture}
 			\node[anchor=south west,inner sep=0] at (0,0) 
 			{\includegraphics[width=\textwidth]{28_57_0000t_psp}};
-			\draw[red,thick] (5.0,1.5) rectangle (1.0,0.0) ;
+			\draw[red,thick] (6.0,2.0) rectangle (1.5,0.03) ;
 			\end{tikzpicture}
 			\caption{Minimized Figure~\bl{\ref{fig:trav:28_57:psp}}}
 		\end{subfigure}
@@ -2651,10 +2744,12 @@
 			\begin{tikzpicture}
 			\node[anchor=south west,inner sep=0] at (0,0) 
 			{\includegraphics[width=\textwidth]{32-49_0000w_psp}};
-			\draw[red,thick] (5.0,1.5) rectangle (1.0,0.0) ;
+			\draw[red,thick] (6.0,2.0) rectangle (1.5,0.03) ;
 			\end{tikzpicture}
 			\caption{Minimized Figure~\bl{\ref{fig:obst:32-49:psp}}}
 		\end{subfigure}
+		\caption{Two minimized images (one traversable and one not) so that the robotic 
+			platform fits marginally within their frame.}
 		\label{fig:mini}
 	\end{figure}
 	
@@ -2676,8 +2771,16 @@
 	
 	
 	
+	\titleformat
+	{\chapter} % command
+	[block] % shape
+	{\bfseries\large\centering} % format
+	{APPENDIX \thechapter.} % label
+	{14pt} % sep
+	{\large}
+	
 	\appendix
-	\chapter{Reference Implementations and Datasets}
+	\chapter{REFERENCE IMPLEMENTATIONS}
 	\label{app:urls}
 	
 	Many authors published their code open-source so that other researchers may 
@@ -2716,12 +2819,17 @@
 	this thesis (see Section~\ref{sec:fg:impl}).
 	\\\\
 	
+	
+	\chapter{DATASETS}
+	\label{app:dtsets}
+	
 	In Table~\bl{\ref{table:dataset}} one can find some of the available datasets 
 	used for neural network training and evaluation. For our system we used \acronym{ade20k} 
 	dataset to perform total scene semantic segmentation (see Chapter~\ref{sec:fg}).
 	\\
 	
 	\begin{table}[h!]
+		\caption{Datasets and their \acronym{url}s}
 		\centering
 		\resizebox{\textwidth}{!}{%
 			\begin{tabular}{cc}
@@ -2736,12 +2844,11 @@
 				\acronym{pascal voc} \citep{pascal} & \url{http://host.robots.ox.ac.uk/pascal/VOC/}\\
 			\end{tabular}
 		}
-		\caption{Datasets and their \acronym{url}s}
 		\label{table:dataset}
 	\end{table}
 	
 	
-	\chapter{Collecting Data}
+	\chapter{COLLECTING DATA}
 	\label{app:data}
 	
 	In order to have the robot autonomously fine-tune its traversability estimation, 
@@ -2759,7 +2866,6 @@
 	\\
 	
 	\begin{figure}[h!]
-		\caption{Indicative scenes for the localization error experiments.}
 		\centering
 		\begin{subfigure}[b]{0.3\textwidth}
 			\includegraphics[width=\textwidth]{road}
@@ -2773,6 +2879,7 @@
 			\includegraphics[width=\textwidth]{wall}
 			\caption{Wall}
 		\end{subfigure}
+		\caption{Indicative scenes for the localization error experiments.}
 		\label{fig:scenes}
 	\end{figure}
 	
@@ -2805,8 +2912,8 @@
 	\\
 	
 	
-	
-	\renewcommand{\bibname}{References}
+	\renewcommand*{\bibfont}{\small}
+	\renewcommand{\bibname}{REFERENCES}
 	\bibliography{ref}
 	\bibliographystyle{unsrtnat}
 \end{document}
