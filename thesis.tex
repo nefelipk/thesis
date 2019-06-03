@@ -22,8 +22,8 @@
 
 \usepackage{amssymb}
 
-\usepackage[font=small,font=bf]{caption}
-\usepackage[font=small,font=bf]{subcaption}
+\usepackage[font={small,bf}]{caption}
+\usepackage[font={small,bf}]{subcaption}
 \usepackage{multirow}
 \graphicspath{ {./images/} }
 
@@ -128,20 +128,20 @@ headheight=15pt,headsep=1.25cm,footskip=1.25cm,includehead,includefoot]{geometry
 \usepackage{fancyhdr}
 \pagestyle{fancy}
 \newcommand{\headerfont}{%
-	\fontsize{10}{12}\selectfont
+	\fontsize{8}{12}\selectfont
 }
 \fancyhf{}
 \fancyhead[LE,LO]{\headerfont Autonomic tackling of unknown obstacles in navigation of robotic platform}
-\fancyfoot[LE,LO]{N. Prokopaki Kostopoulou}
-\fancyfoot[RE,RO]{\thepage}
+\fancyfoot[LE,LO]{\headerfont N. Prokopaki Kostopoulou}
+\fancyfoot[RE,RO]{\headerfont \thepage}
 
 % needed redefinition, because commands like \chapter call 
 % \thispagestyle{plain} automatically
 \fancypagestyle{plain} {
 	\fancyhf{}
 	\fancyhead[LE,LO]{\headerfont Autonomic tackling of unknown obstacles in navigation of robotic platform}
-	\fancyfoot[LE,LO]{N. Prokopaki Kostopoulou}
-	\fancyfoot[RE,RO]{\thepage}
+	\fancyfoot[LE,LO]{\headerfont N. Prokopaki Kostopoulou}
+	\fancyfoot[RE,RO]{\headerfont \thepage}
 }
 \renewcommand{\headrulewidth}{0pt}
 
@@ -1982,8 +1982,8 @@ headheight=15pt,headsep=1.25cm,footskip=1.25cm,includehead,includefoot]{geometry
 	In Table~\bl{\ref{table:psp:1st}} we can see that the prediction for non-traversable 
 	images is always correct. The foresight on penetrable images is not equally great though. 
 	Also one can easily observe that fold 1 has the worst results compared to the other 
-	folds. Followed by fold 4 and fold 3. But why does this happen? Why does each non-traversable 
-	images easier to predict than traversable ones? And why does each fold have different 
+	folds. Followed by fold 4 and fold 3. But why does this happen? Why non-traversable 
+	images are easier to predict than traversable ones? And why does each fold have different 
 	success rate? These are some questions we will try to answer in this section.
 	\\
 	
@@ -2020,7 +2020,7 @@ headheight=15pt,headsep=1.25cm,footskip=1.25cm,includehead,includefoot]{geometry
 	As mentioned in the beginning of this section, we can see in Table~\bl{\ref{table:psp:1st}} 
 	that the predictions for non-traversable images are much better than those for 
 	traversable images. Let's try and find out why. Let's take for example class labels 
-	\class{sky}, \class{earth} and \class{tree}. These two classes appear in most, if not in 
+	\class{sky}, \class{earth} and \class{tree}. These three classes appear in most, if not in 
 	all, of the testing images. In Tables~\bl{\ref{table:trav.folds}} (folds 1, 2, 3 and 5 ) the 
 	instances of these classes are equal to the number of the traversable images. And in 
 	Table~\bl{\ref{table:trav.f4}} are only slightly fewer. The probability of each of them 
