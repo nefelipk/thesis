@@ -94,6 +94,10 @@ headheight=15pt,headsep=1.25cm,footskip=1.25cm,includehead,includefoot]{geometry
 {\normalfont\bfseries}
 {\thesubsubsection.}{12pt}{}
 
+\titleformat{\paragraph}[block]
+{\normalfont\bfseries}
+{\theparagraph.}{12pt}{}
+
 \chaptertitlefont{\vspace*{-2.38cm} \large \centering \MakeTextUppercase}
 \sectionfont{\normalsize}
 \subsectionfont{\normalsize}
@@ -104,8 +108,8 @@ headheight=15pt,headsep=1.25cm,footskip=1.25cm,includehead,includefoot]{geometry
 %
 % Set ToC depth
 %
-\setcounter{tocdepth}{3}
-\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{4}
+\setcounter{secnumdepth}{4}
 
 %
 % No indentation for paragraphs
@@ -159,6 +163,10 @@ headheight=15pt,headsep=1.25cm,footskip=1.25cm,includehead,includefoot]{geometry
 \renewcommand{\cftsubsubsecfont}{\small}
 \renewcommand{\cftsubsubsecpagefont}{\small}
 \renewcommand{\cftsubsubsecleader}{\cftdotfill{\cftsecdotsep}}
+\renewcommand{\cftparafont}{\small}
+\renewcommand{\cftparapagefont}{\small}
+\renewcommand{\cftparaleader}{\cftdotfill{\cftsecdotsep}}
+\setlength{\cftparaindent}{\cftsubsubsecindent}
 \setlength{\cftsubsubsecindent}{\cftsubsecindent}
 \setlength{\cftsubsecindent}{\cftsecindent}
 \setlength{\cftsecindent}{\cftchapindent}
@@ -211,7 +219,7 @@ headheight=15pt,headsep=1.25cm,footskip=1.25cm,includehead,includefoot]{geometry
 	\MakeUppercase{\textbf{Subject Area: }} Traversability estimation
 	\\
 	\MakeUppercase{\textbf{Keywords: }} traversability, data collection, navigation, 
-	neural networks 
+	exploration, neural networks 
 	
 	
 %	\selectlanguage{greek}
@@ -250,7 +258,7 @@ headheight=15pt,headsep=1.25cm,footskip=1.25cm,includehead,includefoot]{geometry
 	\MakeUppercase{\textbf{Θεματικη Περιοχη: }} Εκτίμηση προσπελασιμότητας
 	\\
 	\MakeUppercase{\textbf{Λεξεις Κλειδια: }} προσπελασιμότητα, συλλογή δεδομένων, 
-	πλοήγηση, νευρωνικά δίκτυα
+	πλοήγηση, εξερεύνηση, νευρωνικά δίκτυα
 	
 	
 %	\selectlanguage{english}
@@ -466,8 +474,8 @@ headheight=15pt,headsep=1.25cm,footskip=1.25cm,includehead,includefoot]{geometry
 		\item Traversability estimation algorithms that can be improved from 
 		experience and examples.
 		\item Methods for collecting the data needed by the algorithm above, from 
-		the sensory input that is available to the robot. (The input we have does not 
-		directly map to positive/negative decision).
+		the sensory input that is available to the robot. The input does not necessarily 
+		directly map to positive or negative decision.
 		\item Navigation strategies. There might be an explicit goal to achieve, e.g.
 		follow the fastest or easiest route to a target. Or it could be curiosity-driven 
 		exploration, meaning the abstract need to learn a new environment.
@@ -493,8 +501,8 @@ headheight=15pt,headsep=1.25cm,footskip=1.25cm,includehead,includefoot]{geometry
 	most recent and most influential.
 	\\
 	
-	This line of research starts with \citet{Lalonde} that segment local three-
-	dimensional (\acronym{3d}) \term{point clouds} using a purely geometric 
+	This line of research starts with \citet{Lalonde} that segment local 
+	three-dimensional (\acronym{3d}) \term{point clouds} using a purely geometric 
 	approach, for autonomous robot navigation purposes. A 
 	\term{point cloud} is a set of data points in space, generally produced by 
 	\acronym{3d} scanners. The approach used is a segmentation in three terrain 
@@ -567,11 +575,11 @@ headheight=15pt,headsep=1.25cm,footskip=1.25cm,includehead,includefoot]{geometry
 	obtained in the present, the so called \term{on-line machine learning}. The 
 	learning process produces a classifier which makes traversability 
 	predictions for new terrain regions. Successes and failures of the navigation 
-	provide positive and negative traversability labels for cells in a grid-
-	based representation of the terrain surrounding the vehicle. Cells under the 
+	provide positive and negative traversability labels for cells in a 
+	grid-based representation of the terrain surrounding the vehicle. Cells under the 
 	robot footprint that can be driven over are traversable and therefore yield 
-	positive training examples, while those that hinder the robot’s motion are non-
-	traversable and result in negative examples.
+	positive training examples, while those that hinder the robot’s motion are 
+	non-traversable and result in negative examples.
 	\\
 	
 	Later on, \citet{Suger} proposed a learning approach that uses a \acronym{2d} 
@@ -589,7 +597,7 @@ headheight=15pt,headsep=1.25cm,footskip=1.25cm,includehead,includefoot]{geometry
 	reflect the ground-clearance of the robot as well as the motor power.
 	\begin{enumerate}
 		\item Roughness and
-		\item remission values (meaning the the reflection or scattering 
+		\item remission values (meaning the reflection or scattering 
 		of light by a material) 
 	\end{enumerate}
 	help to distinguish concrete and vegetation types.
@@ -813,7 +821,7 @@ headheight=15pt,headsep=1.25cm,footskip=1.25cm,includehead,includefoot]{geometry
 	approaches are mainly focused on obstacle detection and avoidance, even in 
 	dynamic environments. But they are less interested in traversability 
 	estimation for obstacles that may seem untraversable while in fact can be 
-	easily driven over by a robot like tall grass.
+	easily driven over by a robot, like tall grass.
 	\par
 	More so, even without the introduction of uncertainty, sensors in themselves are 
 	ambiguous \citep{Shabbir}. For example, a lemon and a soccer ball can look 
@@ -831,7 +839,7 @@ headheight=15pt,headsep=1.25cm,footskip=1.25cm,includehead,includefoot]{geometry
 	It measures and reports a robot's specific force, angular rate, and the 
 	\acronym{6d} robot pose (i.e. \acronym{3d} location and orientation).
 	\par
-	The use of the sensors above make is possible to assess the progress of the 
+	The use of the sensors above make it possible to assess the progress of the 
 	robot automatically and estimate its motion \citep{Droeschel}. That way successes 
 	and failures of the navigation provide positive and negative traversability 
 	examples \citep{Kim}. This kind of approaches can make predictions about the 
@@ -871,7 +879,7 @@ headheight=15pt,headsep=1.25cm,footskip=1.25cm,includehead,includefoot]{geometry
 	
 	From the perspective of intelligence, dealing with input directly to generate 
 	output without further processing of input information is a kind of	low-level 
-	intelligence \citep{Tai}. It will be more satisfactory if a mobile robot could 
+	intelligence \citep{Tai}. It would be more satisfactory if a mobile robot could 
 	imitate the way human beings deal with such a task. Fortunately, deep learning, 
 	with its advantage in hierarchical feature extraction, provides a potential 
 	solution for this problem.
@@ -1055,7 +1063,7 @@ headheight=15pt,headsep=1.25cm,footskip=1.25cm,includehead,includefoot]{geometry
 	layer takes as input the output from the layer preceding it, and outputs a vector 
 	with dimensions the number of classes that the program has to choose from. Each 
 	value of the vector represents the probability of a certain class.	For example, 
-	let's take a digit classification program. The output the a dimensional vector 
+	let's take a digit classification program. The output is a dimensional vector 
 	such as [0 0.1 0.1 0.75 0 0 0 0 0 0.05], since there are ten digits. This represents 
 	a 10\% probability that the original image is a 1, a 10\% that it is a 2, a 75\% 
 	that it is a 3, and a 5\% that it is a 9. Basically, a fully connected layer take 
@@ -1067,12 +1075,13 @@ headheight=15pt,headsep=1.25cm,footskip=1.25cm,includehead,includefoot]{geometry
 	the most well known and frequently used convolutional neural networks. In the 
 	next section many types of neural network models will be discussed. Models that 
 	recognize scenes or objects present in the input image, models that detect the 
-	location of different objects, even models that thy to understand and describe 
+	location of different objects, even models that try to understand and describe 
 	the whole scene within an image. Each type was thoroughly examined to find out 
 	which one is the most compatible with the purpose of this thesis. For those 
 	not already familiar with common models for object classification, localization 
 	and detection, as well as scene understanding and segmenting, the next chapter 
-	will introduce these concepts.
+	will introduce these concepts. The others feel free to proceed to 
+	Section~\ref{sec:bg:goals} where navigation strategies are described.
 	\\
 	
 	
@@ -1093,6 +1102,9 @@ headheight=15pt,headsep=1.25cm,footskip=1.25cm,includehead,includefoot]{geometry
 	of visual scenes (i.e., scene segmentation).
 	\\
 	
+	\paragraph{Classification and Localization}
+	\label{sec:bg:data:neural:models:cl}
+	
 	Convolutional networks have recently enjoyed a great success in large-scale image 
 	and video recognition \citep{Simonyan_vgg}. This has become possible due to the large 
 	public image repositories, such as \term{ImageNet} \citep{Deng} and high-performance 
@@ -1109,7 +1121,7 @@ headheight=15pt,headsep=1.25cm,footskip=1.25cm,includehead,includefoot]{geometry
 	\begin{figure}[h!]
 		\centering
 		\includegraphics[width=\textwidth]{clas_loc}
-		\caption{Object Classification is identifying that picture is a dog (left). Object 
+		\caption{Object Classification is identifying that picture as a dog (left). Object 
 			Localization involves as well a bounding box to show where the object is located, 
 			apart from the class label \alleg{dog} (right). Both are suitable for single object.}
 		\label{fig:clas}
@@ -1121,7 +1133,8 @@ headheight=15pt,headsep=1.25cm,footskip=1.25cm,includehead,includefoot]{geometry
 	Szegedy_inception, He_resnet, Chollet_xception} won in the \acronym{ilsvrc}. 
 	And others, like SqueezeNet, MobileNet \citep{Iandola_squeezenet, Howard_mobilenet} 
 	etc participated in it.
-	\par
+	\\
+	
 	\citet{Krizhevsky_alexnet} 
 	are widely regarded to have done one of the most influential publications in the field. 
 	Because of AlexNet, 2012 marked the first year where a convolutional network was used to 
@@ -1132,29 +1145,45 @@ headheight=15pt,headsep=1.25cm,footskip=1.25cm,includehead,includefoot]{geometry
 	really illustrated the benefits of convolutional networks and backed them up with 
 	record breaking performance in the \acronym{ilsvrc}. Since then the use of convolutional 
 	neural networks for classification has dominated the field.
-	\par
+	\\
+	
 	\citet{Simonyan_vgg} reinforced the notion that \defn{convolutional neural networks 
 	have to have a deep network of layers in order for this hierarchical representation 
 	of visual data to work}. VGGNet is characterized by its simplicity, using very small 
 	(3$\times$3) convolutional filters, instead of AlexNet’s (11$\times$11), stacked on 
 	top of each other in increasing depth from 16 to 19 layers. It was best utilized with 
 	its 7.3\% error rate. But it is painfully slow to train.
-	\par
+	\\
+	
 	The original incarnation of the Inception architecture used in \citet{Szegedy_inception} 
 	submission to \acronym{ilsvrc} 2014 is called GoogLeNet. It is a 22 layer convolutional 
 	neural network. It actually uses 12 times fewer parameters than the winning architecture 
 	AlexNet, from two years ago. It is also significantly more accurate, with a top 
 	5 error rate of 6.7\%. Inception was one of the first models that introduced the 
-	idea that convolutional layers did no always have to be stacked up sequentially, 
-	but could perform many operations in parallel. Finally this new model places notable 
+	idea that convolutional layers do not always have to be stacked up sequentially, 
+	but could perform many operations in parallel. Finally, this new model places notable 
 	consideration on memory and power usage.
-	\par
+	\\
+	
 	Depending on their skill and expertise, humans generally hover around a 5\%-10\% 
 	error rate \citep{Deshpande}. But \citet{He_resnet} came up with the ResNet 
 	architecture that has an incredible error rate of 3.6\%. Aside from the new record 
 	in terms of error rate, ResNet is well-known due to its extreme depth of up to 152 
 	layers. This is 8 times deeper than VGGNet. ResNet is also a great innovation for 
 	the idea of residual learning.
+	\\
+	
+	\paragraph{Detection}
+	\label{sec:bg:data:neural:models:d}
+	
+	Image classification is a lightweight form of object detection. The difference between 
+	them is that in classification algorithms the goal is to label an image with a category 
+	of the object it belongs (or at least the most likely predictions). While in detection 
+	algorithms the aim is to draw a bounding box around the object of interest to locate it 
+	within the image, as shown in Figure~\bl{\ref{fig:det}}. Also, it is not necessary to draw 
+	just one bounding box in the object detection case. There could be many bounding boxes 
+	representing different objects of interest within the image, the number of which is 
+	known a priori.
 	\\
 	
 	\begin{figure}[h!]
@@ -1166,15 +1195,6 @@ headheight=15pt,headsep=1.25cm,footskip=1.25cm,includehead,includefoot]{geometry
 		\label{fig:det}
 	\end{figure}
 	
-	Image classification is a lightweight form of object detection. The difference between 
-	them is that in classification algorithms the goal is to label an image with a category 
-	of the object it belongs (or at least the most likely predictions). While in detection 
-	algorithms the aim is to draw a bounding box around the object of interest to locate it 
-	within the image, as shown in Figure~\bl{\ref{fig:det}}. Also, it is not necessary to draw 
-	just one bounding box in the object detection case. There could be many bounding boxes 
-	representing different objects of interest within the image, the number of which is 
-	known a priori.
-	\par
 	A naive approach to do that would be to take different regions of interest from the 
 	image by sliding windows from left and right, and from up to down. And then use a 
 	convolutional network to classify the presence of the object within the chosen region. 
@@ -1184,7 +1204,8 @@ headheight=15pt,headsep=1.25cm,footskip=1.25cm,includehead,includefoot]{geometry
 	and \acronym{r-cnn} \citep{Girshick, Redmon, Liu} have been developed to find these 
 	occurrences in the fastest way possible. The models mentioned above are also released 
 	to the open-source community.
-	\par
+	\\
+	
 	To bypass the problem of selecting a huge number of regions, \citet{Girshick} proposed 
 	a method called \term{\acronym{r-cnn}: Regions with \acronym{cnn} features}, one of the 
 	most impactful advancements in computer vision \citep{Deshpande}. The process can be 
@@ -1196,16 +1217,17 @@ headheight=15pt,headsep=1.25cm,footskip=1.25cm,includehead,includefoot]{geometry
 	that acts as a feature extractor. In the latter step, the extracted features are used to 
 	classify the presence of the object within that candidate region proposal and to refine 
 	the boundary box with the most accurate coordinates. The main disadvantage here is that 
-	it still takes a huge amount of time to train the network as there 2000 region proposals 
+	it still takes a huge amount of time to train the network as there are 2000 region proposals 
 	per image to classify. Also, the selective search algorithm is a fixed algorithm. Therefore, 
 	no learning is happening at that stage, something that could lead to generating bad 
 	candidate region proposals. That is why \term{Fast \acronym{r-cnn}} and 
 	\term{Faster \acronym{r-cnn}} followed up.
-	\par
+	\\
+	
 	But, as an alternative, is a separate region proposal step needed? Can both boundary 
-	boxes and classes directly from feature maps in one step? \citet{Redmon} use a single 
+	boxes and classes be directly derived from feature maps, in one step? \citet{Redmon} use a single 
 	convolutional network to predict the bounding boxes and the class probabilities for 
-	these boxes. The use a \term{single shot object detection} algorithm called 
+	these boxes. They use a \term{single shot object detection} algorithm called 
 	\term{\acronym{yolo}: You Only Look Once}, that is much different from the 
 	\term{region based detection} algorithm mentioned above. \acronym{yolo} divides every 
 	image into a S $\times$ S grid and every grid predicts N bounding boxes and class 
@@ -1215,7 +1237,8 @@ headheight=15pt,headsep=1.25cm,footskip=1.25cm,includehead,includefoot]{geometry
 	fast and can be run real time. It sees the complete image at once as opposed to looking 
 	at generated region proposals. However, a limitation for \acronym{yolo} is that it only 
 	predicts one type of class in each grid. Hence, it struggles with very small objects.
-	\par
+	\\
+	
 	Yet another algorithm was developed by \citet{Liu}. \term{\acronym{ssd}: Single Shot 
 	Detector} differs from others single shot detectors due to the usage of multiple layers 
 	that provide a finer accuracy on objects with different scales. \acronym{ssd} runs a 
@@ -1225,14 +1248,8 @@ headheight=15pt,headsep=1.25cm,footskip=1.25cm,includehead,includefoot]{geometry
 	attains a good balance between speed and accuracy.
 	\\
 	
-	\begin{figure}[h!]
-		\centering
-		\includegraphics[width=\textwidth]{segm}
-		\caption{Semantic Segmentation makes a prediction at every pixel within an image. 
-			That means there is a label for each pixel, instead of object (\boldcolor{ForestGreen}{grass}, \boldcolor{YellowOrange}{cat}, \boldcolor{VioletRed}{tree}, \boldcolor{RoyalBlue}{sky}). 
-			Original image (left), output of the semantic segmentation (right).}
-		\label{fig:segm}
-	\end{figure}
+	\paragraph{Semantic Segmentation}
+	\label{sec:bg:data:neural:models:s}
 	
 	Nowadays, \term{semantic segmentation} is one of the key problems in the field of 
 	computer vision \citep{Le}. Looking at the big picture, semantic segmentation is one 
@@ -1242,14 +1259,30 @@ headheight=15pt,headsep=1.25cm,footskip=1.25cm,includehead,includefoot]{geometry
 	process of mapping each pixel in an image to an object class. Each object class has 
 	to be segmented separately. For example see Figure~\bl{\ref{fig:segm}}. As one can imagine, 
 	this is a much more complex problem as compared to the classification or even detection 
-	problem. The importance of scene understanding as a core computer vision problem is 
+	problem. 
+	\\
+	
+	The importance of scene understanding as a core computer vision problem is 
 	highlighted by the fact that an increasing number of applications nourish from inferring 
 	knowledge from imagery. Some of those applications include self-driving vehicles, 
 	human-computer interaction, virtual reality etc. With the popularity of deep learning 
 	in recent years, many semantic segmentation problems are being tackled using deep 
 	architectures, most often convolutional neural networks, which surpass other 
 	approaches by a large margin in terms of accuracy and efficiency.
-	\par
+	\\
+	
+	\begin{figure}[h!]
+		\centering
+		\includegraphics[width=\textwidth]{segm}
+		\caption{Semantic Segmentation makes a prediction at every pixel within an image. 
+			That means there is a label for each pixel, instead of object. The predictions 
+			are \boldcolor{ForestGreen}{grass}, \boldcolor{YellowOrange}{cat}, 
+			\boldcolor{VioletRed}{tree} and \boldcolor{RoyalBlue}{sky}. 
+			Original image (left), output of the semantic segmentation (right).}
+		\label{fig:segm}
+	\end{figure}
+	
+	
 	Probably the most well known models concentrating on scene segmentation are 
 	\term{Fully Convolutional Neural Networks (\acronym{fcn}s)} \citep{Long}. The original 
 	fully convolutional network is trained for pixel-wise prediction, without extracting 
@@ -1264,7 +1297,8 @@ headheight=15pt,headsep=1.25cm,footskip=1.25cm,includehead,includefoot]{geometry
 	\term{Pooling layers} are in charge of reducing the number of parameters when the images 
 	are too large. The results of the original fully convolutional network trained on 
 	\acronym{pascal voc} are shown in Figure~\bl{\ref{fig:fcn}}.
-	\par
+	\\
+	
 	Semantic understanding of visual scenes is one of the holy grails of computer vision 
 	\citep{Zhou_sem}. The emergence of large-scale image datasets like ImageNet \citep{Deng} 
 	and \acronym{coco} \citep{coco}, along with the rapid development of the deep convolutional 
@@ -1305,7 +1339,7 @@ headheight=15pt,headsep=1.25cm,footskip=1.25cm,includehead,includefoot]{geometry
 	to build a model of the world around it and plan a path from the start to the 
 	goal. A way to do that is to enable the robot to learn which regions to avoid 
 	and which to seek out, in early runs, so that in later runs it can determine the 
-	most efficient path \citep{Shneier}. In cases where there is no the knowledge of 
+	most efficient path \citep{Shneier}. In cases where there is no knowledge of 
 	the map of the robot's current environment, the designated goal location can be 
 	acquired via cheap localization solutions, such as visible light localization, 
 	Wi-Fi signal localization or \acronym{gps} \citep{Zhelo}.
@@ -1518,8 +1552,8 @@ headheight=15pt,headsep=1.25cm,footskip=1.25cm,includehead,includefoot]{geometry
 	that the encoder, VGGNet in this case, would be pre-trained, but we would have to 
 	train the decoder from the beginning on \acronym{kitti} \citep{kitti}. But fully 
 	convolutional networks, at least those trained on \acronym{kitti} dataset, do semantic 
-	segmentation only on foreground and ignore the background (Figure~\bl{\ref{fig:fcn}}), 
-	in page~\bl{\pageref{fig:fcn}}. In 
+	segmentation only on foreground and ignore the background (Figure~\bl{\ref{fig:fcn}}, 
+	in page~\bl{\pageref{fig:fcn}}). In 
 	order for us to be able to decide terrain traversability, whole scene segmentation is 
 	necessary.
 	\\
@@ -1551,7 +1585,7 @@ headheight=15pt,headsep=1.25cm,footskip=1.25cm,includehead,includefoot]{geometry
 	\acronym{coco}. That is probably why fully convolutional networks trained on \acronym{kitti}, 
 	as mentioned before, do not give class labels to the background pixels. But, generally, 
 	pixel appearance features allow to perform well on classifying (amorphous) background 
-	classes. \acronym{ade20k} categorizes semantic classes of present in the scene into three 
+	classes. \acronym{ade20k} categorizes semantic classes present in the scene into three 
 	super classes: stuff (sky, 
 	road, building, etc), foreground objects (car, tree, sofa, etc), and object parts (car 
 	wheels and door, people head and torso, etc).
@@ -1671,17 +1705,18 @@ headheight=15pt,headsep=1.25cm,footskip=1.25cm,includehead,includefoot]{geometry
 	will be used interchangeably with the term traversable. The program keeps track of how many times 
 	each color is found in traversable and how many in non-traversable images. So, it can 
 	compute the traversability percentage of each color. For example, let's suppose that 
-	brown corresponds to \alleg{earth} in Figure~\bl{\ref{fig:meth}}. Brown color 
+	brown corresponds to \alleg{earth}. Brown color 
 	exists in 70 images from which 56 are traversable and the other 14 non-traversable. 
 	So the traversability percentage of the earth is 
 	\[ 56 \times 100 \div 70 = 80 \]
 	Therefore, the earth (and, consequently, the color brown) has 80\% chance of 
-	being traversable.
+	being traver-sable.
 	\\
 	
 	During evaluation we implement two different calculating methods. Both of them are 
 	responsible for deciding whether the given images are traversable or not. Every image 
-	with chance of being traversable greater or equal to 50\% is considered to be traversable. 
+	with chance of being traversable greater or equal to 50\% is considered to be traversable 
+	(and therefore with chance less that 50\% is considered to be non-traversable). 
 	Let's take Figure~\bl{\ref{fig:meth}} and try to explain the two methods. For the purpose
 	of this example, we suppose that brown has 80\% chance of being traversable, as is found to be 
 	penetrable 8 times out of the total of 10. Green 9 out of 30 (30\%) and blue 9 out 
@@ -1848,9 +1883,9 @@ headheight=15pt,headsep=1.25cm,footskip=1.25cm,includehead,includefoot]{geometry
 	
 	\begin{table}[h!]
 		\caption{1st calculating method - Percentage of evaluation images whose 
-			traversability was found correctly. In the first column are the results from 
-			images derived from the \acronym{fcn}, the second from \acronym{psp} and the 
-			third from DeepLab.}
+			traversability was found correctly. In the second column are the results from 
+			images derived from the \acronym{fcn}, the third from \acronym{psp} and the 
+			forth from DeepLab.}
 		\centering
 		\begin{tabular}{|c|c|c|c|}
 			\hline
@@ -1876,9 +1911,9 @@ headheight=15pt,headsep=1.25cm,footskip=1.25cm,includehead,includefoot]{geometry
 	
 	\begin{table}[h!]
 		\caption{2nd calculating method - Percentage of evaluation images whose 
-			traversability was found correctly. In the first column are the results from 
-			images derived from the \acronym{fcn}, the second from \acronym{psp} and the 
-			third from DeepLab.}
+			traversability was found correctly. In the second column are the results from 
+			images derived from the \acronym{fcn}, the third from \acronym{psp} and the 
+			forth from DeepLab.}
 		\centering
 		\begin{tabular}{|c|c|c|c|}
 			\hline
@@ -1939,12 +1974,16 @@ headheight=15pt,headsep=1.25cm,footskip=1.25cm,includehead,includefoot]{geometry
 	
 	Therefore, as is obvious, we chose to deepen into the first method of deciding on 
 	image traversability. In Table~\bl{\ref{table:psp:1st}} we describe how the success 
-	rates of the first method arose. For each fold (shown in the first column) we give 
-	the number of traversable images and the percentage of those that were successfully 
-	predicted traversable (columns two and tree). And then the same for non traversable 
-	images (columns four and five). The last column gives the total success rate of the 
-	first method, summarizing the results of both traversable and non-traversable images.
-	\\
+	rates of the first method arose. 
+	\begin{itemize}
+		\item In column 1 each fold is shown.
+		\item In columns 2 and 3 we give the number of traversable images and the 
+		percentage of those that were successfully predicted traversable.
+		\item In columns 3 and 4 the same for non traversable images.
+		\item Finally, column 5 gives the total success rate of the first method, 
+		summarizing the results of both traversable and non-traversable images.
+	\end{itemize}
+	
 	
 	\begin{table}[h!]
 		\caption{\acronym{psp} 1st method - Number of traversable and non-traversable 
@@ -1993,7 +2032,7 @@ headheight=15pt,headsep=1.25cm,footskip=1.25cm,includehead,includefoot]{geometry
 	for each fold. 
 	\begin{itemize}
 		\item Column 1 mentions all class labels appearing in the current fold.
-		\item Column 2 keeps track of the number of each labels appearances in the current fold 
+		\item Column 2 keeps track of the number of each label appearances in the current fold 
 		(in how many images is the color participating?).
 		\item In column 3 appears the traversability percentage of each label, after the system 
 		is trained with the images in the remaining directories (after training, how likely is for 
@@ -2035,7 +2074,7 @@ headheight=15pt,headsep=1.25cm,footskip=1.25cm,includehead,includefoot]{geometry
 	To visualize it, we give a traversable and a non-traversable image in which these 
 	classes appear. The ground in Figure~\bl{\ref{fig:trav:28_57}} is translated as 
 	\class{earth}. Similarly, the short wall that makes Figure~\bl{\ref{fig:obst:32-49}} 
-	impenetrable is recognized from \acronym{psp} as a mix of \class{earth} and wall.	
+	impenetrable is recognized from \acronym{psp} as a mix of \class{earth} and \class{wall}.	
 	In both cases we can see that the class \class{tree} is on the background. Both 
 	images are found to be non-traversable. The difference is that this prediction is 
 	correct for the second image but wrong for the first one.
@@ -2085,7 +2124,8 @@ headheight=15pt,headsep=1.25cm,footskip=1.25cm,includehead,includefoot]{geometry
 	sky does not belong to either of the two categories. On the contrary, our model judges 
 	traversability depending on the occurrence of objects in traversable and non-traversable 
 	images. But the traversable images of the training sets are much fewer than the 
-	non-traversable, by at least 100 images on each fold (Figure~\bl{\ref{table:folds_images}}). 
+	non-traversable, by at least 100 images on each fold (columns 3 and 5 on
+	Table~\bl{\ref{table:folds_images}}). 
 	Therefore, since these classes exist in almost all of the images (penetrable or not), they 
 	end up being perceived as impenetrable (traversability percent $\le$ 50\%).	And thus 
 	this leads to a greater likelihood for traversable images to be found as non-traversable.
@@ -2098,7 +2138,9 @@ headheight=15pt,headsep=1.25cm,footskip=1.25cm,includehead,includefoot]{geometry
 	non-traversable images (from Tables~\bl{\ref{table:obst.folds}}) for each fold. And we 
 	present which percentage of the total classes is penetrable in the former case and 
 	impenetrable in the latter. The best case scenario for traversable images is fold 5 in 
-	which only 50\% of the classes included are correctly identified. Having that in mind 
+	which, however, only 50\% of the classes included are correctly identified. While the 
+	worst case scenario for non-traversable images is fold 2 with 73.33\% of the classes 
+	included to be correctly identified. Having that in mind 
 	one can understand why traversable images have a much lower percentage of success in 
 	being identified than the non-traversable.
 	\\
@@ -2156,13 +2198,13 @@ headheight=15pt,headsep=1.25cm,footskip=1.25cm,includehead,includefoot]{geometry
 	Let's take Figure~\bl{\ref{fig:trav:28_57}} for example. This image belongs to the 
 	testing set of fold 1. It contains the classes \class{plant}, \class{tree}, \class{sky}, 
 	\class{earth} and \class{wall}. According to the first calculating method, its 
-	traversability results from the average of the sum of the traversability rates of its 
+	traversability result is computed from the average of the sum of the traversability rates of its 
 	classes. Specifically, by adding the traversability rates of the above classes from 
 	Table~\bl{\ref{table:trav.f1}} and dividing the result with the number of these classes: 
 	\begin{equation} \label{eq:trav_5}
 	\frac{73\% + 45\% + 46\% + 46\% + 24\%}{5} = 46.8\%
 	\end{equation}
-	So Figure~\bl{\ref{fig:trav:28_57}} has a 46.8\% positivity to be traversable. Which is 
+	So Figure~\bl{\ref{fig:trav:28_57}} has a 46.8\% probability to be traversable. Which is 
 	lower than 50\% and therefore is declared as non-traversable.
 	\\
 	
@@ -2686,7 +2728,7 @@ headheight=15pt,headsep=1.25cm,footskip=1.25cm,includehead,includefoot]{geometry
 	In this thesis we concentrated on traversability estimation methods. In 
 	Chapter~\ref{sec:bg} we explored many ways for a robot to autonomously decide 
 	the traversability of the terrain in front of it. We also found ways for it to 
-	be able to learn from the past and improve its estimation. We investigated 
+	be able to learn from the past and improve its traversability estimation. We investigated 
 	approaches to autonomously acquire labeled data and the sensors needed to do so. 
 	Finally we discussed about the most common strategies for the robotic platform 
 	to decide where to go next.
@@ -2695,7 +2737,8 @@ headheight=15pt,headsep=1.25cm,footskip=1.25cm,includehead,includefoot]{geometry
 	In Chapter~\ref{sec:fg} we implemented a program that when given images, predicts 
 	whether they are traversable or not. These images are extracted from a convolutional 
 	neural network for total scene semantic segmentation. We chose Pyramid Scene 
-	Parsing Network (\acronym{psp}) for this purpose, as it seemed to have the best 
+	Parsing Network (\acronym{psp}) pre-trained on \acronym{ade20k} dataset for this 
+	purpose, as it seemed to have the best 
 	results. We fed \acronym{psp} with images from natural outdoor environments, 
 	containing vegetation. It resulted with images consist of colors depicting objects 
 	and parts of the scene.
@@ -2710,7 +2753,7 @@ headheight=15pt,headsep=1.25cm,footskip=1.25cm,includehead,includefoot]{geometry
 	\\
 	
 	The program can be modified to ignore specific classes. Possibly the classes that 
-	appear in a large amount of both traversable and non-traversable training images. 
+	appear in a large amount on both traversable and non-traversable training images. 
 	For example, class labels earth, sky and tree seem to appear in almost all of the 
 	images used for training and validating the system (as can be seen in 
 	Tables~\bl{\ref{table:trav.folds}, \ref{table:obst.folds}}). All of them are 
@@ -2748,16 +2791,16 @@ headheight=15pt,headsep=1.25cm,footskip=1.25cm,includehead,includefoot]{geometry
 			\end{tikzpicture}
 			\caption{Minimized Figure~\bl{\ref{fig:obst:32-49:psp}}}
 		\end{subfigure}
-		\caption{Two minimized images (one traversable and one not) so that the robotic 
-			platform fits marginally within their frame.}
+		\caption{Two minimized images (one traversable and one non-traversable) so that the 
+			robotic platform fits marginally within their frame.}
 		\label{fig:mini}
 	\end{figure}
 	
 	
 	A further step, though, could be to actually combine appearance with geometric 
 	data. That way the robot would be able to visually recognize the environment 
-	around it, while at the same time gather geometric information, like height or 
-	depth about it. We believe that with a combination like this, the results would 
+	around it, while at the same time gather geometric information about it, like 
+	height or depth. We believe that with a combination like this, the results would 
 	be significantly improved.
 	\\
 	
@@ -2766,8 +2809,8 @@ headheight=15pt,headsep=1.25cm,footskip=1.25cm,includehead,includefoot]{geometry
 	systems with limited autonomy and ability for self-improvement. We managed to 
 	create a system that not only autonomously learns the traversability of its 
 	environment, but also has the capacity to self improve. With only a few modifications 
-	could be ready to be used on an actual robotic platform to explore its surroundings 
-	and improve its knowledge of traversability.
+	our program could be ready to be used on an actual robotic platform to explore 
+	its surroundings and improve its knowledge of traversability.
 	
 	
 	
@@ -2892,7 +2935,7 @@ headheight=15pt,headsep=1.25cm,footskip=1.25cm,includehead,includefoot]{geometry
 	
 	The following experiment was executed using a DrRobot Jaguar rover fitted with a 
 	Zed stereoscopic camera. After using standard \acronym{ros} 
-	\footnote{ \term{Robot Operating System \acronym{ros}} (\url{http://www.ros.org}) 
+	\footnote{ \term{Robot Operating System (\acronym{ros})} (\url{http://www.ros.org}) 
 		is an open source, meta-operating system for robots. It is a set of software 
 		libraries and tools that help in building robot applications.}
 	navigation to approach an obstacle, the robot synchronizes 
